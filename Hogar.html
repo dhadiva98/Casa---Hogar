@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>El relevo · Tareas de casa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --piedra:#EFEDE7;
+  --papel:#FBFAF7;
+  --tinta:#232019;
+  --tenue:#7A7365;
+  --linea:#DAD5C9;
+  --rosa:#C25E77;
+  --rosa-suave:#FBEEF1;
+  --azul:#46648C;
+  --azul-suave:#EBF0F6;
+  --musgo:#6E8A5E;
+  --ambar:#C98A2E;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --texto:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--piedra);color:var(--tinta);font-family:var(--texto);
+  font-size:15px;line-height:1.45;padding:0 0 60px;
+}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px;}
+
+/* encabezado */
+.top{padding:22px 0 10px;display:flex;align-items:baseline;justify-content:space-between;gap:12px;}
+.marca{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:-.02em;line-height:1;}
+.semana{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--tenue);text-align:right;}
+.semana b{display:block;font-size:15px;color:var(--tinta);}
+
+/* firma: tarjeta de relevo */
+.relevo{position:relative;background:var(--papel);border:1.5px solid var(--tinta);
+  border-radius:18px;overflow:hidden;margin-top:6px;box-shadow:4px 4px 0 var(--tinta);}
+.relevo-cab{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--tenue);padding:11px 14px 0;}
+.turnos{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;padding:8px 6px 6px;}
+.turno{padding:11px 10px 13px;border-radius:12px;min-width:0;border:2px solid transparent;}
+.turno.d{background:var(--rosa-suave);}
+.turno.j{background:var(--azul-suave);}
+.turno.mio.d{border-color:var(--rosa);}
+.turno.mio.j{border-color:var(--azul);}
+.turno .quien{font-family:var(--display);font-weight:800;font-size:19px;line-height:1.05;letter-spacing:-.02em;}
+.turno.d .quien{color:var(--rosa);}
+.turno.j .quien{color:var(--azul);}
+.turno .bloque{font-size:12.5px;font-weight:600;margin-top:4px;line-height:1.3;}
+.turno .sello{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--tenue);margin-top:7px;visibility:hidden;}
+.turno.mio .sello{visibility:visible;}
+.flecha{display:flex;align-items:center;justify-content:center;width:34px;
+  font-family:var(--mono);font-weight:700;color:var(--tenue);font-size:15px;}
+.relevo-pie{border-top:1.5px dashed var(--linea);padding:9px 12px;display:flex;
+  align-items:center;justify-content:space-between;gap:10px;}
+.pie-txt{font-size:11.5px;color:var(--tenue);line-height:1.3;}
+.btn{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--tinta);color:var(--papel);border:0;border-radius:999px;padding:8px 13px;cursor:pointer;white-space:nowrap;}
+.btn:active{transform:translateY(1px);}
+.btn:focus-visible,.yo-op:focus-visible,.caja:focus-visible,.abrir:focus-visible{outline:2.5px solid var(--ambar);outline-offset:2px;}
+
+/* soy */
+.yo{display:flex;gap:8px;margin:18px 0 6px;}
+.yo-op{flex:1;font-family:var(--display);font-weight:700;font-size:14.5px;background:transparent;
+  border:1.5px solid var(--linea);color:var(--tenue);border-radius:12px;padding:10px 8px;cursor:pointer;}
+.yo-op[aria-pressed="true"].d{background:var(--rosa);border-color:var(--rosa);color:#fff;}
+.yo-op[aria-pressed="true"].j{background:var(--azul);border-color:var(--azul);color:#fff;}
+
+/* avance */
+.avance{margin:14px 0 4px;}
+.avance-cab{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+.avance-cab span{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--tenue);}
+.avance-cab b{font-family:var(--mono);font-size:12px;}
+.barra{height:9px;background:var(--linea);border-radius:999px;overflow:hidden;}
+.barra i{display:block;height:100%;width:0;background:var(--musgo);border-radius:999px;transition:width .35s ease;}
+
+/* secciones */
+.sec{margin-top:26px;}
+.sec-cab{display:flex;align-items:center;gap:9px;margin-bottom:2px;flex-wrap:wrap;}
+.sec-cab h2{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.02em;margin:0;}
+.pastilla{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 8px;border-radius:999px;border:1.5px solid;}
+.pastilla.d{color:var(--rosa);border-color:var(--rosa);background:var(--rosa-suave);}
+.pastilla.j{color:var(--azul);border-color:var(--azul);background:var(--azul-suave);}
+.pastilla.n{color:var(--tenue);border-color:var(--linea);background:var(--papel);}
+.sec-sub{font-size:12.5px;color:var(--tenue);margin:0 0 10px;}
+
+.grupo{margin-top:12px;}
+.grupo-tit{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--tenue);display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.grupo-tit::after{content:"";flex:1;height:1.5px;background:var(--linea);}
+
+.lista{background:var(--papel);border:1.5px solid var(--linea);border-radius:14px;overflow:hidden;}
+.item{border-bottom:1.5px solid var(--linea);}
+.item:last-child{border-bottom:0;}
+.fila{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;}
+.caja{flex:0 0 auto;width:23px;height:23px;border:2px solid var(--tinta);border-radius:7px;
+  background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:13px;line-height:1;color:transparent;padding:0;margin-top:1px;transition:background .15s ease;}
+.item.ok .caja{background:var(--musgo);border-color:var(--musgo);color:#fff;}
+.abrir{flex:1;display:flex;align-items:flex-start;gap:10px;background:none;border:0;padding:0;
+  text-align:left;font:inherit;color:inherit;cursor:pointer;min-width:0;}
+.txt{flex:1;font-size:14px;line-height:1.35;font-weight:500;min-width:0;}
+.item.ok .txt{color:var(--tenue);text-decoration:line-through;text-decoration-thickness:1.5px;}
+.chev{flex:0 0 auto;font-family:var(--mono);font-size:14px;font-weight:700;color:var(--tenue);
+  line-height:1.2;transition:transform .2s ease;}
+.item.abierto .chev{transform:rotate(45deg);}
+.detalle{display:none;padding:0 12px 13px 45px;font-size:12.5px;line-height:1.5;color:var(--tenue);}
+.item.abierto .detalle{display:block;}
+
+.aviso{background:var(--papel);border:1.5px dashed var(--linea);border-radius:14px;
+  padding:12px 14px;font-size:12.5px;color:var(--tenue);line-height:1.45;margin-top:14px;}
+.aviso b{color:var(--tinta);}
+.aviso+.aviso{margin-top:8px;}
+.pie{text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--tenue);margin-top:34px;}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="marca">El relevo</div>
+    <div class="semana" id="semanaTxt"></div>
+  </div>
+
+  <div class="relevo">
+    <div class="relevo-cab">Turno de esta semana</div>
+    <div class="turnos">
+      <div class="turno d" id="cardD">
+        <div class="quien">Dhamar</div>
+        <div class="bloque" id="bloqueD"></div>
+        <div class="sello">← tú</div>
+      </div>
+      <div class="flecha">⇄</div>
+      <div class="turno j" id="cardJ">
+        <div class="quien">Jose</div>
+        <div class="bloque" id="bloqueJ"></div>
+        <div class="sello">← tú</div>
+      </div>
+    </div>
+    <div class="relevo-pie">
+      <div class="pie-txt">Los bloques se intercambian solos cada lunes.</div>
+      <button class="btn" id="btnSwap">Intercambiar</button>
+    </div>
+  </div>
+
+  <div class="yo">
+    <button class="yo-op d" id="soyD" aria-pressed="false">Soy Dhamar</button>
+    <button class="yo-op j" id="soyJ" aria-pressed="false">Soy Jose</button>
+  </div>
+
+  <div class="avance">
+    <div class="avance-cab"><span id="avanceLbl">Lo de hoy</span><b id="avanceNum"></b></div>
+    <div class="barra"><i id="avanceBar"></i></div>
+  </div>
+
+  <div id="app"></div>
+
+  <div class="aviso">
+    <b>Cómo se reinician:</b> lo de <b>hoy</b> se borra cada mañana, lo <b>semanal</b> cada lunes,
+    y lo de <b>cada 15 días</b> y <b>este mes</b> cuando toca. Lo <b>sin fecha fija</b> se queda
+    marcado hasta que lo desmarquen.
+  </div>
+  <div class="aviso">
+    <b>Ojo:</b> cada celular guarda sus propias marcas. Lo que tacha Jose en su teléfono no aparece
+    en el tuyo, y al revés.
+  </div>
+
+  <div class="pie">Casa de Dhamar y Jose</div>
+</div>
+
+<script>
+/* ---------- almacenamiento ---------- */
+const Store = {
+  async get(k){
+    try{
+      if(window.storage){ const r = await window.storage.get(k); return r ? JSON.parse(r.value) : null; }
+      const v = localStorage.getItem(k); return v ? JSON.parse(v) : null;
+    }catch(e){ return null; }
+  },
+  async set(k,v){
+    try{
+      if(window.storage){ await window.storage.set(k, JSON.stringify(v)); return; }
+      localStorage.setItem(k, JSON.stringify(v));
+    }catch(e){}
+  }
+};
+
+/* ---------- periodos ---------- */
+const HOY = new Date();
+function ymd(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function lunesDe(d){ const x=new Date(d); const dow=(x.getDay()+6)%7; x.setDate(x.getDate()-dow); x.setHours(0,0,0,0); return x; }
+function semanaIso(d){
+  const x=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+  const dn=(x.getUTCDay()+6)%7; x.setUTCDate(x.getUTCDate()-dn+3);
+  const p=new Date(Date.UTC(x.getUTCFullYear(),0,4));
+  return 1+Math.round(((x-p)/86400000-3+((p.getUTCDay()+6)%7))/7);
+}
+const SEM = semanaIso(HOY);
+const PERIODO = {
+  dia:  ymd(HOY),
+  d3:   "d3-"+Math.floor(Math.floor(HOY.getTime()/86400000)/3),
+  sem:  "s-"+HOY.getFullYear()+"-"+SEM,
+  quin: "q-"+HOY.getFullYear()+"-"+Math.floor(SEM/2),
+  mes:  "m-"+HOY.getFullYear()+"-"+(HOY.getMonth()+1),
+  libre:"fijo"
+};
+const NOMBRE_GRUPO = { dia:"Hoy", d3:"Cada 3 días", sem:"Esta semana", quin:"Cada 15 días", mes:"Este mes", libre:"Sin fecha fija" };
+const ORDEN = ["dia","d3","sem","quin","mes","libre"];
+
+/* ---------- tareas: [id, frecuencia, título, detalle] ---------- */
+const BLOQUES = {
+  A:{ nombre:"Cocina y basura", tareas:[
+    ["a1","dia","Dejar la cocina cerrada",
+     "Lavar platos, ollas y tablas. Guardarlos cuando sequen. Pasar paño a la encimera y al fregadero. Limpiar la mesa del comedor. Mirar si la basura llegó a la mitad."],
+    ["a2","dia","Barrer cocina y comedor",
+     "Solo lo que cayó del día: migas, cáscaras, granos de arroz. No hace falta mover muebles ni trapear."],
+    ["a3","dia","Sacar la basura y poner bolsa nueva",
+     "Si pasó de la mitad, sacarla igual aunque no esté llena. Dejar la bolsa nueva puesta antes de salir de la cocina."],
+    ["a4","sem","Microondas, horno y freidora de aire por dentro",
+     "Microondas: taza con agua y limón 2 minutos, después pasar paño y sale solo. Horno y freidora: sacar la bandeja y la canastilla, desengrasar y revisar que no queden restos quemados."],
+    ["a5","sem","Puertas de muebles y azulejos de la cocina",
+     "Paño con desengrasante en las puertas, los tiradores y sobre todo los azulejos cerca de la hornilla, que es donde salpica la grasa."],
+    ["a6","sem","Limpiar debajo de los electrodomésticos",
+     "Levantar microondas, freidora, hervidor y licuadora, limpiar la grasa pegada debajo y devolverlos a su sitio."],
+    ["a7","sem","Sacudir muebles, adornos, ventiladores y lámparas",
+     "De arriba hacia abajo: primero lámparas y aspas del ventilador, después repisas y adornos, al final los muebles. Así el polvo cae una sola vez."],
+    ["a8","quin","Lavar los tachos de basura",
+     "Agua caliente y detergente por dentro y por fuera. Secarlos bien antes de poner bolsa nueva, si quedan húmedos empiezan a oler."],
+    ["a9","quin","Lavar el escurridor de platos",
+     "Sacar la bandeja de abajo, botar el agua estancada y refregar. Ahí es donde se junta el sarro sin que se note."],
+    ["a10","mes","Limpiar el filtro de la campana extractora",
+     "Sacar el filtro metálico y dejarlo remojando en agua caliente con detergente unos 20 minutos. Secarlo por completo antes de volver a ponerlo."],
+    ["a11","mes","Destapar desagües preventivamente",
+     "Echar agua muy caliente en el desagüe de la cocina y del baño. Sacar pelos y restos de la rejilla antes de que se tape de verdad."],
+  ]},
+  B:{ nombre:"Baño, sala y el gato", tareas:[
+    ["b1","dia","Baño al día",
+     "Paño al lavabo y a la grifería, secar las salpicaduras del espejo, enjuagar la ducha después de usarla, reponer el papel si se acabó y vaciar el basurero si está lleno."],
+    ["b2","dia","Sala y entrada en orden",
+     "Cojines acomodados, mantas dobladas, mesa despejada y cada cosa fuera de lugar de vuelta a su sitio. Cinco minutos, no más."],
+    ["b3","dia","El gato",
+     "Comida y agua fresca. Recoger el arenero (mejor dos veces al día). Barrer la arena que quedó regada alrededor."],
+    ["b4","d3","Barrer y trapear toda la casa",
+     "Barrer primero todos los ambientes y después trapear: cuartos, sala, pasadizo, entrada, cocina y baño."],
+    ["b5","sem","Baño a fondo",
+     "Inodoro por dentro y por fuera con desinfectante, incluyendo la tapa y la base. Después ducha, grifería y azulejos. Al final trapear el piso con desinfectante."],
+    ["b6","sem","Ventanas, espejos, puertas, manijas e interruptores",
+     "Vidrios y espejos: pasar paño húmedo y terminar con uno seco para que no queden marcas. Las manijas y los interruptores son lo que más se toca y lo que menos se limpia."],
+    ["b7","sem","Rodapiés y telarañas",
+     "Recorrer los bordes del piso con paño húmedo y mirar hacia arriba: esquinas del techo, detrás de las puertas y encima de los marcos."],
+    ["b8","sem","Reponer productos de limpieza y papel higiénico",
+     "Revisar qué se está acabando (detergente, lejía, desinfectante, papel, bolsas de basura) y comprarlo antes de que falte, no cuando ya faltó."],
+    ["b9","quin","Limpiar detrás de los muebles",
+     "Separar solo lo que se pueda mover sin esfuerzo (sillón, cómoda, mesa) y limpiar el polvo acumulado atrás."],
+    ["b10","quin","Lavar los tapetes",
+     "Los de la entrada y el baño, que son los que más se pisan. A mano o en lavadora según la etiqueta, y que sequen del todo."],
+    ["b11","mes","Lavar cortinas y almohadas",
+     "Cortinas: revisar la etiqueta antes, algunas se encogen. Almohadas: agua tibia y secado completo, si quedan húmedas por dentro se llenan de hongos."],
+    ["b12","mes","Revisar vencidos del botiquín",
+     "Sacar lo vencido y anotar qué hay que reponer. Ojo con gotas y jarabes ya abiertos, que duran mucho menos de lo que dice la caja."],
+  ]}
+};
+
+const PERSONALES = [
+  ["p1","dia","Tender tu cama",
+   "Apenas te levantas: estirar la sábana, acomodar almohadas y edredón. Es lo que hace que el cuarto se vea ordenado aunque no lo esté."],
+  ["p2","dia","Dejar tu cuarto ordenado",
+   "Ropa fuera del piso y de la silla, tazas y platos de vuelta a la cocina, cargadores y cosas personales en su lugar."],
+  ["p3","sem","Doblar y guardar tu ropa",
+   "La tía lava y tiende; doblar y guardar lo tuyo es tuyo. La idea es que la ropa limpia no se quede acumulada en la silla toda la semana."],
+  ["p4","sem","Planchar lo tuyo",
+   "Solo si usas. Sale más rápido y con menos arrugas si lo haces apenas la recoges."],
+  ["p5","sem","Vaciar tu basurero",
+   "Aunque no esté lleno, y dejar la bolsa nueva puesta."],
+  ["p6","sem","Sacudir, barrer y trapear tu cuarto",
+   "En ese orden: sacudir primero (mesa de noche, cómoda, repisas), después barrer y al final trapear."],
+  ["p7","mes","Aspirar tu colchón",
+   "Con la boquilla de tapicería, sin olvidar los bordes y las costuras. Si no hay aspiradora, sacudir bien las sábanas y voltear el colchón."],
+];
+
+const JUNTOS = [
+  ["j1","libre","Lavar edredones",
+   "Cuando se sienta necesario o cambie la temporada. Revisar la etiqueta y asegurarse de que sequen por completo antes de guardarlos."],
+  ["j2","libre","Organizar el depósito",
+   "Sacar lo que ya no sirve, agrupar por tipo y dejar adelante lo que se usa seguido."],
+  ["j3","libre","Donar ropa que ya no usan",
+   "Regla simple: si no se usó en un año, se va. Va bien hacerlo el mismo día que organizan el depósito."],
+  ["j4","libre","Reparaciones menores, cuando haga falta",
+   "Un foco quemado, un tornillo suelto, una manija floja. Solo cuando pasa, no en calendario. Lo mediano o lo que es de la casa (caños, paredes, instalaciones) lo ve el dueño."],
+];
+
+/* ---------- estado ---------- */
+let hechas = {}, abiertas = {}, yo = "D", giro = 0;
+const K_HECHAS="relevo-hechas", K_YO="relevo-yo", K_GIRO="relevo-giro";
+
+function bloqueDe(p){
+  const dEnA = (SEM + giro) % 2 === 0;
+  return p==="D" ? (dEnA?"A":"B") : (dEnA?"B":"A");
+}
+function marcada(k,f){ return hechas[k] === PERIODO[f]; }
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+/* ---------- render ---------- */
+function fechaSemana(){
+  const l = lunesDe(HOY), d = new Date(l); d.setDate(d.getDate()+6);
+  const m = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  return l.getDate()+" "+m[l.getMonth()]+" – "+d.getDate()+" "+m[d.getMonth()];
+}
+
+function itemHTML(k,f,titulo,detalle){
+  const on = marcada(k,f), open = !!abiertas[k];
+  return '<div class="item'+(on?" ok":"")+(open?" abierto":"")+'" data-k="'+k+'">'
+    + '<div class="fila">'
+    + '<button class="caja" role="checkbox" aria-checked="'+on+'" aria-label="Marcar: '+esc(titulo)+'" data-act="marcar" data-k="'+k+'" data-f="'+f+'">✓</button>'
+    + '<button class="abrir" aria-expanded="'+open+'" data-act="abrir" data-k="'+k+'">'
+    + '<span class="txt">'+esc(titulo)+'</span><span class="chev" aria-hidden="true">+</span>'
+    + '</button></div>'
+    + '<div class="detalle">'+esc(detalle)+'</div></div>';
+}
+
+function seccionHTML(titulo,pastilla,clase,sub,tareas,prefijo){
+  const porFreq = {};
+  tareas.forEach(t=>{ (porFreq[t[1]] = porFreq[t[1]]||[]).push(t); });
+  let h = '<div class="sec"><div class="sec-cab"><h2>'+titulo+'</h2>'
+        + '<span class="pastilla '+clase+'">'+pastilla+'</span></div>';
+  if(sub) h += '<p class="sec-sub">'+sub+'</p>';
+  ORDEN.forEach(f=>{
+    if(!porFreq[f]) return;
+    h += '<div class="grupo"><div class="grupo-tit">'+NOMBRE_GRUPO[f]+'</div><div class="lista">';
+    porFreq[f].forEach(t=>{ h += itemHTML(prefijo+t[0], t[1], t[2], t[3]); });
+    h += '</div></div>';
+  });
+  return h+'</div>';
+}
+
+function render(){
+  const bD = bloqueDe("D"), bJ = bloqueDe("J");
+  document.getElementById("semanaTxt").innerHTML = "Semana "+SEM+"<b>"+fechaSemana()+"</b>";
+  document.getElementById("bloqueD").textContent = BLOQUES[bD].nombre;
+  document.getElementById("bloqueJ").textContent = BLOQUES[bJ].nombre;
+  document.getElementById("cardD").classList.toggle("mio", yo==="D");
+  document.getElementById("cardJ").classList.toggle("mio", yo==="J");
+  document.getElementById("soyD").setAttribute("aria-pressed", yo==="D");
+  document.getElementById("soyJ").setAttribute("aria-pressed", yo==="J");
+
+  const miB = bloqueDe(yo);
+  const miNom = yo==="D" ? "Dhamar" : "Jose";
+  const clase = yo==="D" ? "d" : "j";
+  const pref  = "P"+yo+"-";
+
+  let h = "";
+  h += seccionHTML("Mi turno", miNom, clase, BLOQUES[miB].nombre+" · esta semana", BLOQUES[miB].tareas, "");
+  h += seccionHTML("Siempre mío", miNom, clase, "Tu cuarto y tu ropa no rotan nunca.", PERSONALES, pref);
+  h += seccionHTML("Juntos", "Los dos", "n", "Cuando se pueda, sin apuro.", JUNTOS, "");
+  document.getElementById("app").innerHTML = h;
+
+  let tot=0, ok=0;
+  BLOQUES[miB].tareas.forEach(t=>{ if(t[1]==="dia"||t[1]==="d3"){ tot++; if(marcada(t[0],t[1])) ok++; }});
+  PERSONALES.forEach(t=>{ if(t[1]==="dia"){ tot++; if(marcada(pref+t[0],t[1])) ok++; }});
+  document.getElementById("avanceLbl").textContent = "Lo de hoy · "+miNom;
+  document.getElementById("avanceNum").textContent = ok+" de "+tot;
+  document.getElementById("avanceBar").style.width = (tot ? ok/tot*100 : 0)+"%";
+}
+
+/* ---------- eventos ---------- */
+document.getElementById("app").addEventListener("click", async (e)=>{
+  const b = e.target.closest("button[data-act]");
+  if(!b) return;
+  const k = b.dataset.k;
+  if(b.dataset.act === "marcar"){
+    const f = b.dataset.f;
+    if(hechas[k] === PERIODO[f]) delete hechas[k]; else hechas[k] = PERIODO[f];
+    await Store.set(K_HECHAS, hechas);
+  }else{
+    abiertas[k] = !abiertas[k];
+  }
+  render();
+});
+
+/* ---------- arranque ---------- */
+(async function(){
+  hechas = (await Store.get(K_HECHAS)) || {};
+  yo     = (await Store.get(K_YO)) || "D";
+  giro   = (await Store.get(K_GIRO)) || 0;
+
+  const vigentes = Object.values(PERIODO);
+  Object.keys(hechas).forEach(k=>{ if(!vigentes.includes(hechas[k])) delete hechas[k]; });
+  await Store.set(K_HECHAS, hechas);
+
+  document.getElementById("soyD").addEventListener("click", async()=>{ yo="D"; abiertas={}; await Store.set(K_YO,yo); render(); });
+  document.getElementById("soyJ").addEventListener("click", async()=>{ yo="J"; abiertas={}; await Store.set(K_YO,yo); render(); });
+  document.getElementById("btnSwap").addEventListener("click", async()=>{ giro=(giro+1)%2; await Store.set(K_GIRO,giro); render(); });
+
+  render();
+})();
+</script>
+</body>
+</html>
