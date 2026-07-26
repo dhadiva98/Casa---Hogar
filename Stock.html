@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stock</title>
+<link rel="apple-touch-icon" href="apple-touch-icon-stock.png">
+<link rel="icon" type="image/x-icon" href="favicon-stock.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16-stock.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32-stock.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192-stock.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512x512-stock.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Stock">
+<link rel="manifest" href="manifest-stock.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fondo:#F4F2ED; --papel:#FFFEFC; --tinta:#22201B; --tenue:#7C7568; --linea:#E2DDD2;
+  --rosa:#C25E77; --azul:#46648C; --verde:#5E8A72; --ambar:#B5822C;
+  --rojo:#B4544A; --rojoBg:#FBEDEB; --ok:#6E8A5E;
+  --disp:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --txt:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{margin:0;background:var(--fondo);color:var(--tinta);font-family:var(--txt);font-size:15px;line-height:1.4;padding-bottom:80px;}
+.wrap{max-width:620px;margin:0 auto;padding:0 14px;}
+button{font:inherit;cursor:pointer;}
+input,select,textarea{font:inherit;color:inherit;}
+
+.head{padding:18px 0 10px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;}
+.marca{font-family:var(--disp);font-weight:800;font-size:25px;letter-spacing:-.02em;line-height:1;}
+.marca small{display:block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tenue);margin-top:5px;}
+.mesTag{font-family:var(--mono);font-size:11px;font-weight:700;background:var(--tinta);color:var(--papel);
+  padding:6px 11px;border-radius:999px;white-space:nowrap;text-transform:uppercase;letter-spacing:.06em;}
+
+.tablero{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px;}
+.kpi{background:var(--papel);border:1.5px solid var(--linea);border-radius:12px;padding:9px 6px;text-align:center;}
+.kpi b{display:block;font-family:var(--mono);font-size:17px;line-height:1.1;}
+.kpi span{font-size:9px;font-weight:600;color:var(--tenue);text-transform:uppercase;letter-spacing:.03em;}
+.kpi.alerta{background:var(--rojoBg);border-color:var(--rojo);}
+.kpi.alerta b{color:var(--rojo);}
+
+.buscar{display:flex;gap:7px;margin-bottom:9px;}
+.buscar input{flex:1;background:var(--papel);border:1.5px solid var(--linea);border-radius:11px;padding:10px 12px;font-size:14px;min-width:0;}
+.buscar input:focus{outline:2px solid var(--verde);outline-offset:-1px;}
+.masBtn{background:var(--tinta);color:var(--papel);border:0;border-radius:11px;padding:0 16px;font-size:20px;font-weight:600;line-height:1;}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:9px;scrollbar-width:none;}
+.chips::-webkit-scrollbar{display:none;}
+.chip{background:var(--papel);border:1.5px solid var(--linea);color:var(--tenue);border-radius:999px;
+  padding:7px 12px;font-size:12px;font-weight:600;white-space:nowrap;}
+.chip[aria-pressed="true"]{background:var(--tinta);border-color:var(--tinta);color:var(--papel);}
+.chip.C[aria-pressed="true"]{background:var(--verde);border-color:var(--verde);}
+.chip.D[aria-pressed="true"]{background:var(--rosa);border-color:var(--rosa);}
+.chip.J[aria-pressed="true"]{background:var(--azul);border-color:var(--azul);}
+.chip.M[aria-pressed="true"]{background:var(--ambar);border-color:var(--ambar);}
+
+.grupo{margin-top:16px;}
+.grupo-cab{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.grupo-cab h2{font-family:var(--disp);font-weight:800;font-size:16px;margin:0;letter-spacing:-.01em;}
+.grupo-cab .cuenta{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--tenue);}
+.punto{width:9px;height:9px;border-radius:50%;flex:0 0 auto;}
+.pC{background:var(--verde);} .pD{background:var(--rosa);} .pJ{background:var(--azul);} .pM{background:var(--ambar);}
+
+.lista{background:var(--papel);border:1.5px solid var(--linea);border-radius:13px;overflow:hidden;}
+.it{border-bottom:1.5px solid var(--linea);}
+.it:last-child{border-bottom:0;}
+.fila{display:flex;align-items:center;gap:9px;padding:9px 10px;}
+.marca-est{width:4px;align-self:stretch;border-radius:99px;flex:0 0 auto;}
+.e-ok{background:var(--ok);} .e-bajo{background:var(--ambar);}
+.e-comprar{background:var(--rojo);} .e-agot{background:var(--rojo);}
+.nom{flex:1;min-width:0;background:none;border:0;padding:0;text-align:left;}
+.nom .n{font-size:14px;font-weight:600;line-height:1.25;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nom .meta{font-family:var(--mono);font-size:9.5px;color:var(--tenue);display:block;margin-top:2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.it.comprado .nom .n{text-decoration:line-through;color:var(--tenue);}
+.stepper{display:flex;align-items:center;flex:0 0 auto;background:var(--fondo);border-radius:9px;padding:2px;}
+.stepper button{width:25px;height:25px;border:0;background:none;border-radius:7px;font-size:15px;font-weight:700;color:var(--tenue);line-height:1;}
+.stepper button:active{background:var(--linea);}
+.stepper .val{font-family:var(--mono);font-size:12.5px;font-weight:700;min-width:24px;text-align:center;}
+.chkC{width:26px;height:26px;flex:0 0 auto;border:2px solid var(--linea);border-radius:8px;background:none;
+  color:transparent;font-size:13px;display:flex;align-items:center;justify-content:center;}
+.it.comprado .chkC{background:var(--ok);border-color:var(--ok);color:#fff;}
+
+.panel{display:none;padding:2px 11px 13px;background:#FDFCFA;border-top:1px dashed var(--linea);}
+.it.abierto .panel{display:block;}
+.campo{margin-top:9px;}
+.campo label{display:block;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--tenue);margin-bottom:3px;}
+.campo input,.campo select,.campo textarea{width:100%;background:var(--papel);border:1.5px solid var(--linea);
+  border-radius:9px;padding:8px 10px;font-size:13.5px;}
+.campo textarea{resize:vertical;min-height:52px;}
+.dosCol{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.tresCol{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.aviso-min{font-size:11.5px;color:var(--tenue);margin-top:7px;line-height:1.35;}
+.acciones{display:flex;gap:7px;margin-top:11px;}
+.acciones .b{flex:1;border:1.5px solid var(--linea);background:var(--papel);border-radius:9px;padding:9px 6px;
+  font-size:12px;font-weight:600;color:var(--tenue);}
+.acciones .b.rojo{color:var(--rojo);border-color:var(--rojoBg);background:var(--rojoBg);}
+.acciones .b.verde{color:#fff;background:var(--ok);border-color:var(--ok);}
+.link{font-size:11.5px;color:var(--azul);word-break:break-all;}
+.vacio{text-align:center;color:var(--tenue);font-size:13px;padding:26px 10px;}
+.nota-pie{background:var(--papel);border:1.5px dashed var(--linea);border-radius:12px;padding:11px 13px;
+  font-size:12px;color:var(--tenue);line-height:1.45;margin-top:18px;}
+.nota-pie b{color:var(--tinta);}
+.pie{text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--tenue);margin-top:22px;}
+@media (max-width:380px){ .tablero{grid-template-columns:repeat(2,1fr);} }
+@media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div class="marca">Stock<small>Inventario</small></div>
+    <div class="mesTag" id="mesTag"></div>
+  </div>
+
+  <div class="tablero">
+    <div class="kpi alerta"><b id="kComprar">0</b><span>Comprar</span></div>
+    <div class="kpi"><b id="kBajo">0</b><span>Por acabar</span></div>
+    <div class="kpi"><b id="kComprado">0</b><span>Comprado</span></div>
+    <div class="kpi"><b id="kTotal">0</b><span>Productos</span></div>
+  </div>
+
+  <div class="buscar">
+    <input id="q" type="search" placeholder="Buscar producto…" autocomplete="off">
+    <button class="masBtn" id="btnNuevo" title="Agregar producto">+</button>
+  </div>
+
+  <div class="chips" id="chipsGrupo"></div>
+  <div class="chips" id="chipsEstado"></div>
+
+  <div id="app"></div>
+
+  <div class="nota-pie">
+    <b>Cómo funciona:</b> baja la cantidad con <b>−</b> cada vez que se acabe uno. Cuando llega al mínimo,
+    el producto salta solo a “Comprar”. El <b>✓</b> lo marca como comprado del mes. Toca el nombre para
+    editarlo, poner una anotación o ajustar mínimos.
+  </div>
+  <div class="nota-pie">
+    <b>Mes nuevo:</b> los productos y las cantidades se quedan igual. Solo se limpian los ✓ y el mes
+    anterior queda guardado en el historial.
+  </div>
+  <div class="nota-pie">
+    <b>Ojo:</b> los datos viven en este celular. Si Jose abre el archivo en el suyo, lleva su propia copia.
+  </div>
+
+  <div class="pie">Dhamar · Jose · Mamá</div>
+</div>
+
+<script>
+/* ---------- almacenamiento ---------- */
+const Store={
+  async get(k){try{if(window.storage){const r=await window.storage.get(k);return r?JSON.parse(r.value):null;}
+    const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}},
+  async set(k,v){try{if(window.storage){await window.storage.set(k,JSON.stringify(v));return;}
+    localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+};
+const KEY="despensa-v1";
+
+/* ---------- mes ---------- */
+const HOY=new Date();
+const MES=HOY.getFullYear()+"-"+String(HOY.getMonth()+1).padStart(2,"0");
+const MESES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+
+/* ---------- catálogos ---------- */
+const GRUPOS={C:{n:"Compartido"},D:{n:"Dhamar"},J:{n:"Jose"},M:{n:"Mamá"}};
+const UBIS=["Baño","Cocina","Lavandería","Botiquín","Mascotas","Dormitorio"];
+const CATS=["Higiene personal","Cuidado dental","Papel y desechables","Limpieza","Lavandería","Salud","Mascotas","Cocina"];
+const PAGOS={mitad:"Mitad y mitad",jose:"Siempre Jose",dhamar:"Siempre Dhamar",rota:"Alternado por mes"};
+
+/* ---------- semilla: los 37 productos del Excel ---------- */
+function P(id,g,n,ubi,cat,uni,act,min,ide,dur,pre,lug,link,nota,pago){
+  return {id,g,n,ubi,cat,uni,act,min,ide,dur,pre:pre||0,lug:lug||"",link:link||"",nota:nota||"",pago:pago||"mitad"};
+}
+const SEMILLA=[
+/* COMPARTIDO */
+P("c1","C","Papel higiénico","Baño","Papel y desechables","rollos",0,6,24,1,44.5,"Plaza Vea","https://www.plazavea.com.pe","Estaba repetido: lo tenías tú (S/44) y Jose (S/45). Lo fusioné en uno solo."),
+P("c2","C","Bolsas de basura","Cocina","Limpieza","bolsas",100,25,100,2,4,"Dollarcity","",""),
+P("c3","C","Pasta dental","Baño","Cuidado dental","tubos",3,1,3,3,16.9,"Plaza Vea","https://www.plazavea.com.pe",""),
+P("c4","C","Cepillo dental","Baño","Cuidado dental","cepillos",0,1,2,3,11.5,"Plaza Vea","https://www.plazavea.com.pe","Vienen en pack de 2, uno para cada uno."),
+P("c5","C","Enjuague bucal 1 L","Baño","Cuidado dental","frascos",2,1,2,1,37.9,"Plaza Vea","https://www.plazavea.com.pe",""),
+P("c6","C","Hilo dental","Baño","Cuidado dental","rollos",0,1,2,2,17,"Miniso","",""),
+P("c7","C","Toallitas húmedas","Baño","Higiene personal","paquetes",2,1,2,1,11.9,"Plaza Vea","",""),
+P("c8","C","Hisopos","Baño","Higiene personal","cajas",2,1,2,1,9.9,"Plaza Vea","","Marca Ninet."),
+P("c9","C","Detergente líquido","Lavandería","Lavandería","botellas",2,1,2,2,14,"Dollarcity","",""),
+P("c10","C","Suavizante de ropa","Lavandería","Lavandería","botellas",2,1,2,2,8,"Dollarcity","",""),
+P("c11","C","Jabón para manos","Baño","Higiene personal","frascos",0,1,2,2,0,"Dollarcity","","Lo pasé a compartido: es del lavabo y lo usan los dos. Cámbialo si prefieres."),
+/* DHAMAR */
+P("d1","D","Alimento para gato 9 kg","Mascotas","Mascotas","sacos",0,1,2,1,88.9,"Plaza Vea","https://www.plazavea.com.pe","En mercado sale ~S/90."),
+P("d2","D","Arena para gato 20 kg","Mascotas","Mascotas","sacos",0,1,2,1,33.9,"Plaza Vea","https://www.plazavea.com.pe","En mercado: S/50 el de 25 kg."),
+P("d3","D","Antiparasitario (Telopar)","Mascotas","Mascotas","unidades",0,1,2,3,23.8,"Super Pet","https://www.superpet.pe",""),
+P("d4","D","Pack baño (shampoo + acondicionador)","Baño","Higiene personal","packs",0,1,2,1,35.8,"Plaza Vea","https://www.plazavea.com.pe",""),
+P("d5","D","Jabón íntimo","Baño","Higiene personal","frascos",2,1,2,2,16.9,"Plaza Vea","https://www.plazavea.com.pe",""),
+P("d6","D","Talco corporal (pack)","Baño","Higiene personal","packs",2,1,2,2,19.1,"Plaza Vea","https://www.plazavea.com.pe",""),
+P("d7","D","Tampones","Baño","Higiene personal","cajas",2,1,2,1,19.8,"Tottus","https://www.tottus.com.pe",""),
+P("d8","D","Jabón corporal","Baño","Higiene personal","unidades",2,1,2,2,12.9,"Plaza Vea","https://www.plazavea.com.pe",""),
+P("d9","D","Desodorante","Baño","Higiene personal","unidades",2,1,2,4,26.5,"Plaza Vea","https://www.plazavea.com.pe","Lo dejé personal: cada uno usa el suyo."),
+P("d10","D","Crema corporal","Baño","Higiene personal","frascos",2,1,2,5,8,"Dollarcity","",""),
+P("d11","D","Algodón 1 L","Botiquín","Salud","paquetes",2,1,2,3,6.99,"Plaza Vea","","Si quieres, este puede pasar a compartido: es botiquín de la casa."),
+P("d12","D","Alcohol 1 L","Botiquín","Salud","botellas",2,1,2,3,11.9,"Plaza Vea","","Si quieres, este puede pasar a compartido: es botiquín de la casa."),
+/* JOSE */
+P("j1","J","Shampoo 1 L","Baño","Higiene personal","botellas",2,1,2,5,36.9,"Plaza Vea","https://www.plazavea.com.pe",""),
+P("j2","J","Jabones corporales (pack 9)","Baño","Higiene personal","jabones",9,2,9,5,29.9,"Plaza Vea","https://www.plazavea.com.pe",""),
+P("j3","J","Desodorante","Baño","Higiene personal","unidades",0,1,2,4,22.9,"Plaza Vea","https://www.plazavea.com.pe","Lo dejé personal: cada uno usa el suyo."),
+/* MAMÁ */
+P("m1","M","Lejía doméstica (Clorox)","Cocina","Limpieza","botellas",0,1,2,2,0,"","",""),
+P("m2","M","Limpiador aromático (Poet)","Cocina","Limpieza","botellas",2,1,2,2,0,"","",""),
+P("m3","M","Desengrasante de cocina","Cocina","Limpieza","botellas",2,1,2,2,0,"","",""),
+P("m4","M","Removedor de sarro","Baño","Limpieza","botellas",2,1,2,3,0,"","",""),
+P("m5","M","Detergente lavavajillas","Cocina","Cocina","botellas",2,1,2,1,0,"","",""),
+P("m6","M","Detergente en polvo","Lavandería","Lavandería","bolsas",2,1,2,2,0,"","",""),
+P("m7","M","Papel toalla","Cocina","Papel y desechables","rollos",4,2,4,1,0,"","",""),
+P("m8","M","Jabón para manos","Baño","Higiene personal","frascos",2,1,2,2,0,"","",""),
+P("m9","M","Esponjas lavavajillas","Cocina","Cocina","unidades",4,2,4,1,0,"","",""),
+P("m10","M","Ambientador","Cocina","Limpieza","unidades",2,1,2,2,0,"","",""),
+P("m11","M","Limpiavidrios","Cocina","Limpieza","botellas",2,1,2,3,0,"","","")
+];
+
+/* ---------- estado ---------- */
+let D={productos:[],comprados:{},historial:{},mes:MES};
+let fGrupo="todos", fEstado="todos", fQ="", abierto=null;
+
+function estado(p){
+  if(p.act<=0) return "agot";
+  if(p.act<=p.min) return "comprar";
+  if(p.act <= p.min + Math.max(0,(p.ide-p.min))*0.5) return "bajo";
+  return "ok";
+}
+const EST_TXT={ok:"Hay suficiente",bajo:"Por terminarse",comprar:"Comprar",agot:"Se acabó"};
+function comprado(p){ return D.comprados[p.id]===MES; }
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+async function guardar(){ await Store.set(KEY,D); }
+function pagoTxt(p){
+  if(p.g!=="C") return "";
+  if(p.pago==="rota") return (HOY.getMonth()%2===0)?"paga Jose":"paga Dhamar";
+  return {mitad:"mitad y mitad",jose:"paga Jose",dhamar:"paga Dhamar"}[p.pago]||"";
+}
+
+/* ---------- filtros ---------- */
+function visibles(){
+  return D.productos.filter(p=>{
+    if(fGrupo!=="todos" && p.g!==fGrupo) return false;
+    const e=estado(p);
+    if(fEstado==="pendientes" && !(["comprar","agot"].includes(e) && !comprado(p))) return false;
+    if(fEstado==="bajo" && e!=="bajo") return false;
+    if(fEstado==="comprados" && !comprado(p)) return false;
+    if(fQ){
+      const t=(p.n+" "+p.cat+" "+p.ubi+" "+p.lug+" "+p.nota).toLowerCase();
+      if(!t.includes(fQ.toLowerCase())) return false;
+    }
+    return true;
+  });
+}
+
+/* ---------- render ---------- */
+function itemHTML(p){
+  const e=estado(p), abr=abierto===p.id, comp=comprado(p);
+  const meta=[p.ubi, p.act+" "+p.uni, p.dur?("~"+p.dur+(p.dur===1?" mes":" meses")):"", pagoTxt(p), EST_TXT[e]]
+    .filter(Boolean).join(" · ");
+  let h='<div class="it'+(abr?" abierto":"")+(comp?" comprado":"")+'" data-id="'+p.id+'">';
+  h+='<div class="fila"><div class="marca-est e-'+e+'"></div>';
+  h+='<button class="nom" data-a="abrir"><span class="n">'+esc(p.n)+'</span><span class="meta">'+esc(meta)+'</span></button>';
+  h+='<div class="stepper"><button data-a="menos" aria-label="Quitar uno">−</button>'
+    +'<span class="val">'+p.act+'</span>'
+    +'<button data-a="mas" aria-label="Agregar uno">+</button></div>';
+  h+='<button class="chkC" data-a="comprado" aria-label="Marcar comprado">✓</button></div>';
+
+  if(abr){
+    h+='<div class="panel">';
+    h+='<div class="campo"><label>Nombre</label><input data-f="n" value="'+esc(p.n)+'"></div>';
+    h+='<div class="campo"><label>Anotación</label><textarea data-f="nota" placeholder="Marca, tamaño, dónde conviene comprarlo…">'+esc(p.nota)+'</textarea></div>';
+    h+='<div class="tresCol"><div class="campo"><label>Tengo</label><input type="number" min="0" data-f="act" value="'+p.act+'"></div>';
+    h+='<div class="campo"><label>Mínimo</label><input type="number" min="0" data-f="min" value="'+p.min+'"></div>';
+    h+='<div class="campo"><label>Ideal</label><input type="number" min="0" data-f="ide" value="'+p.ide+'"></div></div>';
+    h+='<div class="aviso-min">Saqué el mínimo y el ideal de la duración de tu Excel ('+(p.dur||"?")+' mes/es). Si no cuadra, cámbialo aquí.</div>';
+    h+='<div class="dosCol"><div class="campo"><label>Unidad</label><input data-f="uni" value="'+esc(p.uni)+'"></div>';
+    h+='<div class="campo"><label>Dura (meses)</label><input type="number" min="0" step="0.5" data-f="dur" value="'+p.dur+'"></div></div>';
+    h+='<div class="dosCol"><div class="campo"><label>De quién</label><select data-f="g">';
+    Object.keys(GRUPOS).forEach(k=>{h+='<option value="'+k+'"'+(p.g===k?" selected":"")+'>'+GRUPOS[k].n+'</option>';});
+    h+='</select></div><div class="campo"><label>Quién paga</label><select data-f="pago"'+(p.g!=="C"?" disabled":"")+'>';
+    Object.keys(PAGOS).forEach(k=>{h+='<option value="'+k+'"'+(p.pago===k?" selected":"")+'>'+PAGOS[k]+'</option>';});
+    h+='</select></div></div>';
+    h+='<div class="dosCol"><div class="campo"><label>Dónde está</label><select data-f="ubi">';
+    UBIS.forEach(u=>{h+='<option'+(p.ubi===u?" selected":"")+'>'+u+'</option>';});
+    h+='</select></div><div class="campo"><label>Categoría</label><select data-f="cat">';
+    CATS.forEach(c=>{h+='<option'+(p.cat===c?" selected":"")+'>'+c+'</option>';});
+    h+='</select></div></div>';
+    h+='<div class="dosCol"><div class="campo"><label>Precio ref. (S/)</label><input type="number" step="0.1" min="0" data-f="pre" value="'+p.pre+'"></div>';
+    h+='<div class="campo"><label>Dónde se compra</label><input data-f="lug" value="'+esc(p.lug)+'"></div></div>';
+    h+='<div class="campo"><label>Link</label><input data-f="link" value="'+esc(p.link)+'" placeholder="https://…"></div>';
+    if(p.link) h+='<div class="campo"><a class="link" href="'+esc(p.link)+'" target="_blank" rel="noopener">Abrir enlace ↗</a></div>';
+    h+='<div class="acciones"><button class="b" data-a="cerrar">Cerrar</button>'
+      +'<button class="b verde" data-a="reponer">Dejar en '+p.ide+'</button>'
+      +'<button class="b rojo" data-a="borrar">Eliminar</button></div>';
+    h+='</div>';
+  }
+  return h+'</div>';
+}
+
+function render(){
+  document.getElementById("mesTag").textContent=MESES[HOY.getMonth()]+" "+HOY.getFullYear();
+  const todos=D.productos;
+  document.getElementById("kComprar").textContent=todos.filter(p=>["comprar","agot"].includes(estado(p))&&!comprado(p)).length;
+  document.getElementById("kBajo").textContent=todos.filter(p=>estado(p)==="bajo").length;
+  document.getElementById("kComprado").textContent=todos.filter(p=>comprado(p)).length;
+  document.getElementById("kTotal").textContent=todos.length;
+
+  const cg=[["todos","Todos"],["C","Compartido"],["D","Dhamar"],["J","Jose"],["M","Mamá"]];
+  document.getElementById("chipsGrupo").innerHTML=cg.map(function(x){
+    return '<button class="chip '+x[0]+'" data-g="'+x[0]+'" aria-pressed="'+(fGrupo===x[0])+'">'+x[1]+'</button>';}).join("");
+  const ce=[["todos","Todo"],["pendientes","Por comprar"],["bajo","Por acabar"],["comprados","Comprados"]];
+  document.getElementById("chipsEstado").innerHTML=ce.map(function(x){
+    return '<button class="chip" data-e="'+x[0]+'" aria-pressed="'+(fEstado===x[0])+'">'+x[1]+'</button>';}).join("");
+
+  const vis=visibles();
+  let h="";
+  if(!vis.length){ h='<div class="vacio">No hay productos con ese filtro.</div>'; }
+  else{
+    ["C","D","J","M"].forEach(function(g){
+      const arr=vis.filter(p=>p.g===g);
+      if(!arr.length) return;
+      const o={agot:0,comprar:1,bajo:2,ok:3};
+      arr.sort(function(a,b){
+        const d=o[estado(a)]-o[estado(b)];
+        return d!==0?d:a.n.localeCompare(b.n,"es");
+      });
+      h+='<div class="grupo"><div class="grupo-cab"><span class="punto p'+g+'"></span>'
+        +'<h2>'+GRUPOS[g].n+'</h2><span class="cuenta">'+arr.length+'</span></div>'
+        +'<div class="lista">'+arr.map(itemHTML).join("")+'</div></div>';
+    });
+  }
+  document.getElementById("app").innerHTML=h;
+}
+
+/* ---------- eventos ---------- */
+document.getElementById("app").addEventListener("click",async function(e){
+  const b=e.target.closest("button[data-a]"); if(!b) return;
+  const cont=b.closest(".it"); if(!cont) return;
+  const id=cont.dataset.id;
+  const p=D.productos.find(x=>x.id===id); if(!p) return;
+  const a=b.dataset.a;
+  if(a==="mas") p.act++;
+  else if(a==="menos") p.act=Math.max(0,p.act-1);
+  else if(a==="comprado"){ if(comprado(p)) delete D.comprados[p.id]; else D.comprados[p.id]=MES; }
+  else if(a==="abrir") abierto = (abierto===id?null:id);
+  else if(a==="cerrar") abierto=null;
+  else if(a==="reponer") p.act=p.ide;
+  else if(a==="borrar"){
+    if(!confirm("¿Eliminar \u201c"+p.n+"\u201d?")) return;
+    D.productos=D.productos.filter(x=>x.id!==id); abierto=null;
+  }
+  await guardar(); render();
+});
+
+document.getElementById("app").addEventListener("change",async function(e){
+  const f=e.target.closest("[data-f]"); if(!f) return;
+  const cont=f.closest(".it"); if(!cont) return;
+  const p=D.productos.find(x=>x.id===cont.dataset.id); if(!p) return;
+  const campo=f.dataset.f;
+  const num=["act","min","ide","dur","pre"];
+  p[campo]= num.includes(campo) ? (parseFloat(f.value)||0) : f.value;
+  await guardar(); render();
+});
+
+document.getElementById("chipsGrupo").addEventListener("click",function(e){
+  const b=e.target.closest("[data-g]"); if(!b) return;
+  fGrupo=b.dataset.g; abierto=null; render();
+});
+document.getElementById("chipsEstado").addEventListener("click",function(e){
+  const b=e.target.closest("[data-e]"); if(!b) return;
+  fEstado=b.dataset.e; abierto=null; render();
+});
+document.getElementById("q").addEventListener("input",function(e){ fQ=e.target.value.trim(); render(); });
+
+document.getElementById("btnNuevo").addEventListener("click",async function(){
+  const n=prompt("Nombre del producto:"); if(!n) return;
+  const id="x"+Date.now();
+  D.productos.push(P(id, fGrupo==="todos"?"C":fGrupo, n, "Baño","Higiene personal","unidades",1,1,2,1,0,"","",""));
+  abierto=id; await guardar(); render();
+  const el=document.querySelector('.it[data-id="'+id+'"]');
+  if(el) el.scrollIntoView({block:"center"});
+});
+
+/* ---------- arranque ---------- */
+(async function(){
+  const g=await Store.get(KEY);
+  if(g && g.productos && g.productos.length){
+    D=g;
+    if(!D.historial) D.historial={};
+    if(!D.comprados) D.comprados={};
+    if(D.mes!==MES){
+      const previos=Object.keys(D.comprados).filter(k=>D.comprados[k]===D.mes);
+      if(previos.length) D.historial[D.mes]=previos;
+      D.comprados={}; D.mes=MES;
+    }
+  }else{
+    D={productos:SEMILLA.map(p=>Object.assign({},p)),comprados:{},historial:{},mes:MES};
+  }
+  await guardar();
+  render();
+})();
+</script>
+</body>
+</html>

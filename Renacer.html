@@ -1,0 +1,673 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renacer</title>
+<link rel="apple-touch-icon" href="apple-touch-icon-renacer.png">
+<link rel="icon" type="image/x-icon" href="favicon-renacer.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16-renacer.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32-renacer.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192-renacer.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512x512-renacer.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Renacer">
+<link rel="manifest" href="manifest-renacer.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--crema:#FCF8F1;--verde:#4A6741;--verde-soft:#EDF2E8;--rosa:#B2556A;
+--rosa-soft:#FAEDEF;--azul:#5A6E8C;--azul-soft:#EEF2F8;--marron:#7A5C3E;
+--dorado:#F6EBD4;--linea:#E4DACB;--gris:#5C554B;}
+*{box-sizing:border-box;}
+body{margin:0;background:#E8E0D3;font-family:'Nunito',sans-serif;color:#2E2A24;display:flex;justify-content:center;}
+.page{max-width:540px;width:100%;background:var(--crema);min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.12);}
+section{padding:28px 24px;}
+h1,h2,h3{font-family:'Fraunces',serif;margin:0;}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--verde);font-weight:600;}
+.hero{background:linear-gradient(160deg,var(--verde-soft),var(--crema) 70%);text-align:center;padding:40px 24px 32px;border-bottom:3px solid var(--verde);}
+.hero h1{font-size:36px;font-weight:700;color:var(--rosa);letter-spacing:-.01em;}
+.hero .sub{font-size:14.5px;color:var(--gris);max-width:380px;margin:10px auto 0;line-height:1.55;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px;}
+.chip{font-size:12px;font-weight:700;background:#fff;border:1px solid var(--linea);padding:7px 13px;border-radius:20px;}
+.sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;}
+.sec-head h2{font-size:21px;font-weight:600;color:var(--verde);}
+.sec-head .n{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#fff;background:var(--rosa);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rule{background:#fff;border:1px solid var(--linea);border-radius:12px;padding:12px 14px;margin-bottom:9px;font-size:13px;line-height:1.5;}
+.rule b{color:var(--verde);}
+.gold{background:var(--dorado);border:none;}
+table.eq{width:100%;border-collapse:collapse;font-size:12.5px;background:#fff;border-radius:12px;overflow:hidden;}
+table.eq th{background:var(--verde);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;padding:9px 8px;text-align:left;}
+table.eq td{padding:10px 8px;border-bottom:1px solid var(--linea);}
+table.eq tr:nth-child(even) td{background:var(--verde-soft);}
+details.sem{border:1.5px solid var(--linea);border-radius:16px;margin-bottom:14px;background:#fff;overflow:hidden;}
+details.sem[open]{border-color:var(--rosa);}
+summary.sem-head{list-style:none;cursor:pointer;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;}
+summary.sem-head::-webkit-details-marker{display:none;}
+.sem-title{font-family:'Fraunces',serif;font-size:19px;font-weight:700;color:var(--marron);}
+.sem-arrow{color:var(--rosa);transition:transform .2s;}
+details[open] .sem-arrow{transform:rotate(90deg);}
+.sem-body{padding:0 16px 16px;}
+.dia{border-top:1px dashed var(--linea);padding:14px 2px 6px;}
+.dia-name{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--verde);font-weight:700;}
+.dia-plato{font-family:'Fraunces',serif;font-size:17.5px;font-weight:700;color:var(--marron);margin:2px 0 6px;}
+.prep{font-size:12.5px;color:var(--gris);line-height:1.55;margin:0 0 8px;padding-left:16px;}
+.prep li{margin-bottom:2px;}
+.nota{font-size:11.5px;color:var(--rosa);font-style:italic;margin-bottom:8px;}
+.porciones{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.porc{border-radius:10px;padding:9px 11px;font-size:12px;line-height:1.5;}
+.porc .tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;font-weight:700;display:block;margin-bottom:4px;}
+.porc.ella{background:var(--rosa-soft);}.porc.ella .tag{color:var(--rosa);}
+.porc.el{background:var(--azul-soft);}.porc.el .tag{color:var(--azul);}
+.compras{background:var(--dorado);border-radius:12px;padding:13px 15px;margin-top:12px;}
+.compras h4{font-family:'Fraunces',serif;font-size:15px;margin:0 0 8px;color:var(--marron);}
+.compras .cat{font-size:12px;margin-bottom:7px;line-height:1.55;}
+.compras .cat b{color:var(--marron);display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:1px;}
+.closing{background:linear-gradient(160deg,var(--rosa),#8E3F50);color:#fff;text-align:center;padding:36px 24px 40px;}
+.closing .q{font-family:'Fraunces',serif;font-style:italic;font-size:18px;line-height:1.5;max-width:340px;margin:0 auto;}
+details.receta{background:#FBF6EA;border:1px solid var(--linea);border-radius:10px;margin-bottom:8px;}
+details.receta summary{cursor:pointer;font-size:12px;font-weight:700;color:var(--marron);padding:9px 12px;list-style:none;}
+details.receta summary::-webkit-details-marker{display:none;}
+details.receta summary::before{content:"F4D6  ";}
+details.receta[open] summary{border-bottom:1px dashed var(--linea);}
+details.receta .ing,details.receta .pasos{padding:8px 12px 4px;font-size:12px;}
+details.receta .ing b,details.receta .pasos b{color:var(--marron);font-size:11px;text-transform:uppercase;letter-spacing:.05em;}
+.macros{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.macros span{border-radius:8px;padding:5px 9px;font-size:10.5px;font-weight:700;letter-spacing:.02em;border:1.5px solid;}
+.macros .m-e{background:#FDF1F3;border-color:#D98A9B;color:#9C4A5C;}
+.macros .m-h{background:#EEF2F8;border-color:#8FA3C2;color:#41546F;}
+.conserva{font-size:11px;color:#6B6357;background:#EFF3F7;border-radius:8px;padding:7px 10px;margin-bottom:4px;}
+@media(max-width:370px){.porciones{grid-template-columns:1fr;}}
+
+/* ===== capa interactiva ===== */
+.dia-head-row{display:flex;align-items:flex-start;gap:10px;}
+.dia-head-row .txt{flex:1;min-width:0;}
+.diachk{flex:0 0 auto;width:27px;height:27px;margin-top:2px;border:2px solid var(--verde);border-radius:50%;
+  background:none;color:transparent;font-size:13px;line-height:1;cursor:pointer;padding:0;}
+.diachk.on{background:var(--verde);color:#fff;}
+.dia.hecho .dia-plato{color:#8A8375;text-decoration:line-through;text-decoration-thickness:1.5px;}
+.sem-prog{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--rosa);
+  background:var(--rosa-soft);border-radius:999px;padding:3px 9px;margin-left:auto;margin-right:8px;}
+.sem-prog.full{background:var(--verde-soft);color:var(--verde);}
+.reset-marcas{display:block;margin:2px 0 10px;border:0;background:none;color:var(--gris);
+  font-size:11px;text-decoration:underline;cursor:pointer;padding:0;}
+.cat .items{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.cat .it{border:1.5px solid var(--linea);background:#fff;border-radius:999px;padding:5px 11px;
+  font-size:11.5px;color:var(--gris);cursor:pointer;line-height:1.2;}
+.cat .it.on{background:var(--verde-soft);border-color:var(--verde);color:var(--verde);text-decoration:line-through;}
+.compras .limpiar{border:0;background:none;color:var(--gris);font-size:11px;text-decoration:underline;cursor:pointer;padding:0;margin-top:8px;}
+
+</style></head><body><div class="page">
+<section class="hero">
+<span class="eyebrow">Plan de almuerzos · 30 días</span>
+<h1>Proyecto Renacer</h1>
+<p class="sub">El plan de Dhamar y Jose: 30 platillos peruanos, una sola olla, porciones pesadas en crudo. Desayuno y cena: Glucerna (ambos, por indicación del endocrinólogo).</p>
+<div class="chips"><span class="chip">🍲 Una olla para 4</span><span class="chip">⚖️ Pesos en crudo</span><span class="chip">🚫 Cero gaseosas</span></div>
+</section>
+<section><div class="sec-head"><span class="n">1</span><h2>Reglas para la tía</h2></div>
+<div class="rule"><b>Una sola olla:</b> Cocine UNA sola preparación para todos. Solo cambian las porciones al servir. Las otras 2 personas se sirven normal, sin pesar.</div>
+<div class="rule"><b>Pesos SIEMPRE en crudo:</b> Arroz, fideos, papa, camote, pollo y carne se pesan ANTES de cocinar.</div>
+<div class="rule"><b>Regla del aceite:</b> Máximo 1 cucharadita de aceite por persona por comida. Para la olla de los 4: MÁXIMO 4 cucharaditas en total. Cada receta le dice cuántas van exactamente.</div>
+<div class="rule"><b>Platos mezclados:</b> Si el plato lleva todo junto (ají de gallina, arroz con pollo, estofado, lentejas...), NO separe el pollo ni la carne. Sirva el peso indicado del plato ya terminado.</div>
+<div class="rule"><b>Verduras libres:</b> Las verduras y ensaladas pueden servirse en bastante cantidad. NO es necesario pesarlas.</div>
+<div class="rule"><b>Presas de pollo:</b> Para DHAMAR: pierna o encuentro. Para JOSE: pechuga. Pedir el pollo trozado en el mercado.</div>
+<div class="rule"><b>Desayuno y cena:</b> Dhamar y Jose toman Glucerna en desayuno y cena, según indicación del endocrinólogo. El almuerzo es la comida principal.</div>
+<div class="rule"><b>Bebidas:</b> SOLO agua, infusiones y limonada o emoliente SIN azúcar. CERO gaseosas (ni las 'Zero'), cero jugos de caja, cero bebidas azucaradas. En esta casa todos apoyamos ese cambio, empezando por usted, que lo está logrando.</div>
+</section>
+<section style="padding-top:0;"><div class="sec-head"><span class="n">2</span><h2>Reglas de oro</h2></div>
+<div class="rule gold">✅ Cero gaseosas y bebidas azucaradas para TODOS en la mesa. Ni un vasito. Agua, infusiones o limonada sin azúcar.</div>
+<div class="rule gold">✅ No repetir arroz (una sola porción servida).</div>
+<div class="rule gold">✅ Si queda hambre: primero aumentar VERDURAS, nunca arroz ni papa.</div>
+<div class="rule gold">✅ Una comida libre a la semana (usualmente tallarines: pollo, chancho o atún). Ese día reemplaza el almuerzo del plan, no se suma.</div>
+<div class="rule gold">✅ Dormir 7 a 8 horas.</div>
+<div class="rule gold">✅ Agua: mínimo 2 litros al día (más si entrenan o juegan vóley).</div>
+<div class="rule gold">✅ Merienda de media tarde OBLIGATORIA para Dhamar y Jose: Dhamar: 1 fruta + 1 yogur natural sin azúcar (o 2 huevos sancochados). Jose: 1 fruta + 1 yogur natural + 1 puñado de maní sin sal (30 g). No es antojo, es parte del plan.</div>
+<div class="rule gold">✅ Las menestras se remojan desde la noche anterior para que cocinen bien en olla normal.</div>
+</section>
+<section style="padding-top:0;"><div class="sec-head"><span class="n">3</span><h2>Tabla de reemplazos</h2></div>
+<table class="eq"><tr><th>Si pide...</th><th>Puede usar...</th><th>O también...</th></tr>
+<tr><td>Arroz crudo 50 g</td><td>Fideos crudos 50 g</td><td>Quinua cruda 50 g</td></tr>
+<tr><td>Papa cruda 150 g</td><td>Camote crudo 130 g</td><td>Yuca cruda 120 g</td></tr>
+<tr><td>Pollo crudo 200 g</td><td>Pavita cruda 200 g</td><td>Pescado crudo 220 g</td></tr>
+<tr><td>Carne de res cruda 180 g</td><td>Cerdo magro crudo 180 g</td><td>3 huevos</td></tr>
+<tr><td>Camote crudo 180 g</td><td>Papa cruda 200 g</td><td>Choclo desgranado 200 g</td></tr>
+</table><p style="font-size:11.5px;color:var(--gris);margin-top:8px;">Pescado: solo como reemplazo ocasional (220 g de pescado ↔ 200 g de pollo).</p></section>
+<section style="padding-top:0;"><div class="sec-head"><span class="n">4</span><h2>Los 30 días</h2></div>
+<details class="sem" open><summary class="sem-head"><span class="sem-title">Semana 1</span><span class="sem-arrow">▸</span></summary><div class="sem-body">
+<div class="dia"><div class="dia-name">Lunes</div><div class="dia-plato">Ají de gallina</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>500 g de ají (plato terminado)<br>Arroz de 95 g crudo<br>Ensalada libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>680 g de ají (plato terminado)<br>Arroz de 130 g crudo<br>Ensalada libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~858 kcal · P70 C95 G18</span><span class="m-h">Jose · ~1140 kcal · P93 C127 G24</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>1.5 kg de pechuga y pierna de pollo</li><li>2 tajadas de pan de molde (solo 2)</li><li>1 tarro de leche evaporada light</li><li>4 ajíes amarillos sin venas ni pepas</li><li>1 cebolla grande picada fina</li><li>3 dientes de ajo molidos</li><li>3 cucharaditas de aceite</li><li>1/2 taza del caldo donde sancochó el pollo</li><li>Sal, pimienta y comino al gusto</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Sancochar el pollo en agua con sal. Guardar el caldo. Deshilachar el pollo.</li><li>Remojar el pan en un poquito de leche. Licuar los ajíes con el pan remojado.</li><li>En la olla, calentar las 3 cucharaditas de aceite y dorar la cebolla y el ajo.</li><li>Agregar lo licuado y cocinar 5 minutos moviendo.</li><li>Añadir el pollo deshilachado, la leche y un poco de caldo. Cocinar 10 minutos hasta que espese.</li><li>Servir con arroz y ensalada fresca.</li></ol></div>
+</details>
+<div class="nota">⚠️ Lleva MÁS pollo y MENOS pan que la receta tradicional. Esa es la gracia.</div>
+<div class="conserva">🧊 Si sobra: Aguanta 3 días en refrigeradora y congela muy bien hasta 2 meses (sin el arroz).</div>
+</div>
+<div class="dia"><div class="dia-name">Martes</div><div class="dia-plato">Lomo saltado</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>240 g de carne cruda<br>220 g de papa cruda<br>Arroz de 80 g crudo</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>330 g de carne cruda<br>320 g de papa cruda<br>Arroz de 110 g crudo</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~874 kcal · P62 C108 G20</span><span class="m-h">Jose · ~1208 kcal · P85 C148 G29</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>1.3 kg de carne de res en tiras (lomo o cadera)</li><li>3 cebollas en gajos gruesos</li><li>4 tomates en gajos</li><li>1 ají amarillo en tiras (opcional)</li><li>4 cucharaditas de aceite en total: 2 para la carne, 2 para las papas (0 si usa Air Fryer)</li><li>3 cucharadas de sillao</li><li>1 chorrito de vinagre</li><li>1.3 kg de papa en bastones</li><li>Culantro picado</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Papas en bastones al horno o Air Fryer (con 2 cucharaditas de aceite, o sin aceite en Air Fryer). NO fritas.</li><li>Calentar una sartén bien caliente con 2 cucharaditas de aceite. Saltear la carne por tandas hasta dorar. Retirar.</li><li>En la misma sartén saltear cebolla y tomate 2 minutos (deben quedar crocantes).</li><li>Devolver la carne, agregar sillao y vinagre. Mezclar 1 minuto y apagar.</li><li>Espolvorear culantro. Servir con las papas y el arroz pesado.</li></ol></div>
+</details>
+<div class="nota">⚠️ Pesar la carne y la papa de Dhamar y Jose ANTES de cocinar.</div>
+<div class="conserva">🧊 Si sobra: Comer el mismo día: el salteado pierde textura. Si sobra, refrigerar máximo 1 día.</div>
+</div>
+<div class="dia"><div class="dia-name">Miércoles</div><div class="dia-plato">Seco de pollo</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>1 presa grande (pierna+encuentro, ~280 g)<br>Arroz de 95 g crudo<br>150 g de papa<br>Ensalada libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>1 pechuga grande (~360 g)<br>Arroz de 130 g crudo<br>220 g de papa<br>Ensalada libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~892 kcal · P64 C114 G19</span><span class="m-h">Jose · ~1144 kcal · P100 C155 G10</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>8 presas de pollo (piernas, encuentros y pechugas)</li><li>2 atados de culantro (solo hojas)</li><li>1 cebolla picada</li><li>4 dientes de ajo</li><li>1 ají amarillo licuado</li><li>3 cucharaditas de aceite</li><li>1 taza de arveja fresca</li><li>2 zanahorias en rodajas</li><li>1/2 taza de agua o caldo</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Licuar el culantro con un poquito de agua.</li><li>En la olla, calentar el aceite y dorar cebolla, ajo y ají 3 minutos.</li><li>Agregar el culantro licuado y cocinar 3 minutos.</li><li>Añadir las presas, arveja, zanahoria y el caldo. Tapar y cocinar a fuego bajo 25-30 minutos.</li><li>Servir cada presa con su arroz pesado y ensalada.</li></ol></div>
+</details>
+<div class="conserva">🧊 Si sobra: El seco mejora al día siguiente. Refrigerar 3 días o congelar 2 meses.</div>
+</div>
+<div class="dia"><div class="dia-name">Jueves</div><div class="dia-plato">Estofado de pollo</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>550 g del plato terminado<br>Arroz de 70 g crudo<br>Ensalada libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>750 g del plato terminado<br>Arroz de 100 g crudo<br>Ensalada libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~846 kcal · P62 C106 G19</span><span class="m-h">Jose · ~1101 kcal · P98 C147 G11</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>8 presas de pollo</li><li>3 tomates licuados</li><li>1 cebolla picada</li><li>3 dientes de ajo</li><li>3 cucharaditas de aceite</li><li>3 papas medianas en mitades</li><li>2 zanahorias en rodajas gruesas</li><li>1 taza de arveja</li><li>1 hoja de laurel</li><li>Sal, pimienta, comino y un toque de ají panca</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Calentar el aceite y dorar cebolla, ajo y ají panca.</li><li>Agregar el tomate licuado y cocinar 5 minutos.</li><li>Añadir las presas, cubrir hasta la mitad con agua, poner el laurel. Tapar 15 minutos.</li><li>Agregar papa, zanahoria y arveja. Cocinar 15-20 minutos más hasta que la papa esté suave.</li><li>Servir el guiso completo SIN separar nada, pesando el plato terminado.</li></ol></div>
+</details>
+<div class="conserva">🧊 Si sobra: Refrigerar 3 días. Congela bien (la papa cambia un poco de textura).</div>
+</div>
+<div class="dia"><div class="dia-name">Viernes</div><div class="dia-plato">Arroz con pollo</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>580 g del plato terminado (arroz + presa)<br>Salsa criolla libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>800 g del plato terminado (arroz + presa)<br>Salsa criolla libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~781 kcal · P57 C92 G19</span><span class="m-h">Jose · ~997 kcal · P92 C124 G11</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>8 presas de pollo</li><li>2 atados de culantro licuado</li><li>1 cebolla picada</li><li>4 dientes de ajo</li><li>3 cucharaditas de aceite</li><li>2.5 tazas de arroz (para TODA la olla)</li><li>1 taza de arveja</li><li>1 zanahoria en cuadritos</li><li>1 pimiento en tiras</li><li>1 vaso de agua por cada taza de arroz</li><li>Sal, pimienta y comino</li><li>Para la salsa criolla: 2 cebollas en pluma, limón, sal y ají</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Dorar las presas en el aceite. Retirar.</li><li>En la misma olla dorar cebolla y ajo, agregar el culantro licuado y cocinar 3 minutos.</li><li>Devolver el pollo, agregar el agua y cocinar tapado 15 minutos.</li><li>Sacar las presas. Agregar el arroz, arveja, zanahoria y pimiento al caldo verde. Cocinar como arroz normal.</li><li>Servir arroz + presa juntos, pesando el plato completo. Salsa criolla encima.</li></ol></div>
+</details>
+<div class="nota">⚠️ Lleva MENOS arroz y MÁS pollo que el normal. No servir arroz extra.</div>
+<div class="conserva">🧊 Si sobra: Refrigerar máximo 2 días bien tapado. Recalentar con un chorrito de agua.</div>
+</div>
+<div class="dia"><div class="dia-name">Sábado</div><div class="dia-plato">Pollo al horno con camote</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>300 g de pollo crudo (pierna/encuentro)<br>280 g de camote crudo<br>Arroz de 70 g crudo<br>Ensalada libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>380 g de pollo crudo (pechuga)<br>380 g de camote crudo<br>Arroz de 100 g crudo<br>Ensalada libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~943 kcal · P65 C120 G22</span><span class="m-h">Jose · ~1206 kcal · P102 C164 G13</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>8 presas de pollo</li><li>3 dientes de ajo molidos</li><li>2 cucharadas de ají panca</li><li>1 cucharadita de comino</li><li>1 chorrito de vinagre</li><li>2 cucharaditas de aceite</li><li>1.5 kg de camote en rodajas gruesas</li><li>Sal y pimienta</li><li>Para la ensalada: lechuga, tomate, pepino, limón</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Mezclar ajo, ají panca, comino, vinagre, sal, pimienta y las 2 cucharaditas de aceite. Untar las presas (mejor desde la mañana).</li><li>Acomodar las presas en una fuente y el camote alrededor.</li><li>Hornear a 200°C por 45-50 minutos (o en Air Fryer por tandas, 25 minutos a 180°C).</li><li>Servir con ensalada grande.</li></ol></div>
+</details>
+<div class="nota">⚠️ Pesar presa y camote de Dhamar y Jose en crudo, antes del horno. De preferencia sin piel.</div>
+<div class="conserva">🧊 Si sobra: El pollo horneado refrigera 3 días y sirve frío en ensaladas al día siguiente.</div>
+</div>
+<div class="dia"><div class="dia-name">Domingo</div><div class="dia-plato">Lentejas con carne</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>600 g del plato servido (lentejas + arroz + carne)</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>850 g del plato servido (lentejas + arroz + carne)</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~860 kcal · P61 C119 G14</span><span class="m-h">Jose · ~1166 kcal · P83 C162 G19</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>500 g de lentejas remojadas desde el sábado</li><li>700 g de carne de res en trozos</li><li>2 cebollas picadas</li><li>4 dientes de ajo</li><li>2 tomates picados</li><li>2 zanahorias en cuadritos</li><li>3 cucharaditas de aceite</li><li>2 tazas de arroz para toda la olla de arroz</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Escurrir las lentejas remojadas.</li><li>En la olla, dorar en el aceite la cebolla, ajo y tomate hasta que sequen.</li><li>Agregar la carne y dorarla 5 minutos.</li><li>Añadir las lentejas, zanahoria y agua que las cubra 2 dedos. Cocinar a fuego bajo 40-50 minutos.</li><li>Hacer el arroz aparte. Servir lentejas + arroz + carne en el mismo plato y pesar todo junto.</li></ol></div>
+</details>
+<div class="nota">⚠️ Remojar las lentejas desde la noche anterior. La carne NO se separa.</div>
+<div class="conserva">🧊 Si sobra: Las menestras congelan perfecto hasta 3 meses en porciones. Refrigeradas duran 3-4 días.</div>
+</div>
+<div class="compras"><h4>🛒 Compras de la semana (para 4 personas)</h4>
+<div class="cat"><b>Carnes (pedir pollo trozado)</b>Pollo: 4.5 kg · Carne de res: 2.2 kg</div>
+<div class="cat"><b>Verduras</b>Tomate 2 kg · Cebolla 2.5 kg · Lechuga 2 unidades · Pepino 4 · Zanahoria 1 kg · Ají amarillo 300 g · Ají panca (pasta) · Ajo 2 cabezas · Limón 15 · Culantro 4 atados · Arveja fresca 700 g · Pimiento 2</div>
+<div class="cat"><b>Carbohidratos</b>Arroz 3 kg · Papa 2.5 kg · Camote 2 kg · Pan de molde 2 tajadas</div>
+<div class="cat"><b>Menestras</b>Lentejas 600 g</div>
+<div class="cat"><b>Otros</b>Leche evaporada light 1 tarro · Aceite vegetal 1 botella chica · Sillao · Vinagre · Comino, pimienta, orégano, laurel · Glucerna (verificar stock)</div>
+</div></div></details>
+<details class="sem"><summary class="sem-head"><span class="sem-title">Semana 2</span><span class="sem-arrow">▸</span></summary><div class="sem-body">
+<div class="dia"><div class="dia-name">Lunes</div><div class="dia-plato">Olluquito con chancho</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>550 g del plato terminado<br>Arroz de 90 g crudo</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>750 g del plato terminado<br>Arroz de 125 g crudo</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~824 kcal · P53 C107 G19</span><span class="m-h">Jose · ~1108 kcal · P71 C146 G24</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>1.5 kg de olluco picado en tiras finas</li><li>1 kg de cerdo magro en tiras</li><li>1 cebolla picada fina</li><li>3 dientes de ajo</li><li>2 cucharadas de ají panca</li><li>3 cucharaditas de aceite</li><li>Perejil picado</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Calentar el aceite y dorar cebolla, ajo y ají panca.</li><li>Agregar el cerdo y dorar 5 minutos.</li><li>Añadir el olluco, tapar y cocinar a fuego bajo 25-30 minutos. NO agregar agua: el olluco suelta su propio jugo.</li><li>Mover de vez en cuando. Al final, perejil picado.</li><li>Servir con el arroz pesado.</li></ol></div>
+</details>
+<div class="conserva">🧊 Si sobra: Refrigerar 3 días. Congela bien.</div>
+</div>
+<div class="dia"><div class="dia-name">Martes</div><div class="dia-plato">Bistec encebollado</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>250 g de carne cruda<br>Arroz de 90 g crudo<br>150 g de papa sancochada<br>Ensalada libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>340 g de carne cruda<br>Arroz de 125 g crudo<br>220 g de papa sancochada<br>Ensalada libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~880 kcal · P64 C106 G21</span><span class="m-h">Jose · ~1208 kcal · P86 C145 G29</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>1.3 kg de bistec de res</li><li>4 cebollas en pluma gruesa</li><li>3 tomates en gajos</li><li>4 cucharaditas de aceite en total: 2 para los bistecs, 2 para la cebolla</li><li>1 chorrito de vinagre</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Sazonar los bistecs con sal, pimienta y comino.</li><li>Dorarlos en sartén caliente con 2 cucharaditas de aceite, por tandas. Retirar.</li><li>En la misma sartén, saltear la cebolla y el tomate con las otras 2 cucharaditas, 3 minutos, con el chorrito de vinagre.</li><li>Servir cada bistec con su montaña de cebolla encima, arroz pesado y ensalada.</li></ol></div>
+</details>
+<div class="nota">⚠️ Pesar el bistec de Dhamar y Jose en crudo antes de sazonar.</div>
+<div class="conserva">🧊 Si sobra: El bistec se come al momento; la cebolla salteada refrigera 1 día.</div>
+</div>
+<div class="dia"><div class="dia-name">Miércoles</div><div class="dia-plato">Escabeche de pollo</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>1 presa grande (~290 g)<br>250 g de camote<br>1 huevo duro<br>Arroz de 70 g crudo</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>1 pechuga grande (~370 g)<br>330 g de camote<br>1 huevo duro<br>Arroz de 100 g crudo</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~971 kcal · P70 C114 G26</span><span class="m-h">Jose · ~1219 kcal · P106 C155 G16</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>8 presas de pollo</li><li>4 cebollas en gajos gruesos</li><li>3 ajíes amarillos en tiras</li><li>1/2 taza de vinagre</li><li>3 dientes de ajo</li><li>2 cucharadas de ají panca</li><li>3 cucharaditas de aceite</li><li>1 hoja de laurel</li><li>1 kg de camote</li><li>4 huevos duros</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Sancochar el camote con cáscara. Sancochar los huevos.</li><li>Dorar las presas sazonadas en el aceite. Retirar.</li><li>En la misma olla, saltear cebolla, ají amarillo, ajo y ají panca 3 minutos (la cebolla debe quedar entera).</li><li>Agregar el vinagre, laurel y 1/2 taza de agua. Devolver las presas y cocinar tapado 20 minutos.</li><li>Servir presa + cebollas + camote pelado + medio huevo.</li></ol></div>
+</details>
+<div class="conserva">🧊 Si sobra: El escabeche frío del día siguiente es incluso más rico. Refrigerar 3 días.</div>
+</div>
+<div class="dia"><div class="dia-name">Jueves</div><div class="dia-plato">Cau cau de pollo</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>560 g del plato terminado<br>Arroz de 85 g crudo</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>760 g del plato terminado<br>Arroz de 115 g crudo</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~812 kcal · P66 C116 G7</span><span class="m-h">Jose · ~1096 kcal · P88 C158 G9</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>1.2 kg de pollo en cubos (pechuga y pierna deshuesada)</li><li>1 kg de papa en cuadritos</li><li>1 cebolla picada</li><li>4 dientes de ajo</li><li>2 ajíes amarillos licuados</li><li>1 cucharadita de palillo</li><li>3 cucharaditas de aceite</li><li>Hierbabuena picada</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Calentar el aceite y dorar cebolla, ajo, ají licuado y palillo.</li><li>Agregar el pollo en cubos y dorar 5 minutos.</li><li>Añadir la papa en cuadritos y agua que cubra hasta la mitad. Cocinar 20 minutos hasta que la papa esté suave.</li><li>Al final, bastante hierbabuena picada.</li><li>Servir con el arroz pesado, pesando el guiso completo.</li></ol></div>
+</details>
+<div class="conserva">🧊 Si sobra: Refrigerar 3 días. Congela bien.</div>
+</div>
+<div class="dia"><div class="dia-name">Viernes</div><div class="dia-plato">Tallarines rojos con pollo</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>110 g de fideos crudos<br>1 presa grande (~270 g)<br>Ensalada libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>150 g de fideos crudos<br>1 pechuga grande (~350 g)<br>Ensalada libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~834 kcal · P66 C97 G21</span><span class="m-h">Jose · ~1063 kcal · P103 C130 G13</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>8 presas de pollo</li><li>6 tomates maduros licuados</li><li>1 cebolla picada</li><li>4 dientes de ajo</li><li>3 cucharaditas de aceite</li><li>1 hoja de laurel</li><li>1 pizca de orégano</li><li>Fideos tallarín para todos (pesar aparte 110 g para Dhamar y 150 g para Jose, crudos)</li><li>Sal y pimienta</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Dorar las presas en el aceite. Retirar.</li><li>Dorar cebolla y ajo, agregar el tomate licuado, laurel y orégano. Cocinar 10 minutos.</li><li>Devolver las presas a la salsa y cocinar tapado 20 minutos.</li><li>Sancochar PRIMERO los fideos pesados de Dhamar y Jose (110 g y 150 g en crudo), sacarlos, y luego cocinar el resto del paquete para los demás en la misma agua.</li><li>Servir fideos + salsa + presa. Ensalada al costado.</li></ol></div>
+</details>
+<div class="conserva">🧊 Si sobra: La salsa congela 2 meses; los fideos siempre frescos del día.</div>
+</div>
+<div class="dia"><div class="dia-name">Sábado</div><div class="dia-plato">Pavita al horno</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>300 g de pavita cruda<br>250 g de papa cruda<br>Arroz de 75 g crudo<br>Ensalada libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>400 g de pavita cruda<br>350 g de papa cruda<br>Arroz de 105 g crudo<br>Ensalada libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~882 kcal · P78 C111 G12</span><span class="m-h">Jose · ~1189 kcal · P104 C151 G16</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>1.5 kg de pavita (filetes o presas)</li><li>3 dientes de ajo molidos</li><li>2 cucharadas de mostaza</li><li>1 chorrito de vinagre</li><li>2 cucharaditas de aceite</li><li>1 kg de papa en rodajas gruesas</li><li>Romero u orégano</li><li>Sal y pimienta</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Mezclar ajo, mostaza, vinagre, aceite, sal y pimienta. Untar la pavita.</li><li>Acomodar en fuente con las papas en rodajas debajo y alrededor.</li><li>Hornear a 190°C por 40-45 minutos.</li><li>Servir con ensalada grande.</li></ol></div>
+</details>
+<div class="nota">⚠️ Pesar pavita y papa de Dhamar y Jose en crudo antes de hornear.</div>
+<div class="conserva">🧊 Si sobra: La pavita horneada refrigera 3 días; ideal para ensaladas frías.</div>
+</div>
+<div class="dia"><div class="dia-name">Domingo</div><div class="dia-plato">Frejoles con bistec</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>330 g de frejoles guisados<br>190 g de carne cruda (bistec)<br>Arroz de 85 g crudo</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>450 g de frejoles guisados<br>260 g de carne cruda (bistec)<br>Arroz de 115 g crudo</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~921 kcal · P67 C124 G16</span><span class="m-h">Jose · ~1241 kcal · P91 C167 G22</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>500 g de frejoles remojados desde el sábado</li><li>1 cebolla picada</li><li>4 dientes de ajo</li><li>1 cucharada de ají panca</li><li>3 cucharaditas de aceite en total: 2 para los frejoles, 1 para los bistecs</li><li>1 kg de bistec de res</li><li>2 tazas de arroz para toda la olla</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Escurrir los frejoles y sancocharlos en agua nueva hasta que estén suaves (60-90 minutos, olla normal).</li><li>Aparte, dorar cebolla, ajo y ají panca en 2 cucharaditas de aceite. Agregar los frejoles con un poco de su caldo y cocinar 15 minutos hasta cremar.</li><li>Bistecs a la plancha con 1 cucharadita de aceite, por tandas.</li><li>Hacer el arroz. Servir: frejoles + arroz + bistec, pesando cada cosa.</li></ol></div>
+</details>
+<div class="nota">⚠️ Remojo desde la noche anterior.</div>
+<div class="conserva">🧊 Si sobra: Los frejoles congelan perfecto en porciones hasta 3 meses.</div>
+</div>
+<div class="compras"><h4>🛒 Compras de la semana (para 4 personas)</h4>
+<div class="cat"><b>Carnes (pedir pollo trozado)</b>Pollo: 3.5 kg · Carne de res: 2.5 kg · Cerdo magro: 1.2 kg · Pavita: 1.5 kg</div>
+<div class="cat"><b>Verduras</b>Olluco 1.5 kg · Tomate 2.5 kg · Cebolla 3 kg · Lechuga 2 · Pepino 4 · Zanahoria 500 g · Ají amarillo 300 g · Ajo 2 cabezas · Limón 15 · Hierbabuena 1 atado · Perejil 1 atado</div>
+<div class="cat"><b>Carbohidratos</b>Arroz 2.5 kg · Papa 3 kg · Camote 1.5 kg · Fideos tallarín 1 kg</div>
+<div class="cat"><b>Menestras</b>Frejoles 600 g</div>
+<div class="cat"><b>Otros</b>Huevos 12 · Vinagre · Palillo · Mostaza · Aceite vegetal</div>
+</div></div></details>
+<details class="sem"><summary class="sem-head"><span class="sem-title">Semana 3</span><span class="sem-arrow">▸</span></summary><div class="sem-body">
+<div class="dia"><div class="dia-name">Lunes</div><div class="dia-plato">Adobo de chancho</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>420 g del plato terminado<br>Arroz de 90 g crudo<br>150 g de papa o camote<br>Ensalada libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>580 g del plato terminado<br>Arroz de 125 g crudo<br>220 g de papa o camote<br>Ensalada libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~890 kcal · P61 C110 G21</span><span class="m-h">Jose · ~1212 kcal · P83 C151 G28</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>1.2 kg de cerdo magro en trozos grandes</li><li>4 cucharadas de ají panca</li><li>5 dientes de ajo molidos</li><li>1/2 taza de vinagre (o chicha de jora si hay)</li><li>1 cucharadita de comino</li><li>1 cucharadita de orégano</li><li>3 cebollas en gajos muy gruesos</li><li>2 cucharaditas de aceite</li><li>Sal y pimienta</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Desde la noche anterior: mezclar ají panca, ajo, vinagre, comino, orégano, sal y pimienta. Marinar el cerdo tapado en la refrigeradora.</li><li>Al día siguiente, calentar el aceite en la olla y dorar el cerdo con todo su jugo de marinado.</li><li>Agregar 1 taza de agua, tapar y cocinar a fuego bajo 45 minutos.</li><li>Añadir las cebollas en gajos y cocinar 10 minutos más (deben quedar enteras).</li><li>Servir con arroz pesado y ensalada.</li></ol></div>
+</details>
+<div class="nota">⚠️ Marinar desde la noche anterior.</div>
+<div class="conserva">🧊 Si sobra: El adobo del día siguiente es más sabroso. Refrigerar 3 días, congelar 2 meses.</div>
+</div>
+<div class="dia"><div class="dia-name">Martes</div><div class="dia-plato">Saltado de pavita con vainitas</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>260 g de pavita cruda<br>Arroz de 90 g crudo<br>150 g de papa<br>Vainitas libres</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>350 g de pavita cruda<br>Arroz de 125 g crudo<br>220 g de papa<br>Vainitas libres</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~836 kcal · P70 C110 G11</span><span class="m-h">Jose · ~1138 kcal · P93 C149 G16</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>1.2 kg de pavita en tiras</li><li>500 g de vainitas en mitades</li><li>2 cebollas en gajos</li><li>3 tomates en gajos</li><li>3 cucharadas de sillao</li><li>4 cucharaditas de aceite en total: 2 para la pavita, 2 para las verduras</li><li>1 chorrito de vinagre</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Sancochar las vainitas 5 minutos en agua con sal. Escurrir.</li><li>Saltear la pavita en sartén caliente con 2 cucharaditas de aceite, por tandas. Retirar.</li><li>Saltear cebolla, tomate y vainitas con las otras 2 cucharaditas, 2 minutos.</li><li>Devolver la pavita, agregar sillao y vinagre, mezclar 1 minuto.</li><li>Servir con arroz pesado. Vainitas y verduras: cantidad libre.</li></ol></div>
+</details>
+<div class="conserva">🧊 Si sobra: Salteados: comer al momento. Máximo 1 día refrigerado.</div>
+</div>
+<div class="dia"><div class="dia-name">Miércoles</div><div class="dia-plato">Aguadito de pollo</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>700 g (plato hondo bien servido) con 1 presa grande</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>950 g (plato hondo bien servido) con 1 pechuga grande</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~834 kcal · P62 C104 G20</span><span class="m-h">Jose · ~1044 kcal · P97 C135 G12</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>8 presas de pollo</li><li>2 atados de culantro licuado</li><li>1 cebolla picada</li><li>4 dientes de ajo</li><li>1 ají amarillo licuado</li><li>3 cucharaditas de aceite</li><li>1 taza de arroz (para TODA la olla)</li><li>1 taza de arveja</li><li>1 zanahoria en cuadritos</li><li>1 choclo desgranado</li><li>1 pimiento picado</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Dorar cebolla, ajo y ají en el aceite. Agregar el culantro licuado, cocinar 3 minutos.</li><li>Añadir las presas y 2.5 litros de agua. Cocinar 20 minutos.</li><li>Agregar el arroz, arveja, zanahoria, choclo y pimiento. Cocinar 20 minutos más, moviendo de vez en cuando. Debe quedar caldoso.</li><li>Servir en plato hondo: caldo espeso + presa. NO lleva arroz aparte.</li></ol></div>
+</details>
+<div class="nota">⚠️ El arroz ya está DENTRO del aguadito.</div>
+<div class="conserva">🧊 Si sobra: El aguadito espesa al guardarse: recalentar con agua o caldo. Refrigerar 2 días.</div>
+</div>
+<div class="dia"><div class="dia-name">Jueves</div><div class="dia-plato">Pollo al sillao con verduras</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>1 presa grande (~300 g)<br>Arroz de 100 g crudo<br>Verduras libres</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>1 pechuga grande (~380 g)<br>Arroz de 135 g crudo<br>Verduras libres</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~855 kcal · P66 C100 G20</span><span class="m-h">Jose · ~1051 kcal · P103 C129 G11</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>8 presas de pollo</li><li>1/2 taza de sillao</li><li>4 dientes de ajo molidos</li><li>1 trozo de kion rallado</li><li>1 cucharadita rasa de azúcar o miel (solo UNA para toda la olla)</li><li>2 cucharaditas de aceite</li><li>1 brócoli en ramitos</li><li>2 zanahorias en rodajas</li><li>1 pimiento en tiras</li><li>Cebolla china picada</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Dorar las presas en el aceite con el ajo y kion.</li><li>Agregar el sillao, la cucharadita de azúcar y 1 taza de agua. Tapar y cocinar a fuego bajo 25 minutos, volteando a la mitad.</li><li>Sancochar al vapor el brócoli, zanahoria y pimiento (sin aceite extra).</li><li>Servir presa bañada en su jugo + verduras + arroz pesado. Cebolla china encima.</li></ol></div>
+</details>
+<div class="conserva">🧊 Si sobra: Refrigerar 3 días. El jugo de sillao conserva muy bien el pollo.</div>
+</div>
+<div class="dia"><div class="dia-name">Viernes</div><div class="dia-plato">Tallarines verdes con bistec</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>110 g de fideos crudos<br>220 g de carne cruda<br>Ensalada de tomate</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>150 g de fideos crudos<br>300 g de carne cruda<br>Ensalada de tomate</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~878 kcal · P69 C92 G25</span><span class="m-h">Jose · ~1179 kcal · P93 C124 G33</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>2 atados de espinaca</li><li>1 atado de albahaca (solo hojas)</li><li>1/2 tarro de leche evaporada light</li><li>100 g de queso fresco light</li><li>2 dientes de ajo</li><li>4 cucharaditas de aceite en total: 2 para la salsa, 2 para los bistecs</li><li>Fideos tallarín para todos (pesar aparte 110 g para Dhamar y 150 g para Jose, crudos)</li><li>1 kg de bistec de res</li><li>Sal y pimienta</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Pasar la espinaca y albahaca por agua hirviendo 1 minuto. Escurrir.</li><li>Licuar con la leche, el queso, ajo y 2 cucharaditas de aceite. Salpimentar.</li><li>Calentar la salsa en olla a fuego bajo 5 minutos (sin hervir fuerte).</li><li>Sancochar PRIMERO los fideos pesados de Dhamar (110 g) y Jose (150 g), sacarlos, y luego el resto.</li><li>Bistecs a la plancha con las otras 2 cucharaditas. Servir fideos + salsa + bistec + ensalada de tomate.</li></ol></div>
+</details>
+<div class="conserva">🧊 Si sobra: La salsa verde refrigera 2 días (se oscurece un poco, es normal). No congelar.</div>
+</div>
+<div class="dia"><div class="dia-name">Sábado</div><div class="dia-plato">Milanesa de pollo al Air Fryer</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>270 g de pollo fileteado crudo<br>250 g de papa<br>Arroz de 65 g crudo<br>Ensalada libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>350 g de pechuga fileteada cruda<br>350 g de papa<br>Arroz de 95 g crudo<br>Ensalada libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~929 kcal · P65 C117 G22</span><span class="m-h">Jose · ~1210 kcal · P102 C162 G14</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>4 filetes de pechuga + 4 filetes de pierna deshuesada</li><li>2 huevos batidos</li><li>1.5 tazas de pan molido</li><li>1 cucharadita de orégano</li><li>2 cucharaditas de aceite (solo para pincelar)</li><li>1 kg de papa en bastones</li><li>Sal, pimienta, ajo en polvo</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Sazonar los filetes. Pasarlos por huevo batido y luego por pan molido con orégano.</li><li>Pincelar apenas con aceite y llevar al Air Fryer: 12-15 minutos a 190°C, volteando a la mitad. Por tandas.</li><li>Papas en bastones al Air Fryer (sin aceite o con unas gotas).</li><li>Servir con ensalada grande.</li></ol></div>
+</details>
+<div class="nota">⚠️ Nada se fríe en aceite: todo al Air Fryer.</div>
+<div class="conserva">🧊 Si sobra: Las milanesas empanizadas crudas congelan 2 meses: del congelador directo al Air Fryer.</div>
+</div>
+<div class="dia"><div class="dia-name">Domingo</div><div class="dia-plato">Arveja partida con carne</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>600 g del plato servido (arveja + arroz + carne)</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>850 g del plato servido (arveja + arroz + carne)</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~860 kcal · P61 C119 G14</span><span class="m-h">Jose · ~1166 kcal · P83 C162 G19</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>500 g de arveja partida remojada desde el sábado</li><li>700 g de carne de res en trozos</li><li>1 cebolla picada</li><li>4 dientes de ajo</li><li>2 zanahorias en cuadritos</li><li>3 cucharaditas de aceite</li><li>2 tazas de arroz para toda la olla</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Escurrir la arveja remojada.</li><li>Dorar cebolla y ajo en el aceite. Agregar la carne y dorar 5 minutos.</li><li>Añadir la arveja, zanahoria y agua que cubra 2 dedos. Cocinar a fuego bajo 40-50 minutos hasta que espese.</li><li>Hacer el arroz aparte. Servir todo junto en el plato y pesar completo.</li></ol></div>
+</details>
+<div class="nota">⚠️ Remojo desde la noche anterior.</div>
+<div class="conserva">🧊 Si sobra: Congela perfecto en porciones hasta 3 meses.</div>
+</div>
+<div class="compras"><h4>🛒 Compras de la semana (para 4 personas)</h4>
+<div class="cat"><b>Carnes (pedir pollo trozado)</b>Pollo: 4 kg · Carne de res: 2 kg · Cerdo magro: 1.2 kg · Pavita: 1.2 kg</div>
+<div class="cat"><b>Verduras</b>Vainitas 700 g · Espinaca 2 atados · Albahaca 1 atado · Brócoli 1 kg · Pimiento 3 · Tomate 2 kg · Cebolla 2.5 kg · Zanahoria 1 kg · Choclo 2 · Culantro 3 atados · Kion 1 trozo · Cebolla china 1 atado · Lechuga 2 · Limón 12 · Arveja fresca 400 g</div>
+<div class="cat"><b>Carbohidratos</b>Arroz 2.5 kg · Papa 2.5 kg · Fideos tallarín 1 kg · Pan molido 300 g</div>
+<div class="cat"><b>Menestras</b>Arveja partida 600 g</div>
+<div class="cat"><b>Otros</b>Sillao · Queso fresco light 150 g · Leche evaporada light 1 tarro · Huevos 8 · Aceite vegetal</div>
+</div></div></details>
+<details class="sem"><summary class="sem-head"><span class="sem-title">Semana 4</span><span class="sem-arrow">▸</span></summary><div class="sem-body">
+<div class="dia"><div class="dia-name">Lunes</div><div class="dia-plato">Carapulcra con chancho</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>480 g del plato terminado<br>Arroz de 75 g crudo</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>650 g del plato terminado<br>Arroz de 105 g crudo</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~967 kcal · P58 C128 G24</span><span class="m-h">Jose · ~1309 kcal · P78 C175 G32</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>500 g de papa seca remojada desde el domingo</li><li>1 kg de cerdo magro en trozos</li><li>3 cucharadas de ají panca</li><li>1 cebolla picada</li><li>5 dientes de ajo</li><li>3 cucharadas de maní tostado molido</li><li>3 cucharaditas de aceite</li><li>1 clavo de olor y 1 pizca de canela (opcional)</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Remojar la papa seca desde la noche anterior. Escurrir y enjuagar.</li><li>Dorar cebolla, ajo y ají panca en el aceite. Agregar el cerdo y dorar.</li><li>Añadir la papa seca y agua que la cubra 2 dedos. Cocinar a fuego bajo 40 minutos, moviendo para que no se pegue.</li><li>Agregar el maní molido y cocinar 10 minutos más hasta que espese.</li><li>Servir con arroz pesado.</li></ol></div>
+</details>
+<div class="nota">⚠️ Remojar la papa seca desde la noche anterior.</div>
+<div class="conserva">🧊 Si sobra: La carapulcra congela muy bien 2 meses y mejora recalentada.</div>
+</div>
+<div class="dia"><div class="dia-name">Martes</div><div class="dia-plato">Asado de res con puré</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>250 g de carne cruda (en tajadas con su jugo)<br>Puré de 250 g de papa<br>Arroz de 65 g crudo<br>Ensalada libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>340 g de carne cruda (en tajadas con su jugo)<br>Puré de 350 g de papa<br>Arroz de 95 g crudo<br>Ensalada libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~870 kcal · P66 C107 G18</span><span class="m-h">Jose · ~1198 kcal · P89 C149 G25</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>1 kg de asado de res (una sola pieza)</li><li>3 dientes de ajo</li><li>2 zanahorias</li><li>1 cebolla en cuartos</li><li>1 hoja de laurel</li><li>2 cucharaditas de aceite</li><li>1.2 kg de papa para el puré</li><li>1/2 tarro de leche evaporada light</li><li>1 cucharadita de mantequilla (solo UNA para todo el puré)</li><li>Sal y pimienta</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Dorar la pieza de carne por todos lados en el aceite.</li><li>Agregar cebolla, zanahoria, laurel y agua hasta la mitad. Tapar y cocinar a fuego bajo 1.5-2 horas hasta que esté suave. Voltear a la mitad.</li><li>Sancochar las papas peladas. TRUCO: sancochar aparte las papas ya pesadas de Dhamar (250 g) y Jose (350 g) y aplastar primero las suyas.</li><li>Aplastar la papa con la leche light y la cucharadita de mantequilla.</li><li>Cortar la carne en tajadas y servir con su jugo, puré y ensalada.</li></ol></div>
+</details>
+<div class="conserva">🧊 Si sobra: El asado en tajadas con su jugo congela 2 meses. El puré, mejor fresco.</div>
+</div>
+<div class="dia"><div class="dia-name">Miércoles</div><div class="dia-plato">Sudado de pollo</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>1 presa grande (~290 g)<br>180 g de yuca o 220 g de papa<br>Arroz de 75 g crudo</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>1 pechuga grande (~370 g)<br>250 g de yuca o 300 g de papa<br>Arroz de 105 g crudo</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~966 kcal · P62 C134 G20</span><span class="m-h">Jose · ~1257 kcal · P98 C185 G11</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>8 presas de pollo</li><li>4 tomates en gajos</li><li>3 cebollas en gajos gruesos</li><li>2 ajíes amarillos en tiras</li><li>4 dientes de ajo</li><li>3 cucharaditas de aceite</li><li>Jugo de 3 limones</li><li>1 kg de yuca o papa</li><li>Culantro picado</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Sancochar la yuca o papa aparte.</li><li>En la olla, dorar el ajo en el aceite y hacer una cama de cebolla, tomate y ají.</li><li>Poner las presas encima, el jugo de limón, sal y 1/2 taza de agua. Tapar y cocinar a fuego bajo 25 minutos SIN destapar mucho.</li><li>Culantro al final. Servir presa + su jugo + yuca + arroz pesado.</li></ol></div>
+</details>
+<div class="nota">⚠️ Si ese día prefieren, se hace igual pero con pescado (misma receta, 15 minutos de cocción).</div>
+<div class="conserva">🧊 Si sobra: Comer del día: los sudados no guardan bien más de 1 día.</div>
+</div>
+<div class="dia"><div class="dia-name">Jueves</div><div class="dia-plato">Locro de zapallo con pollo a la plancha</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>450 g de locro<br>250 g de pollo a la plancha (crudo)<br>Arroz de 90 g crudo</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>620 g de locro<br>330 g de pollo a la plancha (crudo)<br>Arroz de 125 g crudo</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~924 kcal · P75 C124 G14</span><span class="m-h">Jose · ~1259 kcal · P100 C172 G18</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>1.5 kg de zapallo en trozos</li><li>2 papas en cuadritos</li><li>1 choclo desgranado</li><li>1 taza de arveja</li><li>1 cebolla picada</li><li>3 dientes de ajo</li><li>100 g de queso fresco light en cubitos</li><li>4 cucharaditas de aceite en total: 3 para el locro, 1 para la plancha</li><li>1 kg de filetes de pollo</li><li>Sal, pimienta y orégano</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Dorar cebolla y ajo en 3 cucharaditas de aceite. Agregar el zapallo, papa, choclo, arveja y 1 taza de agua.</li><li>Cocinar tapado 25 minutos hasta que el zapallo se deshaga. Aplastar un poco.</li><li>Agregar el queso en cubitos y apagar.</li><li>Filetes de pollo a la plancha con 1 cucharadita (pesar en crudo los de Dhamar (250 g) y Jose (330 g)).</li><li>Servir locro + filete + arroz pesado.</li></ol></div>
+</details>
+<div class="conserva">🧊 Si sobra: El locro refrigera 3 días. Recalentar a fuego bajo para que no se corte el queso.</div>
+</div>
+<div class="dia"><div class="dia-name">Viernes</div><div class="dia-plato">Chaufa de pollo light</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>580 g del plato terminado</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>790 g del plato terminado</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~795 kcal · P70 C90 G15</span><span class="m-h">Jose · ~1050 kcal · P91 C121 G19</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>Arroz cocido de la víspera (hacer 2.5 tazas de arroz crudo el jueves y guardar en refrigeradora)</li><li>1.1 kg de pollo en cubos</li><li>4 huevos</li><li>1 atado de cebolla china picada</li><li>4 cucharadas de sillao</li><li>4 cucharaditas de aceite en total: 1 para la tortilla, 2 para el pollo, 1 para el arroz</li><li>1 pimiento en cuadritos</li><li>Kion rallado</li><li>Sal y pimienta</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Hacer una tortilla con los huevos usando 1 cucharadita de aceite. Picarla y reservar.</li><li>Saltear el pollo en cubos con 2 cucharaditas de aceite hasta dorar. Reservar.</li><li>Con la última cucharadita, saltear pimiento y kion, agregar el arroz frío y el sillao. Mezclar bien a fuego alto.</li><li>Devolver pollo y tortilla, agregar la cebolla china. Mezclar 2 minutos.</li><li>Servir pesando el plato terminado. MUCHO pollo, poco aceite: esa es la versión light.</li></ol></div>
+</details>
+<div class="nota">⚠️ El arroz ya está dentro del chaufa. No servir arroz extra.</div>
+<div class="conserva">🧊 Si sobra: Comer del día. El chaufa recalentado pierde gracia y el huevo se reseca.</div>
+</div>
+<div class="dia"><div class="dia-name">Sábado</div><div class="dia-plato">Pollo broaster al Air Fryer</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>300 g de pollo crudo (pierna/encuentro)<br>300 g de camote<br>Ensalada libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>380 g de pollo crudo (pechuga)<br>400 g de camote<br>Ensalada libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~796 kcal · P66 C83 G23</span><span class="m-h">Jose · ~976 kcal · P102 C107 G14</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>8 presas de pollo</li><li>1 taza de pan molido o chuño</li><li>1 cucharadita de ajo en polvo</li><li>1 cucharadita de comino</li><li>1 cucharadita de orégano molido</li><li>Sal y pimienta</li><li>2 huevos batidos</li><li>2 cucharaditas de aceite (solo para pincelar)</li><li>1.5 kg de camote en bastones</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Mezclar el pan molido con todas las especias.</li><li>Pasar las presas por huevo y luego por el apanado, presionando bien.</li><li>Pincelar con aceite y al Air Fryer: 22-25 minutos a 185°C, volteando a la mitad. Por tandas.</li><li>Camote en bastones al Air Fryer.</li><li>Servir con ensalada grande.</li></ol></div>
+</details>
+<div class="nota">⚠️ Sabor a broaster, cero fritura.</div>
+<div class="conserva">🧊 Si sobra: Empanizar y congelar crudo funciona igual que la milanesa.</div>
+</div>
+<div class="dia"><div class="dia-name">Domingo</div><div class="dia-plato">Seco de res con frejoles</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>190 g de carne cruda en seco<br>270 g de frejoles guisados<br>Arroz de 85 g crudo</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>260 g de carne cruda en seco<br>370 g de frejoles guisados<br>Arroz de 115 g crudo</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~882 kcal · P64 C116 G17</span><span class="m-h">Jose · ~1185 kcal · P87 C156 G22</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>1 kg de carne de res en trozos</li><li>2 atados de culantro licuado</li><li>1 cebolla picada</li><li>4 dientes de ajo</li><li>1 ají amarillo licuado</li><li>400 g de frejoles remojados desde el sábado</li><li>4 cucharaditas de aceite en total: 3 para el seco, 1 para los frejoles</li><li>2 tazas de arroz para toda la olla</li><li>Sal, pimienta y comino</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Sancochar los frejoles remojados hasta que estén suaves. Guisarlos con ajito y 1 cucharadita de aceite.</li><li>Para el seco: dorar cebolla, ajo y ají en 3 cucharaditas. Agregar el culantro licuado, cocinar 3 minutos.</li><li>Añadir la carne y agua hasta la mitad. Cocinar a fuego bajo 1 hora hasta que esté suave.</li><li>Servir: seco + frejoles + arroz, pesando cada cosa.</li></ol></div>
+</details>
+<div class="nota">⚠️ Remojo desde la noche anterior.</div>
+<div class="conserva">🧊 Si sobra: Ambos congelan perfecto por separado hasta 2-3 meses.</div>
+</div>
+<div class="compras"><h4>🛒 Compras de la semana (para 4 personas)</h4>
+<div class="cat"><b>Carnes (pedir pollo trozado)</b>Pollo: 4 kg · Carne de res: 2.5 kg · Cerdo magro: 1 kg</div>
+<div class="cat"><b>Verduras</b>Zapallo 1.5 kg · Choclo 2 · Tomate 2 kg · Cebolla 3 kg · Cebolla china 2 atados · Zanahoria 500 g · Culantro 3 atados · Lechuga 2 · Pepino 4 · Limón 15 · Ají amarillo 300 g · Arveja fresca 400 g · Pimiento 2 · Kion 1 trozo</div>
+<div class="cat"><b>Carbohidratos</b>Arroz 3 kg · Papa 3 kg · Papa seca 500 g · Camote 2 kg · Yuca 1 kg · Pan molido 300 g</div>
+<div class="cat"><b>Menestras</b>Frejoles 500 g</div>
+<div class="cat"><b>Otros</b>Maní tostado 150 g · Queso fresco light 150 g · Huevos 12 · Leche evaporada light 1 tarro · Mantequilla (poquita) · Laurel, clavo, canela · Sillao · Aceite vegetal</div>
+</div></div></details>
+<details class="sem"><summary class="sem-head"><span class="sem-title">Días 29 y 30</span><span class="sem-arrow">▸</span></summary><div class="sem-body">
+<div class="dia"><div class="dia-name">Día 29</div><div class="dia-plato">Estofado de res</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>560 g del plato terminado<br>Arroz de 70 g crudo<br>Ensalada libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>770 g del plato terminado<br>Arroz de 100 g crudo<br>Ensalada libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~858 kcal · P63 C106 G19</span><span class="m-h">Jose · ~1178 kcal · P87 C147 G25</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>800 g de carne de res en trozos</li><li>3 tomates licuados</li><li>1 cebolla picada</li><li>3 dientes de ajo</li><li>3 cucharaditas de aceite</li><li>3 papas en mitades</li><li>2 zanahorias en rodajas gruesas</li><li>1 taza de arveja</li><li>1 hoja de laurel</li><li>Sal, pimienta, comino y ají panca</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Dorar cebolla, ajo y ají panca en el aceite. Agregar el tomate licuado, cocinar 5 minutos.</li><li>Añadir la carne y agua hasta la mitad. Tapar y cocinar a fuego bajo 50-60 minutos.</li><li>Agregar papa, zanahoria y arveja. Cocinar 20 minutos más.</li><li>Servir el guiso completo pesando el plato terminado. Ensalada al costado.</li></ol></div>
+</details>
+<div class="conserva">🧊 Si sobra: Refrigerar 3 días, congelar 2 meses.</div>
+</div>
+<div class="dia"><div class="dia-name">Día 30</div><div class="dia-plato">Pastel de papa light al horno</div>
+<div class="porciones">
+<div class="porc ella"><span class="tag">DHAMAR (yo)</span>1 porción grande (~450 g de pastel)<br>Ensalada grande libre</div>
+<div class="porc el"><span class="tag">JOSE (él)</span>1 porción extra grande (~600 g de pastel)<br>Ensalada grande libre</div>
+</div>
+<div class="macros"><span class="m-e">Dhamar · ~762 kcal · P57 C71 G27</span><span class="m-h">Jose · ~1013 kcal · P76 C93 G36</span></div>
+<details class="receta"><summary>Ver receta completa (para 4)</summary>
+<div class="ing"><b>Ingredientes</b><ul class="prep"><li>1.8 kg de papa sancochada en rodajas</li><li>900 g de carne molida</li><li>1 cebolla picada</li><li>3 dientes de ajo</li><li>2 tomates picados</li><li>3 cucharaditas de aceite</li><li>3 huevos batidos con 1/2 tarro de leche light</li><li>50 g de queso fresco light rallado</li><li>Sal, pimienta, comino y orégano</li></ul></div>
+<div class="pasos"><b>Preparación</b><ol class="prep"><li>Guisar la carne molida con cebolla, ajo, tomate y el aceite hasta que seque.</li><li>En una fuente: capa de papa, capa de carne, capa de papa.</li><li>Bañar con el batido de huevo y leche. Queso rallado encima.</li><li>Hornear a 180°C por 30-35 minutos hasta dorar.</li><li>Servir con ensalada grande.</li></ol></div>
+</details>
+<div class="nota">⚠️ Cierre del primer mes. ¡Se logró!</div>
+<div class="conserva">🧊 Si sobra: Refrigera 3 días en la misma fuente. Recalentar al horno para que no se aguache.</div>
+</div>
+<div class="compras"><h4>🛒 Compras de la semana (para 4 personas)</h4>
+<div class="cat"><b>Para estos 2 días (se compra con la semana 4 o aparte)</b>Carne de res 1 kg · Carne molida 900 g · Papa 2.5 kg · Huevos 6 · Leche evaporada light 1 tarro · Queso fresco light 50 g · Verduras de ensalada</div>
+</div></div></details>
+</section>
+<section style="padding-top:0;"><div class="sec-head"><span class="n">5</span><h2>Merienda obligatoria</h2></div>
+<div class="rule gold">🕓 <b>Media tarde, todos los días.</b> Dhamar: 1 fruta + 1 yogur natural sin azúcar (o 2 huevos sancochados). Jose: 1 fruta + 1 yogur natural + 1 puñado de maní sin sal (30 g). Con esto el día cierra en ~1600 kcal (Dhamar) y ~1900 kcal (Jose).</div>
+</section>
+<section style="padding-top:0;"><div class="sec-head"><span class="n">6</span><h2>Guías rápidas</h2></div>
+<div class="rule"><b>⚖️ Pesar bien:</b> Balanza digital + tecla TARA. Todo crudo: arroz y fideos secos, carnes sin cocinar, papas peladas. Presa con hueso: pesar un poco más (el hueso es ~1/4). Aceite en cucharaditas rasas.</div>
+<div class="rule"><b>🍳 Menos aceite:</b> Sartén antiadherente bien caliente, saltear por tandas, desglasar con caldo. El sabor está en el aderezo, no en el aceite. Air Fryer para todo lo 'frito'.</div>
+<div class="rule"><b>🍽️ Comer fuera:</b> Parrilla, brasa sin piel, ceviche, sudado o guisos. Medio arroz. Agua o limonada sin azúcar, jamás gaseosa. Si es evento: cuenta como la comida libre.</div>
+<div class="rule"><b>🍝 Comida libre:</b> UNA por semana, reemplaza el almuerzo (no se suma). Disfrutarla sin culpa y al día siguiente seguir normal, sin compensar.</div>
+<div class="rule"><b>📆 Meses siguientes:</b> Al terminar el mes, repetir desde la semana 1. Peso 1 vez/semana en ayunas, foto mensual, congelar porciones de guisos. Llevar el manual al endocrinólogo para validar porciones (hipotiroidismo controlado + Glucerna).</div>
+</section>
+<section class="closing">
+<p class="q">"No busco ser perfecta, busco ser constante."</p>
+<div style="margin-top:14px;font-size:22px;">🤍</div>
+</section></div>
+<script>
+const Store={
+  async get(k){try{if(window.storage){const r=await window.storage.get(k);return r?JSON.parse(r.value):null;}
+    const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}},
+  async set(k,v){try{if(window.storage){await window.storage.set(k,JSON.stringify(v));return;}
+    localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+};
+const K_DIAS="renacer-dias", K_COMPRAS="renacer-compras";
+let dhechos={}, citems={};
+
+/* ---- marcar el almuerzo del dia ---- */
+function pintaDias(){
+  document.querySelectorAll("details.sem").forEach((sem,si)=>{
+    const dias=sem.querySelectorAll(".dia");
+    let ok=0;
+    dias.forEach((d,di)=>{
+      const on=!!dhechos["s"+si+"d"+di];
+      d.classList.toggle("hecho",on);
+      const b=d.querySelector(".diachk");
+      if(b) b.classList.toggle("on",on);
+      if(on) ok++;
+    });
+    let chip=sem.querySelector(".sem-prog");
+    if(!chip){
+      chip=document.createElement("span"); chip.className="sem-prog";
+      const arrow=sem.querySelector(".sem-arrow");
+      arrow.parentNode.insertBefore(chip,arrow);
+    }
+    chip.textContent=ok+"/"+dias.length;
+    chip.classList.toggle("full", ok===dias.length && dias.length>0);
+  });
+}
+function initDias(){
+  document.querySelectorAll("details.sem").forEach((sem,si)=>{
+    sem.querySelectorAll(".dia").forEach((d,di)=>{
+      if(d.querySelector(".diachk")) return;
+      const name=d.querySelector(".dia-name"), plato=d.querySelector(".dia-plato");
+      const row=document.createElement("div"); row.className="dia-head-row";
+      const txt=document.createElement("div"); txt.className="txt";
+      d.insertBefore(row, name);
+      txt.appendChild(name); txt.appendChild(plato);
+      const b=document.createElement("button"); b.className="diachk"; b.textContent="✓";
+      b.setAttribute("aria-label","Marcar almuerzo hecho");
+      b.addEventListener("click",async()=>{
+        const k="s"+si+"d"+di;
+        if(dhechos[k]) delete dhechos[k]; else dhechos[k]=true;
+        await Store.set(K_DIAS,dhechos); pintaDias();
+      });
+      row.appendChild(txt); row.appendChild(b);
+    });
+  });
+  const primeraSem=document.querySelector("details.sem");
+  if(primeraSem && !document.querySelector(".reset-marcas")){
+    const r=document.createElement("button");
+    r.className="reset-marcas"; r.textContent="Reiniciar los 30 días (mes nuevo)";
+    r.addEventListener("click",async()=>{
+      if(!confirm("¿Borrar todas las marcas de almuerzos para empezar el mes de nuevo?")) return;
+      dhechos={}; await Store.set(K_DIAS,dhechos); pintaDias();
+    });
+    primeraSem.parentNode.insertBefore(r, primeraSem);
+  }
+  pintaDias();
+}
+
+/* ---- lista de compras marcable ---- */
+function initCompras(){
+  const bloques=[...document.querySelectorAll(".compras")];
+  bloques.forEach((c,ci)=>{
+    c.querySelectorAll(".cat").forEach((cat,gi)=>{
+      if(cat.querySelector(".items")) return;
+      const b=cat.querySelector("b");
+      const texto=(cat.textContent||"").replace(b.textContent,"").trim();
+      const items=texto.split("·").map(s=>s.trim()).filter(Boolean);
+      cat.innerHTML=""; cat.appendChild(b);
+      const cont=document.createElement("div"); cont.className="items";
+      items.forEach((it,ii)=>{
+        const btn=document.createElement("button");
+        btn.type="button"; btn.className="it"; btn.textContent=it;
+        const k="c"+ci+"g"+gi+"i"+ii;
+        btn.addEventListener("click",async()=>{
+          if(citems[k]) delete citems[k]; else citems[k]=true;
+          btn.classList.toggle("on",!!citems[k]);
+          await Store.set(K_COMPRAS,citems);
+        });
+        if(citems[k]) btn.classList.add("on");
+        cont.appendChild(btn);
+      });
+      cat.appendChild(cont);
+    });
+    if(!c.querySelector(".limpiar")){
+      const l=document.createElement("button");
+      l.className="limpiar"; l.textContent="Limpiar lo marcado de esta semana";
+      l.addEventListener("click",async()=>{
+        c.querySelectorAll(".it").forEach(btn=>btn.classList.remove("on"));
+        Object.keys(citems).forEach(k=>{ if(k.startsWith("c"+ci+"g")) delete citems[k]; });
+        await Store.set(K_COMPRAS,citems);
+      });
+      c.appendChild(l);
+    }
+  });
+}
+
+(async function(){
+  dhechos=(await Store.get(K_DIAS))||{};
+  citems=(await Store.get(K_COMPRAS))||{};
+  initDias();
+  initCompras();
+})();
+</script>
+
+</body></html>
