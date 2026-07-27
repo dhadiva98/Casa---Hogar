@@ -1,11 +1,11 @@
 {
   "name": "Stock",
   "short_name": "Stock",
-  "description": "Inventario y lista de compras del hogar",
+  "description": "Inventario y control de la despensa del hogar",
   "start_url": "Stock.html",
   "display": "standalone",
-  "background_color": "#F4F2ED",
-  "theme_color": "#36647E",
+  "background_color": "#FBFAF7",
+  "theme_color": "#46648C",
   "orientation": "portrait-primary",
   "icons": [
     {
