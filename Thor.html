@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proyecto Thor · Espalda en V</title>
+<link rel="apple-touch-icon" href="apple-touch-icon-gym.png">
+<link rel="icon" type="image/x-icon" href="favicon-gym.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16-gym.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32-gym.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192-gym.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512x512-gym.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Thor">
+<link rel="manifest" href="manifest-thor.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,800&family=Nunito:wght@400;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-warm:#F5F1ED;
+    --bg-alt:#E8DDD6;
+    --accent-gold:#B8860B;
+    --accent-gold-soft:#F4E4C1;
+    --accent-copper:#A0522D;
+    --accent-slate:#3D3D47;
+    --accent-slate-light:#6A6A7A;
+    --text-dark:#2B2B31;
+    --line:#D9C9BF;
+    --steel:#5A5A6A;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg-alt);
+    font-family:'Nunito',sans-serif;
+    color:var(--text-dark);
+    display:flex;
+    justify-content:center;
+  }
+  .page{
+    max-width:540px;
+    width:100%;
+    background:var(--bg-warm);
+    min-height:100vh;
+    box-shadow:0 0 40px rgba(0,0,0,0.14);
+    position:relative;
+    overflow:hidden;
+  }
+  .noise{
+    position:absolute; inset:0; pointer-events:none;
+    background-image:radial-gradient(var(--text-dark) 0.5px, transparent 0.5px);
+    background-size:18px 18px;
+    opacity:0.02;
+  }
+  section{ padding:32px 28px; position:relative; }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--accent-copper);
+    font-weight:700;
+  }
+  h1,h2,h3{ font-family:'Fraunces',serif; margin:0; color:var(--text-dark); }
+
+  /* HERO */
+  .hero{
+    background:linear-gradient(155deg, #E8D5C4 0%, #F0E8E0 60%, var(--bg-warm) 100%);
+    padding:40px 28px 36px;
+    text-align:center;
+    border-bottom:3px solid var(--accent-gold);
+  }
+  .hero .eyebrow{ display:block; margin-bottom:12px; }
+  .hero h1{
+    font-size:40px;
+    font-weight:800;
+    line-height:1.1;
+    letter-spacing:-0.02em;
+  }
+  .hero h1 .sub{
+    display:block;
+    font-size:18px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--accent-copper);
+    margin-top:4px;
+  }
+  .hero p.tagline{
+    font-size:15px;
+    color:var(--steel);
+    margin:12px auto 0;
+    max-width:400px;
+    line-height:1.6;
+  }
+
+  .hero-stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin-top:24px;
+  }
+  .stat-card{
+    background:#fff;
+    border:2px solid var(--line);
+    border-radius:14px;
+    padding:14px 16px;
+    text-align:center;
+  }
+  .stat-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--steel);
+    margin-bottom:6px;
+  }
+  .stat-value{
+    font-family:'Fraunces',serif;
+    font-size:24px;
+    font-weight:700;
+    color:var(--accent-gold);
+  }
+  .stat-sub{
+    font-size:11px;
+    color:var(--steel);
+    margin-top:3px;
+  }
+
+  .hero-chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    margin-top:20px;
+  }
+  .chip{
+    font-size:11.5px;
+    font-weight:700;
+    background:var(--accent-gold-soft);
+    color:#664D00;
+    padding:6px 12px;
+    border-radius:20px;
+    border:1px solid var(--accent-gold);
+  }
+
+  /* SECTION HEADERS */
+  .sec-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:18px;
+  }
+  .sec-head h2{
+    font-size:23px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .sec-head .step{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    color:#fff;
+    background:var(--accent-copper);
+    border-radius:50%;
+    width:28px;
+    height:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    font-weight:700;
+  }
+
+  /* WARM UP */
+  .warmup{
+    background:linear-gradient(135deg, #F9F3ED 0%, #FBF7F3 100%);
+    border-left:4px solid var(--accent-copper);
+  }
+  .warmup-title{
+    font-size:14px;
+    font-weight:700;
+    color:var(--accent-copper);
+    margin-bottom:12px;
+  }
+  .warmup-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+  .warmup-item{
+    background:#fff;
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:12.5px;
+    line-height:1.35;
+    border:1px solid var(--line);
+  }
+  .warmup-item .label{
+    font-weight:700;
+    color:var(--accent-copper);
+    font-size:11px;
+  }
+  .warmup-item .reps{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    color:var(--steel);
+    margin-top:3px;
+  }
+
+  /* DAYS ACCORDION */
+  .days{ background:var(--bg-warm); }
+  details.day{
+    border:1.5px solid var(--line);
+    border-radius:14px;
+    margin-bottom:12px;
+    overflow:hidden;
+    background:#fff;
+    transition:border-color .2s;
+  }
+  details.day[open]{
+    border-color:var(--accent-copper);
+    box-shadow:0 4px 12px rgba(160,82,45, 0.08);
+  }
+  summary.day-head{
+    list-style:none;
+    cursor:pointer;
+    padding:15px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  summary.day-head::-webkit-details-marker{ display:none; }
+  .day-name{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:18px;
+  }
+  .day-focus{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--steel);
+  }
+  .day-toggle{
+    font-size:14px;
+    color:var(--accent-copper);
+    transition:transform .25s;
+  }
+  details[open] .day-toggle{ transform:rotate(90deg); }
+  .day-body{
+    padding:0 18px 18px;
+  }
+
+  table.workout{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:2px;
+  }
+  table.workout th{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--steel);
+    text-align:left;
+    padding:8px 6px;
+    border-bottom:1px solid var(--line);
+    font-weight:600;
+  }
+  table.workout td{
+    font-size:13px;
+    padding:10px 6px;
+    border-bottom:1px solid #EFEFEF;
+  }
+  table.workout td.ex-name{
+    font-weight:600;
+    color:var(--text-dark);
+  }
+  table.workout td.sets{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:700;
+    color:var(--accent-copper);
+    white-space:nowrap;
+    text-align:center;
+  }
+  table.workout td.muscle{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    color:var(--accent-gold);
+    text-align:right;
+  }
+
+  .day-cardio{
+    margin-top:12px;
+    background:var(--accent-gold-soft);
+    border-radius:8px;
+    padding:10px 12px;
+    font-size:12.5px;
+    font-weight:700;
+    color:#664D00;
+  }
+
+  /* PROHIBIDO */
+  .avoid-list{
+    margin-top:12px;
+    background:#FEF4F0;
+    border-left:4px solid #C85A3C;
+    border-radius:8px;
+    padding:10px 12px;
+  }
+  .avoid-list .title{
+    font-weight:700;
+    color:#A0522D;
+    font-size:11.5px;
+    margin-bottom:6px;
+  }
+  .avoid-list ul{
+    margin:0;
+    padding-left:18px;
+    font-size:12.5px;
+    color:#7A4A38;
+    line-height:1.6;
+  }
+
+  /* V-TAPER MAP */
+  .map-section{
+    background:linear-gradient(180deg, var(--bg-warm), var(--accent-gold-soft) 100%);
+  }
+  .map-container{
+    display:flex;
+    justify-content:center;
+    margin-top:16px;
+  }
+  .body-figure{
+    position:relative;
+    width:160px;
+    height:280px;
+  }
+  .body-figure svg{
+    width:100%;
+    height:100%;
+  }
+  .marker-point{
+    position:absolute;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    color:#fff;
+  }
+  .marker-point.primary{
+    background:var(--accent-gold);
+    color:#5A3A1A;
+  }
+  .marker-point.secondary{
+    background:var(--accent-copper);
+  }
+
+  .legend-v{
+    margin-top:18px;
+    display:grid;
+    gap:8px;
+  }
+  .legend-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:12.5px;
+    background:#fff;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid var(--line);
+  }
+  .badge{
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9px;
+    font-weight:700;
+  }
+  .badge.primary{ background:var(--accent-gold); color:#5A3A1A; }
+  .badge.secondary{ background:var(--accent-copper); color:#fff; }
+  .muscle-name{
+    flex:1;
+    font-weight:700;
+    color:var(--text-dark);
+  }
+  .stars{
+    font-size:10px;
+    letter-spacing:1px;
+    color:var(--accent-gold);
+  }
+
+  /* POSTURA - SECRET WEAPON */
+  .postural{
+    background:linear-gradient(135deg, #F0E8E0 0%, #FBF7F3 100%);
+    border:2px dashed var(--accent-gold);
+  }
+  .postural ul{
+    list-style:none;
+    padding:0;
+    margin:10px 0 0;
+    display:grid;
+    gap:9px;
+  }
+  .postural li{
+    background:#fff;
+    border-radius:10px;
+    padding:11px 13px;
+    font-size:13px;
+    line-height:1.4;
+    border-left:3px solid var(--accent-gold);
+  }
+  .postural li b{ color:var(--accent-copper); }
+
+  /* NUTRICIÓN */
+  .nutrition{
+    background:var(--bg-warm);
+  }
+  .nutrition ul{
+    list-style:none;
+    padding:0;
+    margin:10px 0 0;
+    display:grid;
+    gap:9px;
+  }
+  .nutrition li{
+    background:#fff;
+    border-radius:10px;
+    padding:11px 13px;
+    font-size:13px;
+    line-height:1.45;
+    border:1px solid var(--line);
+  }
+  .nutrition li b{ color:var(--accent-copper); }
+
+  /* CARDIO RULE */
+  .cardio-rule{
+    background:var(--text-dark);
+    color:#fff;
+    border-radius:14px;
+    padding:18px 20px;
+    margin-top:16px;
+    border-left:4px solid var(--accent-gold);
+  }
+  .cardio-rule p{
+    margin:0 0 8px;
+    font-size:13px;
+    line-height:1.6;
+  }
+  .cardio-rule b{ color:var(--accent-gold); }
+  .cardio-rule p:last-child{ margin-bottom:0; }
+
+  /* CLOSING */
+  .closing{
+    background:linear-gradient(165deg, var(--accent-copper) 0%, #704030 100%);
+    color:#fff;
+    text-align:center;
+    padding:40px 28px 44px;
+  }
+  .closing .power{
+    font-family:'Fraunces',serif;
+    font-size:34px;
+    font-weight:800;
+    line-height:1.15;
+    margin-bottom:16px;
+  }
+  .closing .promise{
+    font-size:14px;
+    line-height:1.65;
+    opacity:.95;
+    max-width:360px;
+    margin:0 auto;
+  }
+  .closing .vin{ font-size:24px; margin-top:18px; }
+
+  @media (max-width:380px){
+    .hero h1{ font-size:32px; }
+    .hero-stats{ grid-template-columns:1fr; }
+  }
+
+  /* ===== capa interactiva THOR ===== */
+  .workout td.chk, .workout th.chk{width:34px;text-align:center;padding:6px 2px;}
+  .exchk{width:22px;height:22px;border:2px solid var(--accent-copper);border-radius:7px;background:none;
+    color:transparent;font-size:13px;line-height:1;cursor:pointer;padding:0;vertical-align:middle;}
+  .exchk.on{background:var(--accent-gold);border-color:var(--accent-gold);color:#fff;}
+  tr.hecho td{color:var(--accent-slate-light);}
+  tr.hecho td.ex-name{text-decoration:line-through;text-decoration-thickness:1.5px;}
+  .day-prog{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;
+    color:var(--accent-copper);background:#F6EDE4;border:1px solid var(--line);
+    border-radius:999px;padding:3px 9px;margin-left:auto;margin-right:8px;}
+  .day-prog.full{background:var(--accent-gold-soft);border-color:var(--accent-gold);color:#7A5A06;}
+  .dia-hoy .day-name::after{content:"HOY";font-family:'IBM Plex Mono',monospace;font-size:9px;
+    letter-spacing:.08em;color:#fff;background:var(--accent-copper);border-radius:999px;
+    padding:2px 7px;margin-left:8px;vertical-align:2px;}
+  /* ilustraciones */
+  td.ex-name{cursor:pointer;-webkit-tap-highlight-color:transparent;}
+  td.ex-name .lupa{display:inline-block;width:15px;height:15px;border:1.4px solid var(--line);
+    border-radius:50%;color:var(--accent-copper);font-size:9px;line-height:13px;text-align:center;
+    margin-left:6px;vertical-align:1px;font-family:'IBM Plex Mono',monospace;transition:transform .18s;}
+  td.ex-name.abierto .lupa{background:var(--accent-copper);border-color:var(--accent-copper);
+    color:#fff;transform:rotate(90deg);}
+  tr.ex-fig td{padding:0 4px 12px;border-bottom:1px solid var(--line);}
+  .ejfig{background:#EFE7DE;border:1.5px solid var(--line);border-radius:14px;padding:10px 10px 12px;}
+  .ejfig svg{display:block;width:100%;max-width:260px;margin:0 auto;}
+  .ejfig .pista{font-size:12px;line-height:1.45;color:var(--steel);text-align:center;
+    margin:8px 4px 0;padding-top:8px;border-top:1px dashed var(--line);}
+  .warmup-item{cursor:pointer;-webkit-tap-highlight-color:transparent;}
+  .warmup-item .ejfig{margin-top:8px;padding:6px;}
+  .warmup-item .ejfig .pista{font-size:11px;margin-top:6px;padding-top:6px;}
+  /* cronometro */
+  .fab{position:fixed;right:16px;bottom:16px;z-index:60;width:58px;height:58px;border-radius:50%;
+    background:var(--accent-slate);color:var(--accent-gold-soft);border:0;font-size:23px;cursor:pointer;
+    box-shadow:0 8px 22px rgba(43,43,49,.35);}
+  .timerbox{position:fixed;right:16px;bottom:84px;z-index:60;background:#fff;border:1.5px solid var(--line);
+    border-radius:18px;padding:16px;box-shadow:0 14px 34px rgba(43,43,49,.22);display:none;width:190px;text-align:center;}
+  .timerbox.abierto{display:block;}
+  .t-num{font-family:'IBM Plex Mono',monospace;font-size:38px;font-weight:600;color:var(--text-dark);line-height:1;}
+  .t-lbl{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);margin:4px 0 10px;}
+  .t-ops{display:flex;gap:6px;justify-content:center;margin-bottom:9px;}
+  .t-ops button{flex:1;border:1.5px solid var(--line);background:var(--bg-warm);border-radius:9px;
+    padding:7px 0;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--text-dark);cursor:pointer;}
+  .t-ops button.sel{background:var(--accent-copper);border-color:var(--accent-copper);color:#fff;}
+  .t-go{width:100%;border:0;border-radius:10px;padding:10px 0;font-family:'Nunito',sans-serif;
+    font-weight:800;font-size:14px;background:var(--accent-gold);color:#fff;cursor:pointer;}
+  .t-go.parar{background:var(--accent-copper);}
+  .timerbox.fin .t-num{color:var(--accent-copper);animation:parpadeo .6s ease 4;}
+  @keyframes parpadeo{50%{opacity:.15;}}
+  /* peso */
+  .peso-sec{padding:32px 28px;background:var(--bg-warm);}
+  .peso-sec .form{display:flex;gap:8px;margin:12px 0 4px;}
+  .peso-sec input{flex:1;border:1.5px solid var(--line);border-radius:11px;padding:11px 12px;
+    font-family:'Nunito',sans-serif;font-size:15px;background:#fff;color:var(--text-dark);min-width:0;}
+  .peso-sec .add{border:0;border-radius:11px;padding:0 18px;background:var(--accent-copper);color:#fff;
+    font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;cursor:pointer;}
+  .peso-sec .meta-linea{font-size:12.5px;color:var(--steel);margin-bottom:10px;line-height:1.5;}
+  .peso-chart{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:10px;margin-top:10px;}
+  .peso-vacio{font-size:12.5px;color:var(--steel);text-align:center;padding:14px 6px;}
+  .peso-fila{display:flex;align-items:center;gap:10px;padding:8px 4px;border-bottom:1px dashed var(--line);font-size:13.5px;}
+  .peso-fila:last-child{border-bottom:0;}
+  .peso-fila .f{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--steel);width:86px;}
+  .peso-fila .kg{font-weight:800;color:var(--text-dark);}
+  .peso-fila .dif{font-family:'IBM Plex Mono',monospace;font-size:11px;margin-left:auto;}
+  .dif.baja{color:#3E7A3E;} .dif.sube{color:var(--accent-copper);}
+  .peso-fila .del{border:0;background:none;color:var(--steel);font-size:15px;cursor:pointer;padding:2px 6px;}
+  .fase-nota{margin-top:12px;background:var(--accent-gold-soft);border-left:4px solid var(--accent-gold);
+    border-radius:10px;padding:11px 13px;font-size:12.5px;line-height:1.5;color:#6B4E08;}
+
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="noise"></div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="eyebrow">Plan de 6 meses</span>
+    <h1>Proyecto<br><span class="sub">THOR</span></h1>
+    <p class="tagline">De oso tierno a vikingo. Espalda en V, postura de rey, glúteos de propósito — con biomecánica, sin balanceo.</p>
+
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="stat-label">Meta de grasa</div>
+        <div class="stat-value">↓</div>
+        <div class="stat-sub">Con musculatura</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Espalda</div>
+        <div class="stat-value">V</div>
+        <div class="stat-sub">Dorsal + trapecio</div>
+      </div>
+    </div>
+
+    <div class="hero-chips">
+      <span class="chip">⚡ Máquinas solo</span>
+      <span class="chip">👑 Postura THOR</span>
+      <span class="chip">💪 Cuello visible</span>
+    </div>
+  </section>
+
+  <!-- CALENTAMIENTO -->
+  <section class="warmup">
+    <div class="sec-head"><span class="step">1</span><h2>Activación diaria — 10 a 12 min</h2></div>
+    <div class="warmup-title">Siempre antes de entrenar.</div>
+
+    <div class="warmup-grid">
+      <div class="warmup-item">
+        <div class="label">Caminadora</div>
+        <div class="reps">5 minutos</div>
+      </div>
+      <div class="warmup-item">
+        <div class="label">Chin Tucks</div>
+        <div class="reps">2×15</div>
+      </div>
+      <div class="warmup-item">
+        <div class="label">Face Pull</div>
+        <div class="reps">2×20 ligero</div>
+      </div>
+      <div class="warmup-item">
+        <div class="label">Wall Slides</div>
+        <div class="reps">2×15</div>
+      </div>
+      <div class="warmup-item">
+        <div class="label">Retracción escapular</div>
+        <div class="reps">2×15</div>
+      </div>
+      <div class="warmup-item">
+        <div class="label">Puente glúteos</div>
+        <div class="reps">2×15 sin peso</div>
+      </div>
+      <div class="warmup-item">
+        <div class="label">Bird Dog</div>
+        <div class="reps">2×10/lado</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEMANA -->
+  <section class="days">
+    <div class="sec-head"><span class="step">2</span><h2>La semana THOR</h2></div>
+
+    <details class="day" open>
+      <summary class="day-head">
+        <div>
+          <div class="day-name">Lunes</div>
+          <div class="day-focus">ESPALDA THOR</div>
+        </div>
+        <span class="day-toggle">▸</span>
+      </summary>
+      <div class="day-body">
+        <table class="workout">
+          <tr>
+            <th>Ejercicio</th>
+            <th style="text-align:center;">Series</th>
+            <th style="text-align:right;">Músculo</th>
+          </tr>
+          <tr>
+            <td class="ex-name">Jalón agarre ancho</td>
+            <td class="sets">4×10</td>
+            <td class="muscle">Dorsal</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Remo pecho apoyado</td>
+            <td class="sets">4×10</td>
+            <td class="muscle">Espalda</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Remo sentado</td>
+            <td class="sets">3×12</td>
+            <td class="muscle">Trapecio</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Pullover máquina</td>
+            <td class="sets">3×12</td>
+            <td class="muscle">Dorsal</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Face Pull</td>
+            <td class="sets">3×15</td>
+            <td class="muscle">Deltoides</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Curl bíceps</td>
+            <td class="sets">3×12</td>
+            <td class="muscle">Brazo</td>
+          </tr>
+        </table>
+        <div class="day-cardio">🚶 Cardio: 20 minutos en caminadora</div>
+      </div>
+    </details>
+
+    <details class="day">
+      <summary class="day-head">
+        <div>
+          <div class="day-name">Martes</div>
+          <div class="day-focus">PECHO + TRÍCEPS</div>
+        </div>
+        <span class="day-toggle">▸</span>
+      </summary>
+      <div class="day-body">
+        <table class="workout">
+          <tr>
+            <th>Ejercicio</th>
+            <th style="text-align:center;">Series×Reps</th>
+          </tr>
+          <tr>
+            <td class="ex-name">Press máquina</td>
+            <td class="sets">4×10</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Press inclinado</td>
+            <td class="sets">3×10</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Pec Deck</td>
+            <td class="sets">3×12</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Tríceps cuerda</td>
+            <td class="sets">3×12</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Fondos asistidos</td>
+            <td class="sets">3×10</td>
+          </tr>
+        </table>
+        <div class="day-cardio">🚶 Cardio: 20 minutos en caminadora</div>
+      </div>
+    </details>
+
+    <details class="day">
+      <summary class="day-head">
+        <div>
+          <div class="day-name">Miércoles</div>
+          <div class="day-focus">PIERNAS VIKINGO 🦵</div>
+        </div>
+        <span class="day-toggle">▸</span>
+      </summary>
+      <div class="day-body">
+        <table class="workout">
+          <tr>
+            <th>Ejercicio</th>
+            <th style="text-align:center;">Series×Reps</th>
+          </tr>
+          <tr>
+            <td class="ex-name">Prensa</td>
+            <td class="sets">4×12</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Hack Squat</td>
+            <td class="sets">4×10</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Curl femoral</td>
+            <td class="sets">4×12</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Extensión piernas</td>
+            <td class="sets">3×15</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Hip Thrust máquina</td>
+            <td class="sets">4×12</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Gemelos</td>
+            <td class="sets">4×15</td>
+          </tr>
+        </table>
+        <div class="day-cardio">🚶 Cardio: 20 minutos en caminadora</div>
+      </div>
+    </details>
+
+    <details class="day">
+      <summary class="day-head">
+        <div>
+          <div class="day-name">Jueves</div>
+          <div class="day-focus">RECUPERACIÓN ACTIVA</div>
+        </div>
+        <span class="day-toggle">▸</span>
+      </summary>
+      <div class="day-body">
+        <table class="workout">
+          <tr><td class="ex-name">Caminata suave</td><td class="sets">30 min</td></tr>
+        </table>
+        <div style="margin-top:12px; font-size:13px; line-height:1.6;">
+          <b>Luego (15–20 min):</b>
+          <ul style="margin:6px 0 0; padding-left:18px;">
+            <li>Wall Slides</li>
+            <li>Face Pull ligero</li>
+            <li>Bird Dog</li>
+            <li>Movilidad torácica</li>
+            <li>Movilidad de hombros</li>
+            <li>Respiración diafragmática</li>
+          </ul>
+        </div>
+      </div>
+    </details>
+
+    <details class="day">
+      <summary class="day-head">
+        <div>
+          <div class="day-name">Viernes</div>
+          <div class="day-focus">ESPALDA + HOMBROS</div>
+        </div>
+        <span class="day-toggle">▸</span>
+      </summary>
+      <div class="day-body">
+        <table class="workout">
+          <tr>
+            <th>Ejercicio</th>
+            <th style="text-align:center;">Series×Reps</th>
+          </tr>
+          <tr>
+            <td class="ex-name">Remo máquina unilateral</td>
+            <td class="sets">4×10</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Jalón cerrado</td>
+            <td class="sets">3×12</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Pullover</td>
+            <td class="sets">3×12</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Elevación lateral máquina</td>
+            <td class="sets">4×15</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Reverse Pec Deck</td>
+            <td class="sets">4×15</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Face Pull</td>
+            <td class="sets">3×20</td>
+          </tr>
+        </table>
+        <div class="day-cardio">🚶 Cardio: 20 minutos en caminadora</div>
+      </div>
+    </details>
+
+    <details class="day">
+      <summary class="day-head">
+        <div>
+          <div class="day-name">Sábado</div>
+          <div class="day-focus">GLÚTEO + BRAZOS</div>
+        </div>
+        <span class="day-toggle">▸</span>
+      </summary>
+      <div class="day-body">
+        <table class="workout">
+          <tr>
+            <th>Ejercicio</th>
+            <th style="text-align:center;">Series×Reps</th>
+          </tr>
+          <tr>
+            <td class="ex-name">Hip Thrust</td>
+            <td class="sets">4×10</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Prensa pies altos</td>
+            <td class="sets">4×12</td>
+          </tr>
+          <tr>
+            <td class="ex-name">Patada glúteo</td>
+            <td class="sets">3×15</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="font-weight:700; padding-top:12px; color:var(--accent-copper);"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;">BÍCEPS: 3 ejercicios distintos</span></td>
+          </tr>
+          <tr>
+            <td colspan="2" style="font-weight:700; color:var(--accent-copper);"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;">TRÍCEPS: 3 ejercicios distintos</span></td>
+          </tr>
+        </table>
+        <div class="day-cardio">🚶 Cardio: 30 minutos en caminadora</div>
+      </div>
+    </details>
+
+    <details class="day">
+      <summary class="day-head">
+        <div>
+          <div class="day-name">Domingo</div>
+          <div class="day-focus">DESCANSO</div>
+        </div>
+        <span class="day-toggle">▸</span>
+      </summary>
+      <div class="day-body">
+        <p style="font-size:13.5px; color:var(--steel); margin:8px 0 0; line-height:1.6;">El descanso también construye fuerza. Es donde los músculos crecen y la postura se consolida.</p>
+      </div>
+    </details>
+
+    <div class="avoid-list">
+      <div class="title">❌ Movimientos PROHIBIDOS</div>
+      <ul>
+        <li>Shrugs (trapecio superior ya dominante)</li>
+        <li>Encogimientos de hombros</li>
+        <li>Remo al mentón</li>
+        <li>Peso muerto pesado al inicio</li>
+        <li>Balancear el cuerpo para mover más peso</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- MAPA V-TAPER -->
+  <section class="map-section">
+    <div class="sec-head"><span class="step">3</span><h2>Anatomía de la V</h2></div>
+    <p style="font-size:12.5px; color:var(--steel); margin-top:-8px; margin-bottom:12px;">Qué músculos crean la silueta en V.</p>
+
+    <div class="map-container">
+      <div class="body-figure">
+        <svg viewBox="0 0 160 280" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.06));">
+          <!-- Cuello -->
+          <ellipse cx="80" cy="32" rx="14" ry="18" fill="#E3D3C8"/>
+          <!-- Hombros/deltoides -->
+          <ellipse cx="50" cy="50" rx="18" ry="16" fill="#D9C8BD"/>
+          <ellipse cx="110" cy="50" rx="18" ry="16" fill="#D9C8BD"/>
+          <!-- Pecho -->
+          <path d="M 52 58 Q 52 100 60 140 L 100 140 Q 108 100 108 58 Z" fill="#E3D3C8"/>
+          <!-- Espalda -->
+          <path d="M 35 52 Q 35 120 50 180 L 110 180 Q 125 120 125 52 Z" fill="#D4C2B8" opacity="0.7" stroke="#C9B5A8" stroke-width="1"/>
+          <!-- Dorsal ancho (V) -->
+          <path d="M 45 80 Q 30 140 35 190 L 125 190 Q 130 140 115 80 Z" fill="#B8860B" opacity="0.15"/>
+          <!-- Glúteos base -->
+          <ellipse cx="60" cy="200" rx="16" ry="20" fill="#D9C8BD"/>
+          <ellipse cx="100" cy="200" rx="16" ry="20" fill="#D9C8BD"/>
+          <!-- Muslos -->
+          <rect x="48" y="215" width="20" height="60" rx="10" fill="#E3D3C8"/>
+          <rect x="92" y="215" width="20" height="60" rx="10" fill="#E3D3C8"/>
+          <!-- Marcadores -->
+          <circle cx="80" cy="32" r="2" fill="none" stroke="#A0522D" stroke-width="1.5"/>
+          <circle cx="45" cy="75" r="2" fill="none" stroke="#A0522D" stroke-width="1.5"/>
+          <circle cx="115" cy="75" r="2" fill="none" stroke="#A0522D" stroke-width="1.5"/>
+          <circle cx="80" cy="110" r="2" fill="none" stroke="#B8860B" stroke-width="1.5"/>
+          <circle cx="60" cy="200" r="2" fill="none" stroke="#A0522D" stroke-width="1.5"/>
+          <circle cx="100" cy="200" r="2" fill="none" stroke="#A0522D" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="legend-v">
+      <div class="legend-row">
+        <span class="badge primary">1</span>
+        <span class="muscle-name">Dorsal ancho</span>
+        <span class="stars">★★★★★</span>
+      </div>
+      <div class="legend-row">
+        <span class="badge primary">2</span>
+        <span class="muscle-name">Trapecio medio/inferior</span>
+        <span class="stars">★★★★★</span>
+      </div>
+      <div class="legend-row">
+        <span class="badge primary">3</span>
+        <span class="muscle-name">Deltoides posterior</span>
+        <span class="stars">★★★★★</span>
+      </div>
+      <div class="legend-row">
+        <span class="badge secondary">4</span>
+        <span class="muscle-name">Cuello profundo (Chin Tucks)</span>
+        <span class="stars">★★★★</span>
+      </div>
+      <div class="legend-row">
+        <span class="badge primary">5</span>
+        <span class="muscle-name">Glúteos (base de la V)</span>
+        <span class="stars">★★★★</span>
+      </div>
+      <div class="legend-row">
+        <span class="badge primary">6</span>
+        <span class="muscle-name">Femorales + cuádriceps</span>
+        <span class="stars">★★★★</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARMA SECRETA -->
+  <section class="postural">
+    <div class="sec-head"><span class="step">4</span><h2>⚡ El arma secreta</h2></div>
+    <p style="font-size:12.5px; color:var(--steel); margin-top:-8px; margin-bottom:10px;">5 minutos cada vez que salgas del gym. Todos los días.</p>
+    <ul>
+      <li><b>Chin Tucks</b> — Postura de cuello + papada desaparece cuando baja grasa</li>
+      <li><b>Wall Slides</b> — Retracciona hombros, contraposición del pecho</li>
+      <li><b>Face Pull ligero</b> — Recuperación escapular</li>
+      <li><b>Respiración profunda</b> — Oxígeno + relajación postural</li>
+      <li><b>Estiramiento de pectorales</b> — 20–30 seg por lado, sin dolor</li>
+    </ul>
+  </section>
+
+  <!-- NUTRICIÓN -->
+  <section class="nutrition">
+    <div class="sec-head"><span class="step">5</span><h2>Combustible</h2></div>
+    <ul>
+      <li><b>Proteína:</b> 1.2–1.6 g/kg de peso objetivo — suficiente para ganar masa y bajar grasa</li>
+      <li><b>Déficit calórico moderado</b> — sin restricciones agresivas, permite entrenamiento intenso</li>
+      <li><b>Hidratación:</b> mucha agua durante el día</li>
+      <li><b>Cardio al final,</b> nunca antes — preserva más musculatura</li>
+    </ul>
+  </section>
+
+  <!-- REGLA CARDINAL -->
+  <section style="padding:32px 28px;">
+    <div class="cardio-rule">
+      <p><b>Regla cardinal del cardio:</b> nunca antes de entrenar. Siempre después. 20–30 minutos en caminadora (no correr).</p>
+      <p style="margin-top:10px;">Razón: cardio antes quema glucógeno muscular; cardio después quema grasa sin comprometer masa muscular.</p>
+    </div>
+  </section>
+
+
+  <!-- PROGRESO -->
+  <section class="peso-sec">
+    <div class="sec-head"><span class="step">6</span><h2>Progreso de Jose</h2></div>
+    <p class="meta-linea">De <b>133 kg</b> hacia <b>100 kg</b>. Pésate una vez por semana, mismo día, en ayunas.</p>
+    <div class="form">
+      <input id="pesoIn" type="number" step="0.1" min="60" max="250" placeholder="Peso de hoy (kg)" inputmode="decimal">
+      <button class="add" id="pesoAdd">Anotar</button>
+    </div>
+    <div class="peso-chart" id="pesoChart"></div>
+    <div id="pesoLista"></div>
+    <div class="fase-nota"><b>Al llegar a 100 kg cambia la fase.</b> Hasta entonces, solo máquinas: el sobrepeso carga demasiado las articulaciones. A partir de los 100 kg se empieza a introducir peso libre, incluido el peso muerto, con técnica supervisada.</div>
+  </section>
+
+  <button class="fab" id="fabTimer" aria-label="Cronómetro de descanso">⏱</button>
+  <div class="timerbox" id="timerBox">
+    <div class="t-num" id="tNum">1:30</div>
+    <div class="t-lbl">Descanso entre series</div>
+    <div class="t-ops">
+      <button data-s="60">1:00</button>
+      <button data-s="90" class="sel">1:30</button>
+      <button data-s="120">2:00</button>
+    </div>
+    <button class="t-go" id="tGo">Iniciar</button>
+  </div>
+
+  <!-- CIERRE -->
+  <section class="closing">
+    <div class="power">De oso tierno<br>a vikingo</div>
+    <p class="promise">Si eres constante 6 a 12 meses: cambios en postura, composición, fuerza. Notarás cuello, espalda definida, silueta en V. Pero sobre todo: te sentirás diferente — fuerte, erguido, cómodo en tu cuerpo.</p>
+    <div class="vin">⚡</div>
+  </section>
+
+</div>
+
+<script>
+/* ---------- guardado ---------- */
+const Store={
+  async get(k){try{if(window.storage){const r=await window.storage.get(k);return r?JSON.parse(r.value):null;}
+    const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}},
+  async set(k,v){try{if(window.storage){await window.storage.set(k,JSON.stringify(v));return;}
+    localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+};
+const HOY=new Date();
+const YMD=HOY.getFullYear()+"-"+String(HOY.getMonth()+1).padStart(2,"0")+"-"+String(HOY.getDate()).padStart(2,"0");
+const K_CHK="thor-checks", K_PESO="thor-peso";
+const META=100, INICIO=133;
+let checks={};
+
+/* ---------- marcar ejercicios (se reinician cada dia) ---------- */
+function pintarDia(det,di){
+  const filas=det.querySelectorAll("table.workout tr");
+  let tot=0, ok=0, ei=0;
+  filas.forEach((tr)=>{
+    if(tr.classList.contains("ex-fig")) return;
+    if(tr.querySelector("th")){ if(!tr.querySelector("th.chk")){const th=document.createElement("th");th.className="chk";tr.prepend(th);} return; }
+    const ri=(tr.dataset.ei!==undefined)? parseInt(tr.dataset.ei) : (tr.dataset.ei=ei, ei);
+    ei=ri+1;
+    tot++;
+    let td=tr.querySelector("td.chk");
+    if(!td){
+      td=document.createElement("td"); td.className="chk";
+      const b=document.createElement("button"); b.className="exchk"; b.textContent="✓";
+      b.addEventListener("click",async()=>{
+        const k="d"+di+"r"+ri;
+        if(checks[k]) delete checks[k]; else checks[k]=true;
+        await Store.set(K_CHK,{f:YMD,m:checks});
+        pintarDia(det,di);
+      });
+      td.appendChild(b); tr.prepend(td);
+    }
+    const on=!!checks["d"+di+"r"+ri];
+    td.firstChild.classList.toggle("on",on);
+    tr.classList.toggle("hecho",on);
+    if(on) ok++;
+  });
+  let chip=det.querySelector(".day-prog");
+  if(tot>0){
+    if(!chip){ chip=document.createElement("span"); chip.className="day-prog";
+      const t=det.querySelector(".day-toggle"); t.parentNode.insertBefore(chip,t); }
+    chip.textContent=ok+"/"+tot;
+    chip.classList.toggle("full", ok===tot);
+  }
+}
+async function initChecks(){
+  const g=await Store.get(K_CHK);
+  checks=(g && g.f===YMD)? g.m : {};
+  await Store.set(K_CHK,{f:YMD,m:checks});
+  const dias=document.querySelectorAll("details.day");
+  const dow=(HOY.getDay()+6)%7;
+  dias.forEach((det,di)=>{
+    if(di===dow){ det.classList.add("dia-hoy"); det.open=true; }
+    pintarDia(det,di);
+  });
+  initFiguras();
+}
+
+/* ---------- ilustraciones ---------- */
+const EJ_DIB={"hipthrust":[["ln",12,88,138,88,5,"#A99A90"],["rc",14,56,34,8,4,"#A99A90"],["ln",20,64,20,88,5,"#A99A90"],["ln",42,64,42,88,5,"#A99A90"],["rc",60,34,26,10,5,"#7E6D62"],["pl",[[38,54],[72,48],[96,66],[96,86]],9,"#A0522D"],["ci",28,50,9,"#A0522D"],["ar",114,66,114,46]],"curlfemsent":[["rc",26,56,44,8,4,"#A99A90"],["rc",20,26,8,32,4,"#A99A90"],["ln",46,64,46,88,5,"#A99A90"],["rc",86,68,18,9,4,"#7E6D62"],["pl",[[44,32],[46,56],[84,56],[94,74]],9,"#A0522D"],["ci",44,24,9,"#A0522D"],["ar",112,56,112,76]],"curlfemacos":[["rc",16,58,78,8,4,"#A99A90"],["ln",26,66,26,88,5,"#A99A90"],["ln",86,66,86,88,5,"#A99A90"],["rc",96,28,16,9,4,"#7E6D62"],["pl",[[32,54],[86,54],[102,36]],9,"#A0522D"],["ci",24,50,9,"#A0522D"],["ar",122,54,122,34]],"patadaglu":[["ln",12,88,138,88,5,"#A99A90"],["ln",34,24,34,88,6,"#A99A90"],["rc",28,26,16,7,3,"#7E6D62"],["rc",88,50,16,9,4,"#7E6D62"],["pl",[[52,34],[56,58],[52,86]],9,"#A0522D"],["pl",[[56,58],[84,62],[98,78]],9,"#A0522D"],["pl",[[52,40],[38,32]],7,"#A0522D"],["ci",52,26,9,"#A0522D"],["ar",110,50,126,62]],"abduccion":[["rc",56,58,38,8,4,"#A99A90"],["rc",62,26,26,32,5,"#A99A90"],["rc",38,64,11,18,4,"#7E6D62"],["rc",101,64,11,18,4,"#7E6D62"],["pl",[[75,32],[75,58]],12,"#A0522D"],["pl",[[75,58],[54,72],[50,86]],9,"#A0522D"],["pl",[[75,58],[96,72],[100,86]],9,"#A0522D"],["ci",75,22,9,"#A0522D"],["ar",34,46,20,46],["ar",116,46,130,46]],"lumbar":[["ln",12,88,138,88,5,"#A99A90"],["ln",52,82,82,54,11,"#A99A90"],["ln",50,84,50,88,6,"#A99A90"],["ci",44,86,7,"#7E6D62"],["pl",[[88,44],[68,62],[52,78]],9,"#A0522D"],["ci",96,36,9,"#A0522D"],["ar",114,58,110,38]],"remo":[["ln",18,16,18,88,6,"#A99A90"],["ci",18,22,5,"#7E6D62"],["rc",58,62,40,8,4,"#A99A90"],["rc",26,56,11,22,4,"#A99A90"],["ln",22,48,58,50,3,"#7E6D62"],["pl",[[76,38],[80,62],[44,66]],9,"#A0522D"],["pl",[[76,46],[58,50]],7,"#A0522D"],["ci",78,30,9,"#A0522D"],["ar",100,44,116,44]],"facepull":[["ln",12,88,138,88,5,"#A99A90"],["ln",128,14,128,88,6,"#A99A90"],["ci",128,20,5,"#7E6D62"],["ln",124,22,96,32,3,"#7E6D62"],["pl",[[60,36],[60,66],[50,88]],9,"#A0522D"],["pl",[[60,66],[72,88]],9,"#A0522D"],["pl",[[60,42],[80,34],[96,32]],7,"#A0522D"],["ci",60,28,9,"#A0522D"],["ar",110,30,92,30]],"reversepec":[["rc",54,60,38,8,4,"#A99A90"],["rc",30,28,9,30,4,"#7E6D62"],["pl",[[64,36],[68,60],[44,72]],9,"#A0522D"],["pl",[[64,42],[84,40]],7,"#A0522D"],["ci",64,28,9,"#A0522D"],["ar",94,38,112,34]],"jalon":[["ln",28,12,28,88,6,"#A99A90"],["ln",28,14,112,14,6,"#A99A90"],["ci",110,18,4,"#7E6D62"],["ln",110,22,86,30,3,"#7E6D62"],["ln",72,30,100,30,7,"#7E6D62"],["rc",64,62,36,8,4,"#A99A90"],["rc",56,52,12,7,3,"#A99A90"],["pl",[[84,50],[84,62],[58,66]],9,"#A0522D"],["pl",[[84,48],[86,32]],7,"#A0522D"],["ci",84,42,9,"#A0522D"],["ar",120,34,120,54]],"triceps":[["ln",12,88,138,88,5,"#A99A90"],["ln",120,12,120,88,6,"#A99A90"],["ci",120,18,5,"#7E6D62"],["ln",117,22,96,40,3,"#7E6D62"],["pl",[[62,36],[62,64],[52,88]],9,"#A0522D"],["pl",[[62,64],[72,88]],9,"#A0522D"],["pl",[[62,42],[84,44],[94,58]],7,"#A0522D"],["ci",62,28,9,"#A0522D"],["ar",108,44,108,62]],"curlbi":[["rc",48,64,36,8,4,"#A99A90"],["ln",50,54,88,46,10,"#A99A90"],["pl",[[52,44],[56,64],[78,74]],9,"#A0522D"],["pl",[[54,48],[76,50],[88,38]],7,"#A0522D"],["ci",50,36,9,"#A0522D"],["ar",106,56,106,38]],"prensa":[["ln",20,78,56,54,11,"#A99A90"],["ln",98,18,122,42,8,"#7E6D62"],["pl",[[32,62],[64,56],[92,42],[110,30]],9,"#A0522D"],["ci",24,56,9,"#A0522D"],["ar",104,60,122,44]],"hack":[["ln",26,86,54,86,8,"#7E6D62"],["ln",28,84,84,22,6,"#A99A90"],["ln",50,88,106,26,6,"#A99A90"],["rc",58,26,18,8,4,"#7E6D62"],["pl",[[66,40],[56,62],[40,70],[40,84]],9,"#A0522D"],["ci",68,32,9,"#A0522D"],["ar",98,58,112,42]],"extpiernas":[["rc",26,58,44,8,4,"#A99A90"],["rc",20,28,8,32,4,"#A99A90"],["ln",46,66,46,88,5,"#A99A90"],["rc",104,40,16,9,4,"#7E6D62"],["pl",[[44,34],[46,58],[84,58],[110,48]],9,"#A0522D"],["ci",44,26,9,"#A0522D"],["ar",96,76,116,66]],"gemelos":[["ln",74,84,116,84,5,"#A99A90"],["rc",24,54,40,8,4,"#A99A90"],["ln",30,62,30,88,5,"#A99A90"],["rc",70,40,22,10,5,"#7E6D62"],["pl",[[42,32],[44,54],[82,54],[84,78],[100,78]],9,"#A0522D"],["ci",42,24,9,"#A0522D"],["ar",118,74,118,56]],"caminata":[["rc",18,74,96,8,4,"#A99A90"],["ln",24,82,24,88,5,"#A99A90"],["ln",108,82,108,88,5,"#A99A90"],["ln",110,74,120,28,6,"#A99A90"],["ln",104,42,126,42,5,"#7E6D62"],["pl",[[56,38],[58,62],[44,74]],9,"#A0522D"],["pl",[[58,62],[74,70]],9,"#A0522D"],["pl",[[56,44],[72,52]],7,"#A0522D"],["ci",56,30,9,"#A0522D"]],"respiracion":[["rc",14,78,118,6,3,"#A99A90"],["pl",[[38,68],[78,68],[96,54],[108,72]],9,"#A0522D"],["ci",30,64,9,"#A0522D"],["ci",64,60,6,"#7E6D62"],["ar",56,48,56,32]],"birddog":[["ln",12,84,138,84,5,"#A99A90"],["pl",[[46,50],[86,50]],9,"#A0522D"],["pl",[[48,52],[48,80]],9,"#A0522D"],["pl",[[84,52],[88,80]],9,"#A0522D"],["pl",[[46,50],[26,34]],7,"#A0522D"],["pl",[[86,50],[112,38]],9,"#A0522D"],["ci",38,44,9,"#A0522D"]],"puente":[["rc",14,80,118,6,3,"#A99A90"],["pl",[[38,74],[72,54],[98,68],[98,80]],9,"#A0522D"],["ci",30,70,9,"#A0522D"],["ar",112,62,112,44]],"presspecho":[["rc",32,26,9,36,4,"#A99A90"],["rc",36,62,34,8,4,"#A99A90"],["ln",98,32,98,58,7,"#7E6D62"],["pl",[[56,34],[56,62],[40,80]],9,"#A0522D"],["pl",[[56,42],[80,44],[96,44]],7,"#A0522D"],["ci",56,26,9,"#A0522D"],["ar",110,44,126,44]],"pecdeck":[["rc",58,62,34,8,4,"#A99A90"],["rc",34,32,11,24,4,"#7E6D62"],["rc",105,32,11,24,4,"#7E6D62"],["pl",[[75,34],[75,62]],12,"#A0522D"],["pl",[[75,42],[52,42],[46,54]],7,"#A0522D"],["pl",[[75,42],[98,42],[104,54]],7,"#A0522D"],["ci",75,24,9,"#A0522D"],["ar",26,70,42,70],["ar",124,70,108,70]],"elevlat":[["rc",58,66,34,8,4,"#A99A90"],["rc",42,44,12,11,4,"#7E6D62"],["rc",96,44,12,11,4,"#7E6D62"],["pl",[[75,34],[75,66]],12,"#A0522D"],["pl",[[75,42],[56,50]],7,"#A0522D"],["pl",[[75,42],[94,50]],7,"#A0522D"],["ci",75,24,9,"#A0522D"],["ar",34,64,34,44],["ar",116,64,116,44]],"crunch":[["rc",46,66,38,8,4,"#A99A90"],["rc",40,36,8,30,4,"#A99A90"],["rc",68,32,11,20,4,"#7E6D62"],["pl",[[64,40],[60,66],[86,78]],9,"#A0522D"],["ci",64,30,9,"#A0522D"],["ar",96,36,106,54]],"pallof":[["ln",12,88,138,88,5,"#A99A90"],["ln",18,14,18,88,6,"#A99A90"],["ci",18,44,5,"#7E6D62"],["ln",22,46,54,48,3,"#7E6D62"],["pl",[[78,36],[78,64],[68,88]],9,"#A0522D"],["pl",[[78,64],[90,88]],9,"#A0522D"],["pl",[[78,44],[56,48]],7,"#A0522D"],["ci",78,28,9,"#A0522D"],["ar",102,48,118,48]],"plancha":[["ln",12,84,138,84,5,"#A99A90"],["pl",[[44,58],[92,68],[120,82]],9,"#A0522D"],["pl",[[44,60],[40,80],[56,80]],7,"#A0522D"],["ci",36,54,9,"#A0522D"]],"remopecho":[["ln",12,88,138,88,5,"#A99A90"],["ln",40,78,76,44,11,"#A99A90"],["rc",30,74,16,7,3,"#A99A90"],["ln",58,62,58,88,5,"#A99A90"],["ln",74,72,92,72,6,"#7E6D62"],["pl",[[78,46],[52,72],[44,84]],9,"#A0522D"],["pl",[[78,46],[94,58],[84,70]],7,"#A0522D"],["ci",88,38,9,"#A0522D"],["ar",110,68,116,50]],"pullover":[["rc",50,66,38,8,4,"#A99A90"],["rc",44,36,9,30,4,"#A99A90"],["ln",98,22,98,46,6,"#A99A90"],["rc",88,18,20,8,4,"#7E6D62"],["pl",[[66,40],[66,66],[90,78]],9,"#A0522D"],["pl",[[66,44],[84,30],[94,24]],7,"#A0522D"],["ci",66,32,9,"#A0522D"],["ar",118,28,118,48]],"pressinc":[["ln",12,88,138,88,5,"#A99A90"],["ln",38,80,68,46,11,"#A99A90"],["rc",26,76,16,7,3,"#A99A90"],["ln",84,22,100,36,6,"#7E6D62"],["pl",[[64,48],[42,74],[32,86]],9,"#A0522D"],["pl",[[62,50],[78,38],[92,30]],7,"#A0522D"],["ci",72,38,9,"#A0522D"],["ar",108,56,120,40]],"fondos":[["ln",34,46,34,88,6,"#A99A90"],["ln",112,46,112,88,6,"#A99A90"],["ln",28,46,52,46,6,"#7E6D62"],["ln",94,46,118,46,6,"#7E6D62"],["rc",62,74,22,9,4,"#7E6D62"],["pl",[[73,38],[73,74]],9,"#A0522D"],["pl",[[73,42],[56,46]],7,"#A0522D"],["pl",[[73,42],[90,46]],7,"#A0522D"],["ci",73,28,9,"#A0522D"],["ar",130,66,130,48]],"remouni":[["ln",24,18,24,88,6,"#A99A90"],["ci",24,44,5,"#7E6D62"],["rc",56,66,34,8,4,"#A99A90"],["rc",38,34,9,30,4,"#A99A90"],["ln",28,46,54,48,3,"#7E6D62"],["pl",[[70,42],[72,66],[52,76]],9,"#A0522D"],["pl",[[70,46],[54,48]],7,"#A0522D"],["ci",70,34,9,"#A0522D"],["ar",98,48,114,48]],"chintucks":[["ln",104,16,104,90,6,"#A99A90"],["pl",[[58,74],[100,74]],12,"#A0522D"],["pl",[[76,74],[76,56]],10,"#A0522D"],["ci",72,44,14,"#A0522D"],["ar",34,46,52,46]],"wallslides":[["ln",26,12,26,90,6,"#A99A90"],["ln",12,88,138,88,5,"#A99A90"],["pl",[[44,38],[44,66],[58,86]],9,"#A0522D"],["pl",[[44,44],[64,42],[66,24]],7,"#A0522D"],["ci",44,28,9,"#A0522D"],["ar",90,46,90,26]],"retraccion":[["pl",[[75,34],[75,68]],14,"#A0522D"],["pl",[[56,40],[94,40]],9,"#A0522D"],["pl",[[56,40],[50,64]],7,"#A0522D"],["pl",[[94,40],[100,64]],7,"#A0522D"],["ci",75,24,9,"#A0522D"],["ar",38,52,56,52],["ar",112,52,94,52]]};
+const EJ_PISTA={"hipthrust":"Espalda alta apoyada, barbilla al pecho. Sube empujando con los talones.","curlfemsent":"Rodillas alineadas al eje. Baja los talones sin despegar la cadera.","curlfemacos":"Cadera pegada al banco. Lleva los talones al glúteo sin arquear.","patadaglu":"Tronco firme, sin arquear la espalda. Empuja desde el glúteo.","abduccion":"Espalda apoyada. Abre las rodillas y vuelve despacio.","lumbar":"Sube solo hasta la línea del cuerpo. No pases de recto.","remo":"Pecho alto, codos pegados al costado. Lleva el mango al ombligo.","facepull":"Codos altos. Lleva la cuerda a la altura de la cara, no del pecho.","reversepec":"Pecho contra la almohadilla. Abre con los codos, no con las manos.","jalon":"Baja la barra al pecho. Hombros lejos de las orejas.","triceps":"Codos pegados al cuerpo. Solo se mueve el antebrazo.","curlbi":"Brazos apoyados en el pad. Baja controlando, sin soltar de golpe.","prensa":"Pies a la anchura de la cadera. No estires la rodilla del todo.","hack":"Espalda pegada al respaldo. Baja hasta donde no se despegue la cadera.","extpiernas":"Sube hasta casi recto y baja lento. Sin impulso.","gemelos":"Rodillas bajo la almohadilla. Sube el talón lo más alto posible.","caminata":"Ritmo conversacional: puedes hablar sin quedarte sin aire.","respiracion":"Manos en la barriga. Al inhalar se infla la barriga, no el pecho.","birddog":"Brazo y pierna opuestos. La cadera no se ladea.","puente":"Talones cerca del glúteo. Sube empujando con los talones.","presspecho":"Manos a la altura del pecho. Empuja sin bloquear el codo.","pecdeck":"Codos ligeramente flexionados. Junta despacio y abre controlando.","elevlat":"Sube hasta la altura del hombro, no más. Hombros abajo.","crunch":"Enrolla las costillas hacia la cadera. No tires del cuello.","pallof":"De perfil al cable. Saca los brazos sin dejar que el tronco gire.","plancha":"Codos bajo los hombros. Glúteo apretado, cadera sin caer.","remopecho":"Pecho pegado al respaldo. Lleva los codos atrás, sin despegar el torso.","pullover":"Solo se mueve el hombro. Siente el dorsal, no los brazos.","pressinc":"Codos a 45°, no abiertos del todo. Baja hasta el pecho alto.","fondos":"Pecho arriba, codos atrás. Baja solo hasta donde no duela el hombro.","remouni":"Un brazo a la vez. Tronco quieto, no gires la cadera.","chintucks":"Lleva el mentón atrás como haciendo papada. La cabeza no se inclina.","wallslides":"Muñecas y codos pegados a la pared. Sube sin arquear la espalda.","retraccion":"Junta los omóplatos como si sostuvieras un lápiz entre ellos."};
+const EJ_ALIAS=[["remo pecho","remopecho"],["unilateral","remouni"],["reverse pec","reversepec"],["pec deck","pecdeck"],["press inclinado","pressinc"],["press maquina","presspecho"],["pullover","pullover"],["hip thrust","hipthrust"],["curl femoral acostado","curlfemacos"],["curl femoral sentado","curlfemsent"],["curl femoral","curlfemsent"],["curl biceps","curlbi"],["patada","patadaglu"],["abduccion","abduccion"],["lumbar","lumbar"],["face pull","facepull"],["jalon","jalon"],["triceps","triceps"],["fondos","fondos"],["prensa","prensa"],["hack","hack"],["extension de piernas","extpiernas"],["extension piernas","extpiernas"],["gemelos","gemelos"],["caminadora","caminata"],["caminata","caminata"],["respiracion","respiracion"],["bird dog","birddog"],["kegel","birddog"],["puente","puente"],["elevacion lateral","elevlat"],["crunch","crunch"],["pallof","pallof"],["plancha","plancha"],["chin tuck","chintucks"],["wall slide","wallslides"],["retraccion","retraccion"],["remo","remo"]];
+
+function ejNorm(s){
+  return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z ]/g," ");
+}
+function ejClave(nombre){
+  const n=ejNorm(nombre);
+  const m=EJ_ALIAS.find(a=>n.indexOf(a[0])>=0);
+  return m? m[1] : null;
+}
+function ejSVG(clave, titulo){
+  const ops=EJ_DIB[clave]; if(!ops) return "";
+  let s="";
+  ops.forEach(o=>{
+    const t=o[0];
+    if(t==="rc"){
+      s+='<rect x="'+o[1]+'" y="'+o[2]+'" width="'+o[3]+'" height="'+o[4]+'" rx="'+o[5]+'" fill="'+o[6]+'"/>';
+    }else if(t==="ci"){
+      s+='<circle cx="'+o[1]+'" cy="'+o[2]+'" r="'+o[3]+'" fill="'+o[4]+'"/>';
+    }else if(t==="ln"){
+      s+='<line x1="'+o[1]+'" y1="'+o[2]+'" x2="'+o[3]+'" y2="'+o[4]+'" stroke="'+o[6]+'" stroke-width="'+o[5]+'" stroke-linecap="round"/>';
+    }else if(t==="pl"){
+      s+='<polyline points="'+o[1].map(p=>p[0]+","+p[1]).join(" ")+'" fill="none" stroke="'+o[3]+'" stroke-width="'+o[2]+'" stroke-linecap="round" stroke-linejoin="round"/>';
+    }else if(t==="ar"){
+      const x1=o[1],y1=o[2],x2=o[3],y2=o[4],C="#B8860B";
+      const ang=Math.atan2(y2-y1,x2-x1), bx=x2-6*Math.cos(ang), by=y2-6*Math.sin(ang), a2=ang+Math.PI/2;
+      s+='<line x1="'+x1+'" y1="'+y1+'" x2="'+bx.toFixed(1)+'" y2="'+by.toFixed(1)+'" stroke="'+C+'" stroke-width="4" stroke-linecap="round"/>';
+      s+='<polygon points="'+x2+','+y2+' '
+        +(bx+2.8*Math.cos(a2)).toFixed(1)+','+(by+2.8*Math.sin(a2)).toFixed(1)+' '
+        +(bx-2.8*Math.cos(a2)).toFixed(1)+','+(by-2.8*Math.sin(a2)).toFixed(1)+'" fill="'+C+'"/>';
+    }
+  });
+  return '<svg viewBox="0 0 150 100" role="img" aria-label="Ilustración de '+titulo+'">'
+    +'<title>'+titulo+'</title>'+s+'</svg>';
+}
+function cajaFig(clave,nombre){
+  return '<div class="ejfig">'+ejSVG(clave,nombre)
+    +'<div class="pista">'+(EJ_PISTA[clave]||"")+'</div></div>';
+}
+function initFiguras(){
+  /* tablas de entrenamiento */
+  document.querySelectorAll("table.workout tr").forEach(tr=>{
+    if(tr.classList.contains("ex-fig")) return;
+    if(tr.querySelector("th")) return;
+    const td=tr.querySelector("td.ex-name");
+    if(!td || td.dataset.listo) return;
+    const nombre=td.textContent.trim();
+    const clave=ejClave(nombre);
+    if(!clave) return;
+    td.dataset.listo="1";
+    td.setAttribute("role","button");
+    td.setAttribute("aria-expanded","false");
+    td.innerHTML=nombre+'<span class="lupa" aria-hidden="true">▸</span>';
+    td.addEventListener("click",()=>{
+      const sig=tr.nextElementSibling;
+      if(sig && sig.classList.contains("ex-fig")){
+        sig.remove(); td.classList.remove("abierto");
+        td.setAttribute("aria-expanded","false"); return;
+      }
+      const fila=document.createElement("tr");
+      fila.className="ex-fig";
+      const cel=document.createElement("td");
+      cel.colSpan=tr.querySelectorAll("td").length;
+      cel.innerHTML=cajaFig(clave,nombre);
+      fila.appendChild(cel);
+      tr.parentNode.insertBefore(fila, tr.nextSibling);
+      td.classList.add("abierto");
+      td.setAttribute("aria-expanded","true");
+    });
+  });
+  /* calentamiento */
+  document.querySelectorAll(".warmup-item").forEach(item=>{
+    if(item.dataset.listo) return;
+    const lab=item.querySelector(".label");
+    if(!lab) return;
+    const nombre=lab.textContent.trim();
+    const clave=ejClave(nombre);
+    if(!clave) return;
+    item.dataset.listo="1";
+    item.setAttribute("role","button");
+    item.setAttribute("aria-expanded","false");
+    lab.innerHTML=nombre+'<span class="lupa" aria-hidden="true">▸</span>';
+    item.addEventListener("click",()=>{
+      const ya=item.querySelector(".ejfig");
+      if(ya){ ya.remove(); lab.classList.remove("abierto");
+        item.setAttribute("aria-expanded","false"); return; }
+      const d=document.createElement("div");
+      d.innerHTML=cajaFig(clave,nombre);
+      item.appendChild(d.firstChild);
+      lab.classList.add("abierto");
+      item.setAttribute("aria-expanded","true");
+    });
+  });
+}
+
+/* ---------- cronometro ---------- */
+let tSel=90, tRestan=90, tInt=null;
+const tNum=document.getElementById("tNum"), tGo=document.getElementById("tGo"),
+      tBox=document.getElementById("timerBox");
+function fmt(s){return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
+function pinta(){ tNum.textContent=fmt(tRestan); }
+function beep(){
+  try{
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    [0,0.35,0.7].forEach(t=>{
+      const o=ctx.createOscillator(), g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value=880; g.gain.setValueAtTime(0.28, ctx.currentTime+t);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+t+0.28);
+      o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+0.3);
+    });
+  }catch(e){}
+  if(navigator.vibrate) navigator.vibrate([220,90,220]);
+}
+function parar(){ clearInterval(tInt); tInt=null; tGo.textContent="Iniciar"; tGo.classList.remove("parar"); }
+document.getElementById("fabTimer").addEventListener("click",()=>{ tBox.classList.toggle("abierto"); tBox.classList.remove("fin"); });
+document.querySelectorAll(".t-ops button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    document.querySelectorAll(".t-ops button").forEach(x=>x.classList.remove("sel"));
+    b.classList.add("sel");
+    tSel=parseInt(b.dataset.s); parar(); tRestan=tSel; tBox.classList.remove("fin"); pinta();
+  });
+});
+tGo.addEventListener("click",()=>{
+  if(tInt){ parar(); tRestan=tSel; pinta(); return; }
+  tBox.classList.remove("fin");
+  if(tRestan<=0) tRestan=tSel;
+  tGo.textContent="Detener"; tGo.classList.add("parar");
+  tInt=setInterval(()=>{
+    tRestan--; pinta();
+    if(tRestan<=0){ parar(); tBox.classList.add("fin"); beep(); tRestan=tSel; }
+  },1000);
+});
+pinta();
+
+/* ---------- registro de peso ---------- */
+let pesos=[];
+function chartSVG(){
+  const w=300,hh=130,p=14;
+  if(pesos.length<2) return "";
+  const vals=pesos.map(x=>x.kg);
+  const min=Math.min(META,...vals)-1, max=Math.max(INICIO,...vals)+1;
+  const X=i=> p + i*(w-2*p)/(pesos.length-1);
+  const Y=v=> hh-p - (v-min)*(hh-2*p)/(max-min);
+  const pts=pesos.map((x,i)=>X(i)+","+Y(x.kg)).join(" ");
+  const meta=Y(META);
+  const dots=pesos.map((x,i)=>'<circle cx="'+X(i)+'" cy="'+Y(x.kg)+'" r="3.5" fill="#8B4513"/>').join("");
+  return '<svg viewBox="0 0 '+w+' '+hh+'" style="width:100%;display:block">'
+    +'<line x1="'+p+'" y1="'+meta+'" x2="'+(w-p)+'" y2="'+meta+'" stroke="#B8860B" stroke-width="1.5" stroke-dasharray="5 4"/>'
+    +'<text x="'+(w-p)+'" y="'+(meta-4)+'" text-anchor="end" font-size="9" fill="#5A5A6A" font-family="IBM Plex Mono,monospace">meta '+META+'</text>'
+    +'<polyline points="'+pts+'" fill="none" stroke="#A0522D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>'
+    +dots+'</svg>';
+}
+function pintaPeso(){
+  const ch=document.getElementById("pesoChart"), ls=document.getElementById("pesoLista");
+  ch.innerHTML = pesos.length>=2 ? chartSVG()
+    : '<div class="peso-vacio">'+(pesos.length===1?"Anota un segundo peso y aparece la curva.":"Anota el primer peso para empezar la curva.")+'</div>';
+  const MESES=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  ls.innerHTML = pesos.slice().reverse().map((x,idx)=>{
+    const i=pesos.length-1-idx;
+    const d=new Date(x.f+"T12:00:00");
+    const dif = i>0 ? (x.kg-pesos[i-1].kg) : null;
+    const difTxt = dif===null ? "" :
+      '<span class="dif '+(dif<=0?"baja":"sube")+'">'+(dif>0?"+":"")+dif.toFixed(1)+'</span>';
+    return '<div class="peso-fila"><span class="f">'+d.getDate()+" "+MESES[d.getMonth()]+'</span>'+
+      '<span class="kg">'+x.kg.toFixed(1)+' kg</span>'+difTxt+
+      '<button class="del" data-i="'+i+'" aria-label="Borrar">✕</button></div>';
+  }).join("");
+  ls.querySelectorAll(".del").forEach(b=>{
+    b.addEventListener("click",async()=>{
+      pesos.splice(parseInt(b.dataset.i),1);
+      await Store.set(K_PESO,pesos); pintaPeso();
+    });
+  });
+}
+document.getElementById("pesoAdd").addEventListener("click",async()=>{
+  const v=parseFloat(document.getElementById("pesoIn").value);
+  if(!v || v<60 || v>250) return;
+  const ya=pesos.findIndex(x=>x.f===YMD);
+  if(ya>=0) pesos[ya].kg=v; else pesos.push({f:YMD,kg:v});
+  pesos.sort((a,b)=>a.f<b.f?-1:1);
+  await Store.set(K_PESO,pesos);
+  document.getElementById("pesoIn").value="";
+  pintaPeso();
+});
+
+(async function(){
+  pesos=(await Store.get(K_PESO))||[];
+  pintaPeso();
+  await initChecks();
+})();
+</script>
+
+</body>
+</html>
