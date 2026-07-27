@@ -308,6 +308,19 @@
   .dif.baja{color:#3E7A3E;} .dif.sube{color:var(--rose-deep);}
   .peso-fila .del{border:0;background:none;color:var(--plum-soft);font-size:15px;cursor:pointer;padding:2px 6px;}
 
+
+  /* ===== ilustraciones de ejercicios ===== */
+  .ex td.exname{cursor:pointer;-webkit-tap-highlight-color:transparent;}
+  .ex td.exname .lupa{display:inline-block;width:15px;height:15px;border:1.4px solid var(--blush);
+    border-radius:50%;color:var(--rose);font-size:9px;line-height:13px;text-align:center;
+    margin-left:6px;vertical-align:1px;font-family:'IBM Plex Mono',monospace;transition:transform .18s;}
+  .ex td.exname.abierto .lupa{background:var(--rose);border-color:var(--rose);color:#fff;transform:rotate(90deg);}
+  tr.ex-fig td{border-bottom:1px solid var(--line);padding:0 4px 12px;}
+  .ejfig{background:var(--blush-soft);border:1.5px solid var(--line);border-radius:14px;padding:10px 10px 12px;}
+  .ejfig svg{display:block;width:100%;max-width:260px;margin:0 auto;}
+  .ejfig .pista{font-size:12px;line-height:1.45;color:var(--plum-soft);text-align:center;
+    margin:8px 4px 0;padding-top:8px;border-top:1px dashed var(--line);}
+
 </style>
 </head>
 <body>
@@ -635,9 +648,12 @@ const K_CHK="gym-checks", K_PESO="gym-peso";
 let checks={};
 function pintarDia(det,di){
   const filas=det.querySelectorAll("table.ex tr");
-  let tot=0, ok=0;
-  filas.forEach((tr,ri)=>{
+  let tot=0, ok=0, ei=0;
+  filas.forEach((tr)=>{
+    if(tr.classList.contains("ex-fig")) return;              // fila de ilustracion: no cuenta
     if(tr.querySelector("th")){ if(!tr.querySelector("th.chk")){const th=document.createElement("th");th.className="chk";tr.prepend(th);} return; }
+    const ri=(tr.dataset.ei!==undefined)? parseInt(tr.dataset.ei) : (tr.dataset.ei=ei, ei);
+    ei=ri+1;
     tot++;
     let td=tr.querySelector("td.chk");
     if(!td){
@@ -674,6 +690,7 @@ async function initChecks(){
     if(di===dow){ det.classList.add("dia-hoy"); det.open=true; }
     pintarDia(det,di);
   });
+  initFiguras();
 }
 
 /* ---------- cronometro ---------- */
@@ -766,6 +783,81 @@ document.getElementById("pesoAdd").addEventListener("click",async()=>{
   document.getElementById("pesoIn").value="";
   pintaPeso();
 });
+
+
+/* ---------- ilustraciones de ejercicios ---------- */
+const EJ_DIB={"hipthrust":[["ln",12,88,138,88,5,"#B3A0A5"],["rc",14,56,34,8,4,"#B3A0A5"],["ln",20,64,20,88,5,"#B3A0A5"],["ln",42,64,42,88,5,"#B3A0A5"],["rc",60,34,26,10,5,"#8A737A"],["pl",[[38,54],[72,48],[96,66],[96,86]],9,"#C1626F"],["ci",28,50,9,"#C1626F"],["ar",114,66,114,46]],"curlfemsent":[["rc",26,56,44,8,4,"#B3A0A5"],["rc",20,26,8,32,4,"#B3A0A5"],["ln",46,64,46,88,5,"#B3A0A5"],["rc",86,68,18,9,4,"#8A737A"],["pl",[[44,32],[46,56],[84,56],[94,74]],9,"#C1626F"],["ci",44,24,9,"#C1626F"],["ar",112,56,112,76]],"curlfemacos":[["rc",16,58,78,8,4,"#B3A0A5"],["ln",26,66,26,88,5,"#B3A0A5"],["ln",86,66,86,88,5,"#B3A0A5"],["rc",96,28,16,9,4,"#8A737A"],["pl",[[32,55],[68,54],[88,54],[104,36]],9,"#C1626F"],["ci",24,50,9,"#C1626F"],["ar",122,54,122,34]],"patadaglu":[["ln",12,88,138,88,5,"#B3A0A5"],["ln",34,24,34,88,6,"#B3A0A5"],["rc",28,26,16,7,3,"#8A737A"],["rc",88,50,16,9,4,"#8A737A"],["pl",[[52,34],[56,58],[52,86]],9,"#C1626F"],["pl",[[56,58],[84,62],[98,78]],9,"#C1626F"],["pl",[[52,40],[38,32]],7,"#C1626F"],["ci",52,26,9,"#C1626F"],["ar",110,50,126,62]],"abduccion":[["rc",56,58,38,8,4,"#B3A0A5"],["rc",62,26,26,32,5,"#B3A0A5"],["rc",38,64,11,18,4,"#8A737A"],["rc",101,64,11,18,4,"#8A737A"],["pl",[[75,32],[75,58]],12,"#C1626F"],["pl",[[75,58],[54,72],[50,86]],9,"#C1626F"],["pl",[[75,58],[96,72],[100,86]],9,"#C1626F"],["ci",75,22,9,"#C1626F"],["ar",34,46,20,46],["ar",116,46,130,46]],"lumbar":[["ln",12,88,138,88,5,"#B3A0A5"],["ln",52,82,82,54,11,"#B3A0A5"],["ln",50,84,50,88,6,"#B3A0A5"],["ci",44,86,7,"#8A737A"],["pl",[[88,44],[68,62],[52,78]],9,"#C1626F"],["ci",96,36,9,"#C1626F"],["ar",114,58,110,38]],"remo":[["ln",18,16,18,88,6,"#B3A0A5"],["ci",18,22,5,"#8A737A"],["rc",58,62,40,8,4,"#B3A0A5"],["rc",26,56,11,22,4,"#B3A0A5"],["ln",22,48,58,50,3,"#8A737A"],["pl",[[76,38],[80,62],[44,66]],9,"#C1626F"],["pl",[[76,46],[58,50]],7,"#C1626F"],["ci",78,30,9,"#C1626F"],["ar",100,44,116,44]],"facepull":[["ln",12,88,138,88,5,"#B3A0A5"],["ln",128,14,128,88,6,"#B3A0A5"],["ci",128,20,5,"#8A737A"],["ln",124,22,96,32,3,"#8A737A"],["pl",[[60,36],[60,66],[50,88]],9,"#C1626F"],["pl",[[60,66],[72,88]],9,"#C1626F"],["pl",[[60,42],[80,34],[96,32]],7,"#C1626F"],["ci",60,28,9,"#C1626F"],["ar",110,30,92,30]],"reversepec":[["rc",54,60,38,8,4,"#B3A0A5"],["rc",30,28,9,30,4,"#8A737A"],["pl",[[64,36],[68,60],[44,72]],9,"#C1626F"],["pl",[[64,42],[84,40]],7,"#C1626F"],["ci",64,28,9,"#C1626F"],["ar",94,38,112,34]],"jalon":[["ln",28,12,28,88,6,"#B3A0A5"],["ln",28,14,112,14,6,"#B3A0A5"],["ci",110,18,4,"#8A737A"],["ln",110,22,86,30,3,"#8A737A"],["ln",72,30,100,30,7,"#8A737A"],["rc",64,62,36,8,4,"#B3A0A5"],["rc",56,52,12,7,3,"#B3A0A5"],["pl",[[84,50],[84,62],[58,66]],9,"#C1626F"],["pl",[[84,48],[86,32]],7,"#C1626F"],["ci",84,42,9,"#C1626F"],["ar",120,34,120,54]],"triceps":[["ln",12,88,138,88,5,"#B3A0A5"],["ln",120,12,120,88,6,"#B3A0A5"],["ci",120,18,5,"#8A737A"],["ln",117,22,96,40,3,"#8A737A"],["pl",[[62,36],[62,64],[52,88]],9,"#C1626F"],["pl",[[62,64],[72,88]],9,"#C1626F"],["pl",[[62,42],[84,44],[94,58]],7,"#C1626F"],["ci",62,28,9,"#C1626F"],["ar",108,44,108,62]],"curlbi":[["rc",48,64,36,8,4,"#B3A0A5"],["ln",50,54,88,46,10,"#B3A0A5"],["pl",[[52,44],[56,64],[78,74]],9,"#C1626F"],["pl",[[54,48],[76,50],[88,38]],7,"#C1626F"],["ci",50,36,9,"#C1626F"],["ar",106,56,106,38]],"prensa":[["ln",20,78,56,54,11,"#B3A0A5"],["ln",98,18,122,42,8,"#8A737A"],["pl",[[32,62],[64,56],[92,42],[110,30]],9,"#C1626F"],["ci",24,56,9,"#C1626F"],["ar",104,60,122,44]],"hack":[["ln",26,86,54,86,8,"#8A737A"],["ln",28,84,84,22,6,"#B3A0A5"],["ln",50,88,106,26,6,"#B3A0A5"],["rc",58,26,18,8,4,"#8A737A"],["pl",[[66,40],[56,62],[40,70],[40,84]],9,"#C1626F"],["ci",68,32,9,"#C1626F"],["ar",98,58,112,42]],"extpiernas":[["rc",26,58,44,8,4,"#B3A0A5"],["rc",20,28,8,32,4,"#B3A0A5"],["ln",46,66,46,88,5,"#B3A0A5"],["rc",104,40,16,9,4,"#8A737A"],["pl",[[44,34],[46,58],[84,58],[110,48]],9,"#C1626F"],["ci",44,26,9,"#C1626F"],["ar",96,76,116,66]],"gemelos":[["ln",74,84,116,84,5,"#B3A0A5"],["rc",24,54,40,8,4,"#B3A0A5"],["ln",30,62,30,88,5,"#B3A0A5"],["rc",70,40,22,10,5,"#8A737A"],["pl",[[42,32],[44,54],[82,54],[84,78],[100,78]],9,"#C1626F"],["ci",42,24,9,"#C1626F"],["ar",118,74,118,56]],"caminata":[["rc",18,74,96,8,4,"#B3A0A5"],["ln",24,82,24,88,5,"#B3A0A5"],["ln",108,82,108,88,5,"#B3A0A5"],["ln",110,74,120,28,6,"#B3A0A5"],["ln",104,42,126,42,5,"#8A737A"],["pl",[[56,38],[58,62],[44,74]],9,"#C1626F"],["pl",[[58,62],[74,70]],9,"#C1626F"],["pl",[[56,44],[72,52]],7,"#C1626F"],["ci",56,30,9,"#C1626F"]],"respiracion":[["rc",14,78,118,6,3,"#B3A0A5"],["pl",[[38,68],[78,68],[96,54],[108,72]],9,"#C1626F"],["ci",30,64,9,"#C1626F"],["ci",64,60,6,"#8A737A"],["ar",56,48,56,32]],"birddog":[["ln",12,84,138,84,5,"#B3A0A5"],["pl",[[46,50],[86,50]],9,"#C1626F"],["pl",[[48,52],[48,80]],9,"#C1626F"],["pl",[[84,52],[88,80]],9,"#C1626F"],["pl",[[46,50],[26,34]],7,"#C1626F"],["pl",[[86,50],[112,38]],9,"#C1626F"],["ci",38,44,9,"#C1626F"]],"puente":[["rc",14,80,118,6,3,"#B3A0A5"],["pl",[[38,74],[72,54],[98,68],[98,80]],9,"#C1626F"],["ci",30,70,9,"#C1626F"],["ar",112,62,112,44]],"presspecho":[["rc",32,26,9,36,4,"#B3A0A5"],["rc",36,62,34,8,4,"#B3A0A5"],["ln",98,32,98,58,7,"#8A737A"],["pl",[[56,34],[56,62],[40,80]],9,"#C1626F"],["pl",[[56,42],[80,44],[96,44]],7,"#C1626F"],["ci",56,26,9,"#C1626F"],["ar",110,44,126,44]],"pecdeck":[["rc",58,62,34,8,4,"#B3A0A5"],["rc",34,32,11,24,4,"#8A737A"],["rc",105,32,11,24,4,"#8A737A"],["pl",[[75,34],[75,62]],12,"#C1626F"],["pl",[[75,42],[52,42],[46,54]],7,"#C1626F"],["pl",[[75,42],[98,42],[104,54]],7,"#C1626F"],["ci",75,24,9,"#C1626F"],["ar",26,70,42,70],["ar",124,70,108,70]],"elevlat":[["rc",58,66,34,8,4,"#B3A0A5"],["rc",42,44,12,11,4,"#8A737A"],["rc",96,44,12,11,4,"#8A737A"],["pl",[[75,34],[75,66]],12,"#C1626F"],["pl",[[75,42],[56,50]],7,"#C1626F"],["pl",[[75,42],[94,50]],7,"#C1626F"],["ci",75,24,9,"#C1626F"],["ar",34,64,34,44],["ar",116,64,116,44]],"crunch":[["rc",46,66,38,8,4,"#B3A0A5"],["rc",40,36,8,30,4,"#B3A0A5"],["rc",68,32,11,20,4,"#8A737A"],["pl",[[64,40],[60,66],[86,78]],9,"#C1626F"],["ci",64,30,9,"#C1626F"],["ar",96,36,106,54]],"pallof":[["ln",12,88,138,88,5,"#B3A0A5"],["ln",18,14,18,88,6,"#B3A0A5"],["ci",18,44,5,"#8A737A"],["ln",22,46,54,48,3,"#8A737A"],["pl",[[78,36],[78,64],[68,88]],9,"#C1626F"],["pl",[[78,64],[90,88]],9,"#C1626F"],["pl",[[78,44],[56,48]],7,"#C1626F"],["ci",78,28,9,"#C1626F"],["ar",102,48,118,48]],"plancha":[["ln",12,84,138,84,5,"#B3A0A5"],["pl",[[44,58],[92,68],[120,82]],9,"#C1626F"],["pl",[[44,60],[40,80],[56,80]],7,"#C1626F"],["ci",36,54,9,"#C1626F"]]};
+const EJ_PISTA={"hipthrust":"Espalda alta apoyada, barbilla al pecho. Sube empujando con los talones.","curlfemsent":"Rodillas alineadas al eje. Baja los talones sin despegar la cadera.","curlfemacos":"Cadera pegada al banco. Lleva los talones al glúteo sin arquear.","patadaglu":"Tronco firme, sin arquear la espalda. Empuja desde el glúteo.","abduccion":"Espalda apoyada. Abre las rodillas y vuelve despacio.","lumbar":"Sube solo hasta la línea del cuerpo. No pases de recto.","remo":"Pecho alto, codos pegados al costado. Lleva el mango al ombligo.","facepull":"Codos altos. Lleva la cuerda a la altura de la cara, no del pecho.","reversepec":"Pecho contra la almohadilla. Abre con los codos, no con las manos.","jalon":"Baja la barra al pecho. Hombros lejos de las orejas.","triceps":"Codos pegados al cuerpo. Solo se mueve el antebrazo.","curlbi":"Brazos apoyados en el pad. Baja controlando, sin soltar de golpe.","prensa":"Pies a la anchura de la cadera. No estires la rodilla del todo.","hack":"Espalda pegada al respaldo. Baja hasta donde no se despegue la cadera.","extpiernas":"Sube hasta casi recto y baja lento. Sin impulso.","gemelos":"Rodillas bajo la almohadilla. Sube el talón lo más alto posible.","caminata":"Ritmo conversacional: puedes hablar sin quedarte sin aire.","respiracion":"Manos en la barriga. Al inhalar se infla la barriga, no el pecho.","birddog":"Brazo y pierna opuestos. La cadera no se ladea.","puente":"Talones cerca del glúteo. Sube empujando con los talones.","presspecho":"Manos a la altura del pecho. Empuja sin bloquear el codo.","pecdeck":"Codos ligeramente flexionados. Junta despacio y abre controlando.","elevlat":"Sube hasta la altura del hombro, no más. Hombros abajo.","crunch":"Enrolla las costillas hacia la cadera. No tires del cuello.","pallof":"De perfil al cable. Saca los brazos sin dejar que el tronco gire.","plancha":"Codos bajo los hombros. Glúteo apretado, cadera sin caer."};
+const EJ_ALIAS=[["reverse pec","reversepec"],["pec deck","pecdeck"],["hip thrust","hipthrust"],["curl femoral sentado","curlfemsent"],["curl femoral acostado","curlfemacos"],["patada","patadaglu"],["abduccion","abduccion"],["lumbar","lumbar"],["remo","remo"],["face pull","facepull"],["jalon","jalon"],["triceps","triceps"],["curl biceps","curlbi"],["prensa","prensa"],["hack","hack"],["extension de piernas","extpiernas"],["gemelos","gemelos"],["caminata","caminata"],["respiracion","respiracion"],["bird dog","birddog"],["kegel","birddog"],["puente","puente"],["press maquina","presspecho"],["elevacion lateral","elevlat"],["crunch","crunch"],["pallof","pallof"],["plancha","plancha"]];
+
+function ejNorm(s){
+  return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z ]/g," ");
+}
+function ejClave(nombre){
+  const n=ejNorm(nombre);
+  const m=EJ_ALIAS.find(a=>n.indexOf(a[0])>=0);
+  return m? m[1] : null;
+}
+function ejSVG(clave, titulo){
+  const ops=EJ_DIB[clave]; if(!ops) return "";
+  let s="";
+  ops.forEach(o=>{
+    const t=o[0];
+    if(t==="rc"){
+      s+='<rect x="'+o[1]+'" y="'+o[2]+'" width="'+o[3]+'" height="'+o[4]+'" rx="'+o[5]+'" fill="'+o[6]+'"/>';
+    }else if(t==="ci"){
+      s+='<circle cx="'+o[1]+'" cy="'+o[2]+'" r="'+o[3]+'" fill="'+o[4]+'"/>';
+    }else if(t==="ln"){
+      s+='<line x1="'+o[1]+'" y1="'+o[2]+'" x2="'+o[3]+'" y2="'+o[4]+'" stroke="'+o[6]+'" stroke-width="'+o[5]+'" stroke-linecap="round"/>';
+    }else if(t==="pl"){
+      s+='<polyline points="'+o[1].map(p=>p[0]+","+p[1]).join(" ")+'" fill="none" stroke="'+o[3]+'" stroke-width="'+o[2]+'" stroke-linecap="round" stroke-linejoin="round"/>';
+    }else if(t==="ar"){
+      const x1=o[1],y1=o[2],x2=o[3],y2=o[4],C="#8FA882";
+      const ang=Math.atan2(y2-y1,x2-x1), bx=x2-6*Math.cos(ang), by=y2-6*Math.sin(ang), a2=ang+Math.PI/2;
+      s+='<line x1="'+x1+'" y1="'+y1+'" x2="'+bx.toFixed(1)+'" y2="'+by.toFixed(1)+'" stroke="'+C+'" stroke-width="4" stroke-linecap="round"/>';
+      s+='<polygon points="'+x2+','+y2+' '
+        +(bx+2.8*Math.cos(a2)).toFixed(1)+','+(by+2.8*Math.sin(a2)).toFixed(1)+' '
+        +(bx-2.8*Math.cos(a2)).toFixed(1)+','+(by-2.8*Math.sin(a2)).toFixed(1)+'" fill="'+C+'"/>';
+    }
+  });
+  return '<svg viewBox="0 0 150 100" role="img" aria-label="Ilustración de '+titulo+'">'
+    +'<title>'+titulo+'</title>'+s+'</svg>';
+}
+function initFiguras(){
+  document.querySelectorAll("table.ex tr").forEach(tr=>{
+    if(tr.classList.contains("ex-fig")) return;
+    if(tr.querySelector("th")) return;
+    const celdas=tr.querySelectorAll("td");
+    const td=celdas[1];                                  // 0 = casilla, 1 = nombre
+    if(!td || td.classList.contains("exname")) return;
+    const nombre=td.textContent.trim();
+    const clave=ejClave(nombre);
+    if(!clave) return;
+    td.classList.add("exname");
+    td.setAttribute("role","button");
+    td.setAttribute("aria-expanded","false");
+    td.innerHTML=nombre+'<span class="lupa" aria-hidden="true">▸</span>';
+    td.addEventListener("click",()=>{
+      const abierta=tr.nextElementSibling && tr.nextElementSibling.classList.contains("ex-fig");
+      if(abierta){
+        tr.nextElementSibling.remove();
+        td.classList.remove("abierto");
+        td.setAttribute("aria-expanded","false");
+        return;
+      }
+      const fila=document.createElement("tr");
+      fila.className="ex-fig";
+      const cel=document.createElement("td");
+      cel.colSpan=celdas.length+1;
+      cel.innerHTML='<div class="ejfig">'+ejSVG(clave,nombre)
+        +'<div class="pista">'+(EJ_PISTA[clave]||"")+'</div></div>';
+      fila.appendChild(cel);
+      tr.parentNode.insertBefore(fila, tr.nextSibling);
+      td.classList.add("abierto");
+      td.setAttribute("aria-expanded","true");
+    });
+  });
+}
 
 (async function(){
   pesos=(await Store.get(K_PESO))||[];
