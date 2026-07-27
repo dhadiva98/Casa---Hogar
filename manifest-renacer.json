@@ -1,11 +1,10 @@
 {
   "name": "Renacer",
   "short_name": "Renacer",
-  "description": "Plan de almuerzos de 30 días",
   "start_url": "Renacer.html",
   "display": "standalone",
-  "background_color": "#FCF8F1",
-  "theme_color": "#B2556A",
+  "background_color": "#FBF7F0",
+  "theme_color": "#B0705C",
   "orientation": "portrait-primary",
   "icons": [
     {

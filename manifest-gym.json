@@ -1,7 +1,6 @@
 {
   "name": "Gym",
   "short_name": "Gym",
-  "description": "Plan de entrenamiento personal",
   "start_url": "Gym.html",
   "display": "standalone",
   "background_color": "#E9E1D6",

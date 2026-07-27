@@ -1,7 +1,6 @@
 {
   "name": "Hogar",
   "short_name": "Hogar",
-  "description": "Sistema de tareas y turnos para el hogar",
   "start_url": "Hogar.html",
   "display": "standalone",
   "background_color": "#F4F2ED",
